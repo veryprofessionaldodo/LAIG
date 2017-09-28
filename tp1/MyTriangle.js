@@ -12,34 +12,8 @@ MyTriangle.prototype.constructor=MyTriangle;
 MyTriangle.prototype.setParams = function(values) {
 	// Extract values from string
 	this.vertices = [];
-	var index = 0;
-	var tmpString = '';
-	var floor = Math.floor; // Used to convert string to int
-	var i = 0;
-	console.log(tmpString);
-	while(index < 9) {
-		console.log(tmpString);
-		if(values[i] === ' ' || i === values.length) { // If it is a space
-			this.vertices[index] = parseInt(tmpString);
-			index = index + 1;
-			tmpString ='';
-		}
-		else
-			tmpString = tmpString + values[i];
-		i++;
-	}
-	console.log(values);
-	console.log(this.vertices[0]);
-	console.log(this.vertices[1]);
-	console.log(this.vertices[2]);
-	console.log(this.vertices[3]);
-	console.log(this.vertices[4]);
-	console.log(this.vertices[5]);
-	console.log(this.vertices[6]);
-	console.log(this.vertices[7]);
-	console.log(this.vertices[8]);
-
 	
+	this.setVertices(values);
 
  	this.indices = [
  		0, 1, 2,
@@ -60,6 +34,28 @@ MyTriangle.prototype.setParams = function(values) {
 
 	this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers(); 
+}
+
+MyTriangle.prototype.setVertices = function(values) {
+	var index = 0;
+	var tmpString = '';
+	var floor = Math.floor; // Used to convert string to int
+	var i = 0;
+
+	console.log(tmpString);
+
+	while(index < 9) {
+		console.log(tmpString);
+		if(values[i] === ' ' || i === values.length) { // If it is a space
+			this.vertices[index] = parseInt(tmpString);
+			index = index + 1;
+			tmpString ='';
+		}
+		else
+			tmpString = tmpString + values[i];
+		i++;
+	}
+
 }
 
 MyTriangle.prototype.initBuffers = function () {
