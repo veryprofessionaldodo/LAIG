@@ -1462,8 +1462,7 @@ MySceneGraph.prototype.addPrimitives = function() {
 				if (node.primitives[0].xmlelem.attributes.type.value === 'triangle') {
 					this.scene.pushMatrix();
 					this.scene.scale(1,1,1);
-					//this.scene.transform();
-					//this.primitives[i].display();
+					this.primitives[i].display();
 					this.scene.popMatrix();
 					i++;
 				}

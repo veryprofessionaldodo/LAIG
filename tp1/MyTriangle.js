@@ -17,13 +17,15 @@ MyTriangle.prototype.setParams = function(values) {
 	var floor = Math.floor; // Used to convert string to int
 	var i = 0;
 	console.log(tmpString);
-	while(i < 9) {
+	while(index < 9) {
 		console.log(tmpString);
-		if(values[i] === ' ') { // If it is a space
+		if(values[i] === ' ' || i === values.length) { // If it is a space
 			this.vertices[index] = parseInt(tmpString);
 			index = index + 1;
+			tmpString ='';
 		}
-		tmpString = tmpString + values[i];
+		else
+			tmpString = tmpString + values[i];
 		i++;
 	}
 	console.log(values);
