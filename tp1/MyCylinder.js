@@ -1,14 +1,23 @@
-function MyCylinder(scene, slices, stacks) {
+function MyCylinder(scene) {
     CGFobject.call(this,scene);
-   
-    this.slices = slices;
-    this.stacks = stacks;
- 
-    this.initBuffers();
+
+  
 };
 
+MyCylinder.prototype
 MyCylinder.prototype = Object.create(CGFobject.prototype);
 MyCylinder.prototype.constructor = MyCylinder;
+
+
+MyCylinder.prototype.setParams = function(values) {
+	this.height = values[0];
+	this.bottomRadius = values[1];
+	this.topRadius = values[2];
+	this.stacks = values[3];
+	this.slices = values[4];
+
+	this.initBuffers();
+}
 
 MyCylinder.prototype.initBuffers = function() {
  	var angle = (2*Math.PI)/this.slices;
@@ -26,6 +35,8 @@ MyCylinder.prototype.initBuffers = function() {
 		this.normals.push(1, 0, 0);
 		this.texCoords.push(0, s / this.stacks);
 		indice += 1;
+
+		// TODO USAR AQUI BOTTOM RADIUS E TOP RADIUS 
 
 		for(i = 1; i <= this.slices; i++)
 		{

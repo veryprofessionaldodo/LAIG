@@ -41,7 +41,6 @@ MyGraphNode.prototype.addChild = function(leaf) {
     this.leaves.push(leaf);
 }
 
-
 MyGraphNode.prototype.addLeaf = function(primitive) {
     this.primitives.push(primitive);
 }

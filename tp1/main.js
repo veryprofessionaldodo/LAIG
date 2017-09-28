@@ -5,17 +5,18 @@ serialInclude=function(a){var b=console,c=serialInclude.l;if(a.length>0)c.splice
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
-    function(m,key,value) {
-      vars[decodeURIComponent(key)] = decodeURIComponent(value);
-    });
+        function(m,key,value) {
+          vars[decodeURIComponent(key)] = decodeURIComponent(value);
+      });
     return vars;
 }	 
 
 serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 
-			 'MyGraphNode.js', 'MyGraphLeaf.js', 'MyInterface.js',
+    'MyGraphNode.js', 'MyGraphLeaf.js', 'MyInterface.js', 'MyCylinder.js',
+    'MyTriangle.js', 'MyUnitCubeQuad.js',
 
-main=function()
-{
+    main=function()
+    {
 	// Standard application, scene and interface setup
     var app = new CGFapplication(document.body);
     var myInterface = new MyInterface();
