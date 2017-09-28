@@ -1158,33 +1158,6 @@ var NODES_INDEX = 6;
     console.log("Parsed materials");
 }
 
-MySceneGraph.prototype.addPrimitives = function() {
-	var i = 0;
-	for(var key in this.nodes){
-		if (this.nodes.hasOwnProperty(key)) {
-			var node = this.nodes[key];
-			if(node.leaves.length === 0){
-				console.log(node);
-				if (node.primitives[0].xmlelem.attributes.type.value === 'triangle') {
-					var triangle = new MyTriangle(this.scene);
-					console.log("TRIANGLE ");
-					triangle.setParams(node.primitives[0].xmlelem.attributes.args.value);
-					this.primitives[i] = triangle;
-					i++;
-				}
-		       	/*if (node.primitives[0].xmlelem.attributes.type.value === 'cylinder') {
-	       			var triangle = new MyCylinder(this.scene);
-	       			console.log("CYLINDER " + node);
-	       			this.primitives[i] = triangle;
-	       		}*/
-
-	       	}
-	       }
-	   }
-
-	}
-
-
 /**
  * Parses the <NODES> block.
  */
@@ -1393,6 +1366,35 @@ MySceneGraph.prototype.addPrimitives = function() {
 		return null ;
 	}
 
+MySceneGraph.prototype.addPrimitives = function() {
+	var i = 0;
+	for(var key in this.nodes){
+		if (this.nodes.hasOwnProperty(key)) {
+			var node = this.nodes[key];
+			if(node.leaves.length === 0){
+				console.log(node);
+				if (node.primitives[0].xmlelem.attributes.type.value === 'triangle') {
+					//this.triangle = new MyTriangle(this.scene);
+					console.log("TRIANGLE ");
+					//triangle.setParams(node.primitives[0].xmlelem.attributes.args.value);
+					///this.primitives[i] = triangle;
+					i++;
+				}
+		       	/*if (node.primitives[0].xmlelem.attributes.type.value === 'cylinder') {
+	       			var triangle = new MyCylinder(this.scene);
+	       			console.log("CYLINDER " + node);
+	       			this.primitives[i] = triangle;
+	       		}*/
+
+	       	}
+       }
+   }
+
+}
+
+
+
+
 /*
  * Callback to be executed on any read error
  */
@@ -1461,7 +1463,7 @@ MySceneGraph.prototype.addPrimitives = function() {
 					this.scene.pushMatrix();
 					this.scene.scale(1,1,1);
 					//this.scene.transform();
-					this.primitives[i].display();
+					//this.primitives[i].display();
 					this.scene.popMatrix();
 					i++;
 				}
