@@ -1348,7 +1348,7 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 							this.warn("Error in leaf");
 						
 						//parse leaf
-						//this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,descendants[j]);
+						this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,descendants[j]));
                         sizeChildren++;
 					}
 					else
@@ -1423,9 +1423,19 @@ MySceneGraph.generateRandomString = function(length) {
  */
 MySceneGraph.prototype.displayScene = function() {
 	// entry point for graph rendering
-	for(var i = 0; i < this.nodes.length; i++){
-	    for(var a = 0; a < this.nodes[i].descendants.length; a++){
-	        
+	var i = 0;
+	for(var key in this.nodes){
+	    if (this.nodes.hasOwnProperty(key)) {
+	        var node = this.nodes[key];
+	        if(node.leaves.length === 0){
+	            console.log(node.primitives[0].xmlelem.attributes[0]);
+	        }
 	    }
 	}
+	/*for(var i = 0; i < this.nodes.length; i++){
+	    console.log(this.nodes[i].nodeName);
+        if(this.nodes[i].nodeName === "NODES"){
+            console.log(this.nodes[i].children.length);
+        }
+    }*/
 }

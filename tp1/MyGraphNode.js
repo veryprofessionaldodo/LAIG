@@ -14,6 +14,9 @@ function MyGraphNode(graph, nodeID) {
     // IDs of child nodes.
     this.leaves = [];
 
+    // IDS of primitives
+    this.primitives = [];
+
     // The material ID.
     this.materialID = null ;
 
@@ -38,4 +41,8 @@ MyGraphNode.prototype.addChild = function(leaf) {
     this.leaves.push(leaf);
 }
 
+
+MyGraphNode.prototype.addLeaf = function(primitive) {
+    this.primitives.push(primitive);
+}
 

@@ -12,6 +12,8 @@
  MyUnitCubeQuad.prototype.constructor = MyUnitCubeQuad;
 
  MyUnitCubeQuad.prototype.display = function() {
+
+   console.log("I'm Here BIATCH");
  	// front face
  	this.scene.pushMatrix();
  	this.scene.translate(0, 0, 0.5);

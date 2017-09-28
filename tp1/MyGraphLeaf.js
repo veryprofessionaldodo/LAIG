@@ -8,3 +8,11 @@ function MyGraphLeaf(graph, xmlelem) {
     this.xmlelem = xmlelem;
 }
 
+function displayLeaf() {
+    if(this.xmlelem.type === "rectangle"){
+        console.log("HALO");
+        var obj = new MyUnitCubeQuad(this.scene);
+        obj.display();
+    }
+}
+
