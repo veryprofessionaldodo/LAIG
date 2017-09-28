@@ -13,11 +13,11 @@ MyTriangle.prototype.setParams = function(values) {
 	// Extract values from string
 	this.vertices = [];
 	var index = 0;
-	//var tmpString = '';
-	//var floor = Math.floor; // Used to convert string to int
+	var tmpString = '';
+	var floor = Math.floor; // Used to convert string to int
 	var i = 0;
-	//console.log(tmpString);
-	/*while(index < 9) {
+	console.log(tmpString);
+	while(i < 9) {
 		console.log(tmpString);
 		if(values[i] === ' ') { // If it is a space
 			this.vertices[index] = parseInt(tmpString);
@@ -25,7 +25,7 @@ MyTriangle.prototype.setParams = function(values) {
 		}
 		tmpString = tmpString + values[i];
 		i++;
-	}*/
+	}
 	console.log(values);
 	console.log(this.vertices[0]);
 	console.log(this.vertices[1]);
@@ -57,7 +57,7 @@ MyTriangle.prototype.setParams = function(values) {
       ];
 
 	this.primitiveType = this.scene.gl.TRIANGLES;
-    this.initGLBuffers(); */
+    this.initGLBuffers(); 
 }
 
 MyTriangle.prototype.initBuffers = function () {

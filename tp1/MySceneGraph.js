@@ -1374,10 +1374,10 @@ MySceneGraph.prototype.addPrimitives = function() {
 			if(node.leaves.length === 0){
 				console.log(node);
 				if (node.primitives[0].xmlelem.attributes.type.value === 'triangle') {
-					//this.triangle = new MyTriangle(this.scene);
+					var triangle = new MyTriangle(this.scene);
 					console.log("TRIANGLE ");
-					//triangle.setParams(node.primitives[0].xmlelem.attributes.args.value);
-					///this.primitives[i] = triangle;
+					triangle.setParams(node.primitives[0].xmlelem.attributes.args.value);
+					this.primitives[i] = triangle;
 					i++;
 				}
 		       	/*if (node.primitives[0].xmlelem.attributes.type.value === 'cylinder') {
