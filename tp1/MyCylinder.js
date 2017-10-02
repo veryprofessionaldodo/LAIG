@@ -1,23 +1,21 @@
-function MyCylinder(scene) {
+function MyCylinder(scene, args/*slices, stacks*/) {
     CGFobject.call(this,scene);
+   	var values = args.split(" ");
+	for(var i = 0; i < values.length; i++){
+		values[i] = parseInt(values[i]);
+	}
 
-  
+	this.height = values[0];
+    this.slices = values[4];
+    this.stacks = values[3];
+    this.topRadius = values[2];
+    this.bootomRadius = values[1];
+ 
+    this.initBuffers();
 };
 
-MyCylinder.prototype
 MyCylinder.prototype = Object.create(CGFobject.prototype);
 MyCylinder.prototype.constructor = MyCylinder;
-
-
-MyCylinder.prototype.setParams = function(values) {
-	this.height = values[0];
-	this.bottomRadius = values[1];
-	this.topRadius = values[2];
-	this.stacks = values[3];
-	this.slices = values[4];
-
-	this.initBuffers();
-}
 
 MyCylinder.prototype.initBuffers = function() {
  	var angle = (2*Math.PI)/this.slices;
@@ -29,20 +27,18 @@ MyCylinder.prototype.initBuffers = function() {
 	this.texCoords = [];
  	indice = 0;
 
- 	for(s = 0; s <= this.stacks; s++)
+ 	for(var s = 0; s <= this.height*this.stacks; s++)
 	{
 		this.vertices.push(1, 0, s / this.stacks);
 		this.normals.push(1, 0, 0);
 		this.texCoords.push(0, s / this.stacks);
 		indice += 1;
 
-		// TODO USAR AQUI BOTTOM RADIUS E TOP RADIUS 
-
 		for(i = 1; i <= this.slices; i++)
 		{
 			last += angle;
-			this.vertices.push(Math.cos(last), Math.sin(last), s / this.stacks);
-			this.normals.push(Math.cos(last), Math.sin(last), 0);
+			this.vertices.push(this.topRadius*Math.cos(last), this.topRadius*Math.sin(last), s / this.stacks);
+			this.normals.push(this.topRadius*Math.cos(last), this.topRadius*Math.sin(last), 0);
 			this.texCoords.push(i / this.slices, s / this.stacks);
 			indice++;
 
