@@ -38,8 +38,8 @@ var NODES_INDEX = 6;
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 
-     this.reader.open('scenes/' + filename, this);
- }
+    this.reader.open('scenes/' + filename, this);
+}
 
 /*
  * Callback to be executed after successful reading
@@ -987,12 +987,12 @@ var NODES_INDEX = 6;
         // G.
         var g = this.reader.getFloat(materialSpecs[specularIndex], 'g');
         if (g == null )
-         return "unable to parse G component of specular reflection for material with ID = " + materialID;
-     else if (isNaN(g))
-         return "specular 'g' is a non numeric value on the MATERIALS block";
-     else if (g < 0 || g > 1)
-         return "specular 'g' must be a value between 0 and 1 on the MATERIALS block";
-     specularComponent.push(g);
+           return "unable to parse G component of specular reflection for material with ID = " + materialID;
+       else if (isNaN(g))
+           return "specular 'g' is a non numeric value on the MATERIALS block";
+       else if (g < 0 || g > 1)
+           return "specular 'g' must be a value between 0 and 1 on the MATERIALS block";
+       specularComponent.push(g);
         // B.
         var b = this.reader.getFloat(materialSpecs[specularIndex], 'b');
         if (b == null )
@@ -1080,12 +1080,12 @@ var NODES_INDEX = 6;
         // B.
         b = this.reader.getFloat(materialSpecs[ambientIndex], 'b');
         if (b == null )
-           return "unable to parse B component of ambient reflection for material with ID = " + materialID;
-       else if (isNaN(b))
-           return "ambient 'b' is a non numeric value on the MATERIALS block";
-       else if (b < 0 || b > 1)
-           return "ambient 'b' must be a value between 0 and 1 on the MATERIALS block";
-       ambientComponent.push(b);
+         return "unable to parse B component of ambient reflection for material with ID = " + materialID;
+     else if (isNaN(b))
+         return "ambient 'b' is a non numeric value on the MATERIALS block";
+     else if (b < 0 || b > 1)
+         return "ambient 'b' must be a value between 0 and 1 on the MATERIALS block";
+     ambientComponent.push(b);
         // A.
         a = this.reader.getFloat(materialSpecs[ambientIndex], 'a');
         if (a == null )
@@ -1324,11 +1324,11 @@ var NODES_INDEX = 6;
                 if (descendants[j].nodeName == "NODEREF")
                 {
 
-                   var curId = this.reader.getString(descendants[j], 'id');
+                 var curId = this.reader.getString(descendants[j], 'id');
 
-                   this.log("   Descendant: "+curId);
+                 this.log("   Descendant: "+curId);
 
-                   if (curId == null )
+                 if (curId == null )
                     this.onXMLMinorError("unable to parse descendant id");
                 else if (curId == nodeID)
                     return "a node may not be a child of its own";
@@ -1338,14 +1338,14 @@ var NODES_INDEX = 6;
                 }
             }                    
             else
-               if (descendants[j].nodeName == "LEAF")
-               {
-                  var type=this.reader.getItem(descendants[j], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle']);
+             if (descendants[j].nodeName == "LEAF")
+             {
+              var type=this.reader.getItem(descendants[j], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle']);
 
-                  if (type != null)
-                     this.log("   Leaf: "+ type);
-                 else
-                     this.warn("Error in leaf");
+              if (type != null)
+               this.log("   Leaf: "+ type);
+           else
+               this.warn("Error in leaf");
 
 						//parse leaf
 						this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,descendants[j]));
@@ -1425,7 +1425,6 @@ MySceneGraph.prototype.log = function(message) {
 	// entry point for graph rendering
 	for(var key in this.nodes) {
         if(this.nodes.hasOwnProperty(key)){
-            //console.log(this.nodes[key]);
             this.recursiveUpdate(this.nodes[key].nodeID, 
                 this.nodes[key].transformMatrix, 
                 this.nodes[key].textureID, 
@@ -1436,37 +1435,53 @@ MySceneGraph.prototype.log = function(message) {
 }
 
 MySceneGraph.prototype.recursiveUpdate = function(nodeName, matrix, textureID, materialID) {
-    this.newMaterial = this.materials[materialID];
-    this.newTexture = this.textures[textureID];
-
     if(nodeName != null){
         var node = this.nodes[nodeName];
-        if(node.materialID != null){
-            this.newMaterial = this.materials[node.materialID];
+        //updates the material
+        if(node.materialID !== "null"){
+            materialID = node.materialID;
         }
-        if(node.textureID != null){
-            this.newTexture = this.textures[node.textureID];
+        this.newMaterial = this.materials[materialID];
+        //updates the texture
+        if(node.textureID !== "null"){
+            textureID = node.textureID;
         }
+        if(textureID === "clear"){ //removes texture
+            this.newTexture = null;
+        } else if(textureID !== "null"){
+            this.newTexture = this.textures[textureID];
+        }
+        //multiplicates the matrixes
         this.scene.multMatrix(node.transformMatrix);
         if(node.children.length > 0){
             for(var i = 0; i < node.children.length; i++){
                 this.scene.pushMatrix();
+                //applies the materials and textures
                 if(this.newMaterial != null){
+                    if(this.newTexture != null){
+                        this.newMaterial.setTexture(this.newTexture[0]);
+                    }
+                    else {
+                        this.newMaterial.setTexture(null);
+                    }
                     this.newMaterial.apply();
                 }
-                /*if(this.newTexture != null){
-                    this.setTexture(this.newTexture);
-                }*/
+                //recursive call
                 this.recursiveUpdate(node.children[i], matrix, textureID, materialID);
                 this.scene.popMatrix();
             }
         }
-        if(this.newMaterial != null) {
+        //applies the materials and textures
+        if(this.newMaterial != null){
+            if(this.newTexture != null){
+                this.newMaterial.setTexture(this.newTexture[0]);
+            }
+            else {
+                this.newMaterial.setTexture(null);
+            }
             this.newMaterial.apply();
         }
-        /*if(this.newTexture != null){
-            this.setTexture(this.newTexture);
-        }*/
+        //display of the leaves
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
                 node.leaves[i].displayLeaf();
