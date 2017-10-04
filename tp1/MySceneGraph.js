@@ -1425,7 +1425,7 @@ MySceneGraph.prototype.log = function(message) {
 	// entry point for graph rendering
 	for(var key in this.nodes) {
         if(this.nodes.hasOwnProperty(key)){
-            this.recursiveUpdate(this.nodes[key].nodeID, 
+            this.recursiveDisplay(this.nodes[key].nodeID, 
                 this.nodes[key].transformMatrix, 
                 this.nodes[key].textureID, 
                 this.nodes[key].materialID);
@@ -1434,7 +1434,7 @@ MySceneGraph.prototype.log = function(message) {
     }
 }
 
-MySceneGraph.prototype.recursiveUpdate = function(nodeName, matrix, textureID, materialID) {
+MySceneGraph.prototype.recursiveDisplay = function(nodeName, matrix, textureID, materialID) {
     if(nodeName != null){
         var node = this.nodes[nodeName];
         //updates the material
@@ -1457,7 +1457,7 @@ MySceneGraph.prototype.recursiveUpdate = function(nodeName, matrix, textureID, m
             for(var i = 0; i < node.children.length; i++){
                 this.scene.pushMatrix();
                 //applies the materials and textures
-                if(this.newMaterial != null){
+                /*if(this.newMaterial != null){
                     if(this.newTexture != null){
                         this.newMaterial.setTexture(this.newTexture[0]);
                     }
@@ -1465,9 +1465,9 @@ MySceneGraph.prototype.recursiveUpdate = function(nodeName, matrix, textureID, m
                         this.newMaterial.setTexture(null);
                     }
                     this.newMaterial.apply();
-                }
+                }*/
                 //recursive call
-                this.recursiveUpdate(node.children[i], matrix, textureID, materialID);
+                this.recursiveDisplay(node.children[i], matrix, textureID, materialID);
                 this.scene.popMatrix();
             }
         }
@@ -1484,7 +1484,7 @@ MySceneGraph.prototype.recursiveUpdate = function(nodeName, matrix, textureID, m
         //display of the leaves
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
-                node.leaves[i].displayLeaf();
+                node.leaves[i].displayLeaf(this.newTexture);
             }
         }
     }

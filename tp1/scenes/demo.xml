@@ -185,7 +185,7 @@
 
         <DESCENDANTS>
 					<LEAF  type="rectangle" args="0 4 5 0" />        
-				</DESCENDANTS>
+		</DESCENDANTS>
 
     </NODE>
     
@@ -283,7 +283,7 @@
     <!-- The post in the lamp post... -->
     <NODE id="luz_suporte">       
         <MATERIAL id="lightPostMaterial" />     
-        <TEXTURE id="null" />       			
+        <TEXTURE id="banco" />       			
 
         <SCALE sx="0.5" sy="2.02" sz="0.5" />
         <ROTATION axis="x" angle="-90" />

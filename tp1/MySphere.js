@@ -20,43 +20,43 @@
  MySphere.prototype.constructor = MySphere;
  
  MySphere.prototype.initBuffers = function() {
-  
-    var angle = (2*Math.PI)/this.slices;
- 	var last = 0;
-    var angle2 = (Math.PI/2)/this.stacks;
-    var last2 = 0;
+ 
+    var angle = Math.PI/this.stacks;
+    var angle2 = 2*Math.PI/this.slices;
 
     this.vertices = [];
  	this.indices = [];
  	this.normals = [];
 	this.texCoords = [];
+	this.tempTexCoords = [];
  	indice = 0;
+ 	var last = 0;
+ 	var last2 = 0;
 
- 	for(s = 0; s <= this.stacks; s++)
-	{
-		this.vertices.push(this.radius*Math.cos(last)*Math.cos(last2), this.radius*Math.sin(last)*Math.cos(last2), this.radius*Math.sin(last2));
-		this.normals.push(this.radius*Math.cos(last)*Math.cos(last2), this.radius*Math.sin(last)*Math.cos(last2), this.radius*Math.sin(last2));
-		this.texCoords.push(Math.asin(Math.cos(last2))/Math.PI+0.5, 0.5);
-		indice += 1;
+ 	for(var i = 0; i <= this.stacks; ++i){
+ 		for(var j = 0; j <= this.slices; ++j){
+ 			this.vertices.push(this.radius*Math.sin(angle*i)*Math.cos(angle2*j), this.radius*Math.sin(angle*i)*Math.sin(angle2*j), this.radius*Math.cos(angle * i));
+ 			this.normals.push(Math.sin(angle*i)*Math.cos(angle2*j), Math.sin(angle*i)*Math.sin(angle2*j),Math.cos(angle * i));
+ 			this.tempTexCoords.push(j/this.slices, 1 - i/this.stacks);
+ 		}
+ 	}
+ 	for(var i = 0; i < this.stacks; ++i){
+ 		for(var j = 0; j < this.slices; ++j){
+ 			this.indices.push(i*(this.slices + 1) + j, (i + 1)*(this.slices + 1) + j, (i + 1)*(this.slices + 1) + j + 1);
+ 			this.indices.push(i*(this.slices + 1) + j, (i + 1)*(this.slices + 1) + j + 1, i * (this.slices + 1) + j + 1);	
+ 		}
+ 	}
 
-		for(i = 1; i <= this.slices; i++)
-		{
-			last += angle;
-			this.vertices.push(this.radius*Math.cos(last)*Math.cos(last2), this.radius*Math.sin(last)*Math.cos(last2), this.radius*Math.sin(last2));
-			this.normals.push(this.radius*Math.cos(last)*Math.cos(last2), this.radius*Math.sin(last)*Math.cos(last2), this.radius*Math.sin(last2));
-			this.texCoords.push(Math.asin(Math.cos(last2))/Math.PI+0.5, Math.asin(Math.sin(last) * (Math.cos(last2)))/Math.PI +0.5);
-			indice++;
+ 	this.texCoords = this.tempTexCoords.slice();
 
-			if(s > 0 && i > 0)
-			{
-				this.indices.push(indice-1, indice-2, indice-this.slices-2);
-				this.indices.push(indice-this.slices-3, indice-this.slices-2, indice-2);
-			}
-		}
-		last = 0;
-		last2 += angle2;
-	}
-	
 	this.primitiveType = this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
  };
+
+MySphere.prototype.updateTexCoords = function(ampS, ampT) {
+	for(var i = 0; i < this.texCoords.length; i+=2){
+		this.texCoords[i] = this.tempTexCoords[i]/ampS;
+		this.texCoords[i+1] = this.tempTexCoords[i+1]/ampT;
+	}
+	this.updateTexCoordsGLBuffers();
+}

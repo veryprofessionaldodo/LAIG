@@ -30,12 +30,9 @@
 }
 
 
-MyGraphLeaf.prototype.displayLeaf = function() {
-	if(this.type === 'sphere'){
-		this.graph.scene.pushMatrix();
-		this.graph.scene.rotate(Math.PI, 1, 0, 0);
-		this.obj.display();
-		this.graph.scene.popMatrix();
+MyGraphLeaf.prototype.displayLeaf = function(texture) {
+	if(texture != null && this.type !== 'cylinder'){
+		this.obj.updateTexCoords(texture[1], texture[2]);
 	}
 	this.obj.display();
 }

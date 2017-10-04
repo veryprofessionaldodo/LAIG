@@ -9,7 +9,7 @@ function MyCylinder(scene, args/*slices, stacks*/) {
     this.slices = values[4];
     this.stacks = values[3];
     this.topRadius = values[2];
-    this.bootomRadius = values[1];
+    this.bottomRadius = values[1];
  
     this.initBuffers();
 };
@@ -25,21 +25,32 @@ MyCylinder.prototype.initBuffers = function() {
  	this.indices = [];
  	this.normals = [];
 	this.texCoords = [];
+	this.tempTexCoords = [];
  	indice = 0;
 
+ 	var diff = this.bottomRadius - this.topRadius;
+ 	var inc = 0;
+
+ 	if(diff > 0) {
+ 		inc = - (diff/(this.height*this.stacks));
+ 	} else if(diff < 0) {
+ 		inc = (Math.abs(diff)/(this.height*this.stacks));
+ 	}
+ 	var radius = this.bottomRadius;
+
  	for(var s = 0; s <= this.height*this.stacks; s++)
-	{
-		this.vertices.push(1, 0, s / this.stacks);
+	{	
+		this.vertices.push(radius, 0, s / this.stacks);
 		this.normals.push(1, 0, 0);
-		this.texCoords.push(0, s / this.stacks);
+		this.texCoords.push(0, s / (this.height*this.stacks));
 		indice += 1;
 
 		for(i = 1; i <= this.slices; i++)
-		{
+		{	
 			last += angle;
-			this.vertices.push(this.topRadius*Math.cos(last), this.topRadius*Math.sin(last), s / this.stacks);
-			this.normals.push(this.topRadius*Math.cos(last), this.topRadius*Math.sin(last), 0);
-			this.texCoords.push(i / this.slices, s / this.stacks);
+			this.vertices.push(radius*Math.cos(last), radius*Math.sin(last), s / this.stacks);
+			this.normals.push(radius*Math.cos(last), radius*Math.sin(last), 0);
+			this.texCoords.push(i / this.slices, s / (this.height*this.stacks));
 			indice++;
 
 			if(s > 0 && i > 0)
@@ -49,8 +60,18 @@ MyCylinder.prototype.initBuffers = function() {
 			}
 		}
 		last = 0;
+		radius += inc;
 	}
 	
+	this.tempTexCoords = this.texCoords.slice();
 	this.primitiveType = this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
 };
+/*
+MyCylinder.prototype.updateTexCoords = function(ampS, ampT) {
+	for(var i = 0; i < this.texCoords.length; i+=2){
+		this.texCoords[i] = this.tempTexCoords[i]/ampS;
+		this.texCoords[i+1] = this.tempTexCoords[i+1]/ampT;
+	}
+	this.updateTexCoordsGLBuffers();
+}*/

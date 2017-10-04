@@ -5,12 +5,6 @@
  */
 function MyQuad(scene, args/*minS,maxS,minT,maxT*/) {
 	CGFobject.call(this,scene);
-	/*
-	this.minS = minS;
-	this.maxS = maxS;
-	this.minT = minT;
-	this.maxT = maxT;
-	*/
 	this.initBuffers(args);
 };
 
@@ -18,15 +12,15 @@ MyQuad.prototype = Object.create(CGFobject.prototype);
 MyQuad.prototype.constructor=MyQuad;
 
 MyQuad.prototype.initBuffers = function (args) {
-	var values = args.split(" ");
-	for(var i = 0; i < values.length; i++){
-		values[i] = parseInt(values[i]);
+	this.values = args.split(" ");
+	for(var i = 0; i < this.values.length; i++){
+		this.values[i] = parseInt(this.values[i]);
 	}
 	this.vertices = [
-		values[0], values[3], 0, //bottom right
-		values[2], values[3], 0, 
-		values[0], values[1], 0,
-		values[2], values[1], 0
+		this.values[0], this.values[3], 0, //bottom left
+		this.values[2], this.values[3], 0, //bottom right
+		this.values[0], this.values[1], 0, //top left
+		this.values[2], this.values[1], 0  //top right
 	];
 
  	this.indices = [
@@ -42,19 +36,24 @@ MyQuad.prototype.initBuffers = function (args) {
     0, 0, 1,
     0, 0, 1
     ];
-
-    //por agora
     this.texCoords = [
 		0, 1,
 		1, 1,
 		0, 0,
 		1, 0
     ];
-    /*this.texCoords = [
-		this.minS, this.maxT,
-		this.maxS, this.maxT,
-		this.minS, this.minT,
-		this.maxS, this.minT
-      ];*/
     this.initGLBuffers();
 };
+
+MyQuad.prototype.updateTexCoords = function(ampS, ampT) {
+	var deltaX = Math.abs(this.values[2] - this.values[0]);
+	var deltaY = Math.abs(this.values[1] - this.values[3]);
+	this.texCoords = [
+		0, deltaY/ampT,
+		deltaX/ampS, deltaY/ampT,
+		0, 0,
+		deltaX/ampS, 0
+	];
+
+	this.updateTexCoordsGLBuffers();
+}
