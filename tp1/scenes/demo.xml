@@ -171,9 +171,133 @@
             <NODEREF id="escadas" />
             <NODEREF id="paredes_chao" />
             <NODEREF id="paredes_lado" />
+            <NODEREF id="armarios_cozinha" />
         </DESCENDANTS>
     </NODE>
 
+    <!-- Side Walls -->
+    <NODE id="paredes_lado">
+        <MATERIAL id="null" />    
+        <TEXTURE id="clear" />                  
+
+        <DESCENDANTS>
+            <NODEREF id="parede_cozinha1" />           
+            <NODEREF id="parede_cozinha2" />           
+            <NODEREF id="parede_lado" />           
+            <NODEREF id="parede_frente1" />           
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="parede_cozinha1">      
+        <MATERIAL id="null" />    
+        <TEXTURE id="clear" />                  
+
+        <SCALE sx=".3" sy="5" sz="5" />
+        <TRANSLATION x="-35" y="2.2" z="7" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />           
+        </DESCENDANTS>
+    </NODE>   
+
+    <NODE id="parede_cozinha2">      
+        <MATERIAL id="null" />    
+        <TEXTURE id="clear" />                  
+
+        <SCALE sx="2" sy="5" sz=".3" />
+        <TRANSLATION x="-2.8" y="2.2" z="77" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />           
+        </DESCENDANTS>
+    </NODE>   
+
+    <NODE id="parede_lado">      
+        <MATERIAL id="null" />    
+        <TEXTURE id="clear" />                  
+
+        <SCALE sx=".3" sy="5" sz="5" />
+        <TRANSLATION x="-2" y="2.2" z="2" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />           
+        </DESCENDANTS>
+    </NODE>   
+
+    <NODE id="parede_frente1">      
+        <MATERIAL id="null" />    
+        <TEXTURE id="clear" />                  
+
+        <SCALE sx="7" sy="5" sz=".3" />
+        <TRANSLATION x="2.4" y="2.2" z="-10" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />           
+        </DESCENDANTS>
+    </NODE>   
+
+    
+    <!-- Kitchen closets -->
+    <NODE id="armarios_cozinha">
+        <MATERIAL id="null" />    
+        <TEXTURE id="clear" />                  
+
+        <DESCENDANTS>
+            <NODEREF id="armario_cima_frente" />           
+            <NODEREF id="armario_cima_lado" />           
+            <NODEREF id="armario_baixo_frente" />           
+            <NODEREF id="armario_baixo_lado" />           
+            <NODEREF id="parede_rampa" />           
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="armario_cima_frente">      
+        <MATERIAL id="null" />    
+        <TEXTURE id="clear" />                  
+
+        <SCALE sx=".7" sy="1.2" sz="3" />
+        <TRANSLATION x="-12" y="13.2" z="12" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />           
+        </DESCENDANTS>
+    </NODE>  
+
+    <NODE id="armario_cima_lado">      
+        <MATERIAL id="null" />    
+        <TEXTURE id="clear" />                  
+
+        <SCALE sx="1.3" sy="1.2" sz=".7" />
+        <TRANSLATION x="-3.2" y="13.2" z="35" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />           
+        </DESCENDANTS>
+    </NODE>  
+
+    <NODE id="armario_baixo_frente">      
+        <MATERIAL id="null" />    
+        <TEXTURE id="clear" />                  
+
+        <SCALE sx=".7" sy="1.5" sz="3" />
+        <TRANSLATION x="-12" y="4" z="12" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />           
+        </DESCENDANTS>
+    </NODE>  
+
+    <NODE id="armario_baixo_lado">      
+        <MATERIAL id="null" />    
+        <TEXTURE id="clear" />                  
+
+        <SCALE sx="1.3" sy="1.5" sz="1" />
+        <TRANSLATION x="-3.2" y="4" z="26" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />           
+        </DESCENDANTS>
+    </NODE>  
     <!-- Bottom Floor Walls -->
     <NODE id="paredes_chao">
         <MATERIAL id="null" />    
@@ -190,8 +314,8 @@
         <MATERIAL id="null" />    
         <TEXTURE id="clear" />                  
 
-        <SCALE sx="3" sy="0.8" sz="1.3" />
-        <TRANSLATION x="2.4" y="1.59" z="19.39" />
+        <SCALE sx="4" sy="0.8" sz="1.3" />
+        <TRANSLATION x="1" y="1.59" z="19.39" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />           
@@ -302,8 +426,8 @@
         <MATERIAL id="null" />    
         <TEXTURE id="clear" />     
 
-        <TRANSLATION x="1.464" y="-0.04" z=".722" />
-        <SCALE sx=".6" sy=".8" sz="0.7" />
+        <TRANSLATION x="0.71" y="-0.04" z=".722" />
+        <SCALE sx=".9" sy=".8" sz="0.7" />
         
         <DESCENDANTS>
             <NODEREF id="cubo" />
@@ -544,13 +668,30 @@
 
     </NODE>
 
+    <!-- Television -->
+    <NODE id="televisao">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="vidral" />                 
+
+        <TRANSLATION x="30" y="5.5" z="20" />
+        <SCALE sx="0.2" sy="1" sz="0.2" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" /> 
+            <NODEREF id="meiaPiramide2" />       
+            <NODEREF id="basePiramide" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+
     <!-- A pyramid -->
     <NODE id="piramide">       
         <MATERIAL id="null" />      
         <TEXTURE id="vidral" />       			
 
-        <TRANSLATION x="12" y="5.8" z="4.75" />
-        <SCALE sx="0.4" sy="2" sz="0.4" />
+        <TRANSLATION x="30" y="5.5" z="20" />
+        <SCALE sx="0.2" sy="1" sz="0.2" />
 
         <DESCENDANTS>
        		<NODEREF id="meiaPiramide1" /> 
