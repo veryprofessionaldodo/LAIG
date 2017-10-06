@@ -11,7 +11,6 @@
     <reference length="5" />                        
 </INITIALS>
 
-
 <!-- Illumination and clear colour -->
 <ILLUMINATION>
     <ambient r="0.2" g="0.2" b="0.2" a="1" />       
@@ -23,7 +22,7 @@
 <LIGHTS>	
 	<LIGHT id="light0">
         <enable value ="1" />                   	       
-        <position  x="-5" y="10" z="25" w="1" />       	   
+        <position  x="-5" y="12" z="25" w="1" />       	   
         <ambient r="0.0" g="0.0" b="0.0" a="1.0" />        	 
         <diffuse r="0.9" g="0.9" b="0.4" a="1.0" />
         <specular r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -31,28 +30,43 @@
 	
 	<LIGHT id="light1">                                    
         <enable value ="1" />                   	      
-        <position x="-10" y="10" z="30" w="1" /> 
+        <position  x="-7" y="12" z="33" w="1" />           
         <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
-        <diffuse r="0.9" g="0.9" b="0.4" a="1.0" />
-        <specular r="0.0" g="0.0" b="0.0" a="1.0" />
-    </LIGHT>
-	
-	<LIGHT id="light2">                                   
-        <enable value ="1" />                   	       
-        <position x="0" y="10" z="20" w="1" />       		   
-        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
-        <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+        <diffuse r="0.9" g="0.9" b="0.2" a="1.0" />
         <specular r="0.0" g="0.0" b="0.0" a="1.0" />
     </LIGHT>
 
-    <LIGHT id="light3">                                   
-        <enable value ="1" />                   	       
-        <position x="30" y="10" z="20" w="1" />       			
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />           	
-        <diffuse r="0.9" g="0.9" b="0.9" a="1.0" />
+    <LIGHT id="light2">                                    
+        <enable value ="1" />                             
+        <position  x="-7" y="12" z="38" w="1" />           
+        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
+        <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
         <specular r="0.0" g="0.0" b="0.0" a="1.0" />
     </LIGHT>
-    
+	
+	<LIGHT id="light3">                                   
+        <enable value ="1" />                   	       
+        <position x="14" y="15" z="10" w="1" />       		   
+        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
+        <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+        <specular r="0.8" g="0.8" b="0.8" a="1.0" />
+    </LIGHT>
+
+    <LIGHT id="light4">                                   
+        <enable value ="1" />                              
+        <position x="14" y="15" z="14" w="1" />                
+        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
+        <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+        <specular r="0.8" g="0.8" b="0.8" a="1.0" />
+    </LIGHT>
+
+    <LIGHT id="light5">                                   
+        <enable value ="1" />                              
+        <position x="17.5" y="15" z="12" w="1" />                
+        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
+        <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+        <specular r="0.8" g="0.8" b="0.8" a="1.0" />
+    </LIGHT>    
 </LIGHTS>
 
 <!-- Textures -->
@@ -78,12 +92,18 @@
     <!-- Wooden Floor -->
     <TEXTURE id="wood_floor">
         <file path="images/wood_floor.jpg" />               
-        <amplif_factor s="10" t="10" />                           
+        <amplif_factor s="5" t="5" />                           
     </TEXTURE>
 
     <!-- Wooden White Floor -->
     <TEXTURE id="wood_white_floor">
         <file path="images/wood_white_floor.jpg" />               
+        <amplif_factor s="2" t="2" />                           
+    </TEXTURE>
+
+    <!-- So sad -->
+    <TEXTURE id="television_news">
+        <file path="images/fake_news.jpg" />               
         <amplif_factor s="2" t="2" />                           
     </TEXTURE>
 
@@ -112,7 +132,6 @@
     </TEXTURE>
     
 </TEXTURES>
-
 
 <MATERIALS>
 	<!-- Pyramid material -->
@@ -705,13 +724,14 @@
         <DESCENDANTS>
             <NODEREF id="televisao" />
             <NODEREF id="suporte_baixo" />
+            <NODEREF id="candelabro" />
         </DESCENDANTS>
-
     </NODE>
+
     <!-- Television -->
     <NODE id="televisao">       
         <MATERIAL id="null" />      
-        <TEXTURE id="rocks" />                 
+        <TEXTURE id="television_news" />                 
 
         <TRANSLATION x="0.5" y="9" z="9.8" />
         <SCALE sx="0.1" sy="1.8" sz="3.2" />
@@ -722,6 +742,133 @@
         </DESCENDANTS>
     </NODE>
 
+    <!-- Chandelier -->
+    <NODE id="candelabro">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="clear" />                 
+
+        <TRANSLATION x="15.25" y="15" z="12"/>
+
+        <DESCENDANTS>
+            <NODEREF id="armacao"/> 
+        </DESCENDANTS>
+    </NODE>
+   
+    <NODE id="armacao">
+        <MATERIAL id="lightPostMaterial" />     
+        <TEXTURE id="polished_metal" />                  
+
+        <TRANSLATION x="0" y="-1" z="0" />        
+        <SCALE sx="0.5" sy="1.5" sz="0.5" />
+        <ROTATION axis="x" angle="-90" />
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+            <NODEREF id="bracos" />
+            <NODEREF id="luzes_candelabro" />
+        </DESCENDANTS>
+    </NODE> 
+
+    <NODE id="bracos">
+        <MATERIAL id="lightPostMaterial" />     
+        <TEXTURE id="null" />                  
+
+        <DESCENDANTS>
+            <NODEREF id="braco1" />
+            <NODEREF id="braco2" />
+            <NODEREF id="braco3" />
+        </DESCENDANTS>
+    </NODE> 
+
+    <NODE id="braco1">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+
+        <ROTATION axis="z" angle="-60" />
+        <SCALE sx=".25" sy="2" sz=".05" />
+        <TRANSLATION x="7" y=".5" z="0" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo"/> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="braco2">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+
+        <ROTATION axis="z" angle="-115" />
+        <SCALE sx=".25" sy="2" sz=".05" />
+        <TRANSLATION x="-7" y=".5" z="0" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo"/> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="braco3">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+
+        <ROTATION axis="z" angle="-180" />
+        <SCALE sx=".25" sy="2" sz=".05" />
+        <TRANSLATION x="7" y=".5" z="0" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo"/> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="luzes_candelabro">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+
+        <SCALE sx=".25" sy="2" sz=".05" />
+        <TRANSLATION x="7" y=".5" z="0" />
+
+        <DESCENDANTS>
+            <NODEREF id="luzes_candelabro1"/> 
+            <NODEREF id="luzes_candelabro2"/> 
+            <NODEREF id="luzes_candelabro3"/> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="luzes_candelabro1">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+
+        <SCALE sx=".25" sy="2" sz=".05" />
+        <TRANSLATION x="7" y=".5" z="0" />
+
+        <DESCENDANTS>
+            <NODEREF id="piramide"/> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="luzes_candelabro2">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+
+        <SCALE sx=".25" sy="2" sz=".05" />
+        <TRANSLATION x="7" y=".5" z="0" />
+
+        <DESCENDANTS>
+            <NODEREF id="piramide"/> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="luzes_candelabro3">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+
+        <SCALE sx=".25" sy="2" sz=".05" />
+        <TRANSLATION x="7" y=".5" z="0" />
+
+        <DESCENDANTS>
+            <NODEREF id="piramide"/> 
+        </DESCENDANTS>
+    </NODE>
+    
     <NODE id="suporte_baixo">       
         <MATERIAL id="null" />      
         <TEXTURE id="rocks" />                 
