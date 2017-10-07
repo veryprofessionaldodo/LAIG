@@ -24,7 +24,7 @@
         <enable value ="1" />                   	       
         <position  x="-5" y="12" z="25" w="1" />       	   
         <ambient r="0.0" g="0.0" b="0.0" a="1.0" />        	 
-        <diffuse r="0.9" g="0.9" b="0.4" a="1.0" />
+        <diffuse r="0.85" g="0.85" b="0.45" a="1.0" />
         <specular r="0.0" g="0.0" b="0.0" a="1.0" />
     </LIGHT>
 	
@@ -32,7 +32,7 @@
         <enable value ="1" />                   	      
         <position  x="-7" y="12" z="33" w="1" />           
         <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
-        <diffuse r="0.9" g="0.9" b="0.2" a="1.0" />
+        <diffuse r="0.85" g="0.85" b="0.45" a="1.0" />
         <specular r="0.0" g="0.0" b="0.0" a="1.0" />
     </LIGHT>
 
@@ -40,33 +40,34 @@
         <enable value ="1" />                             
         <position  x="-7" y="12" z="38" w="1" />           
         <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
-        <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+        <diffuse r="0.85" g="0.85" b="0.45" a="1.0" />
         <specular r="0.0" g="0.0" b="0.0" a="1.0" />
     </LIGHT>
 	
 	<LIGHT id="light3">                                   
         <enable value ="1" />                   	       
-        <position x="14" y="15" z="10" w="1" />       		   
-        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
-        <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
-        <specular r="0.8" g="0.8" b="0.8" a="1.0" />
+        <position x="13" y="15" z="16" w="1" />       		   
+        <ambient r="0.3" g="0.25" b="0.25" a="1.0" />
+        <diffuse r="0.65" g="0.6" b="0.6" a="1.0" />
+        <specular r="0.0" g="0.0" b="0.0" a="1.0" />
     </LIGHT>
 
     <LIGHT id="light4">                                   
         <enable value ="1" />                              
-        <position x="14" y="15" z="14" w="1" />                
-        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
-        <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
-        <specular r="0.8" g="0.8" b="0.8" a="1.0" />
-    </LIGHT>
+        <position x="20" y="15" z="11.7" w="1" />                
+        <ambient r="0.3" g="0.25" b="0.25" a="1.0" />
+        <diffuse r="0.65" g="0.6" b="0.6" a="1.0" />
+		<specular r="0.0" g="0.0" b="0.0" a="1.0" />  
+  </LIGHT>
 
     <LIGHT id="light5">                                   
         <enable value ="1" />                              
-        <position x="17.5" y="15" z="12" w="1" />                
-        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
-        <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
-        <specular r="0.8" g="0.8" b="0.8" a="1.0" />
-    </LIGHT>    
+        <position x="13" y="15" z="8" w="1" />                
+        <ambient r="0.3" g="0.25" b="0.25" a="1.0" />
+        <diffuse r="0.65" g="0.6" b="0.6" a="1.0" />>
+        <specular r="0.0" g="0.0" b="0.0" a="1.0" />  
+    </LIGHT>   
+
 </LIGHTS>
 
 <!-- Textures -->
@@ -92,7 +93,13 @@
     <!-- Wooden Floor -->
     <TEXTURE id="wood_floor">
         <file path="images/wood_floor.jpg" />               
-        <amplif_factor s="5" t="5" />                           
+        <amplif_factor s="1" t="1" />                           
+    </TEXTURE>
+
+	<!-- Dark front wall -->
+    <TEXTURE id="front_wall">
+        <file path="images/dark_wall.jpg" />               
+        <amplif_factor s="1" t="1" />                           
     </TEXTURE>
 
     <!-- Wooden White Floor -->
@@ -104,6 +111,12 @@
     <!-- So sad -->
     <TEXTURE id="television_news">
         <file path="images/fake_news.jpg" />               
+        <amplif_factor s="2" t="2" />                           
+    </TEXTURE>
+
+	<!-- Lamp texture -->
+     <TEXTURE id="lamp_white">
+        <file path="images/lamp.jpg" />               
         <amplif_factor s="2" t="2" />                           
     </TEXTURE>
 
@@ -208,7 +221,6 @@
 
         <DESCENDANTS>
             <NODEREF id="luzes" />    
-            <NODEREF id="piramide" /> 
             <NODEREF id="chao_abaixo" />
             <NODEREF id="piso_acima" />
             <NODEREF id="escadas" />
@@ -216,8 +228,178 @@
             <NODEREF id="paredes_lado" />
             <NODEREF id="armarios_cozinha" />
             <NODEREF id="acessorios" />
+            <NODEREF id="barras" />
         </DESCENDANTS>
     </NODE>
+
+    <!-- Bars -->
+    <NODE id="barras">
+        <MATERIAL id="null" />    
+        <TEXTURE id="polished_metal" />                  
+
+        <DESCENDANTS>
+            <NODEREF id="barras_baixo" />           
+            <NODEREF id="barras_cima" />           
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="barras_cima">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+		<SCALE sx=".2" sy=".2" sz="1.5" />
+		<TRANSLATION x="50" y="40" z="17" />
+        <DESCENDANTS>
+            <NODEREF id="barras_cima1" />           
+            <NODEREF id="barras_cima2" />           
+            <NODEREF id="barras_cima3" />           
+            <NODEREF id="barras_cima4" />             
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="barras_cima1">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+        <SCALE sx="1" sy="1" sz="3.35" />
+		<TRANSLATION x="52" y="0" z=".87" />
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="barras_cima2">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+		<SCALE sx="1" sy="1" sz=".5" />
+		<TRANSLATION x="18" y="0" z="-3.4" />
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="barras_cima3">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="barras_cima4">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+		<SCALE sx="1" sy="1" sz=".5" />
+		<TRANSLATION x="18" y="0" z="-3.4" />
+        <ROTATION axis="y" angle="-90" />
+
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="barras_baixo">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+        <SCALE sx=".2" sy="1.5" sz=".2" />
+        <ROTATION axis="x" angle="-90" />
+        <TRANSLATION x="80" y="-150" z="1.6" />
+
+        <DESCENDANTS>
+            <NODEREF id="barras_baixo1" />           
+            <NODEREF id="barras_baixo2" />          
+            <NODEREF id="barras_baixo3" />           
+            <NODEREF id="barras_baixo4" />           
+            <NODEREF id="barras_baixo5" />           
+            <NODEREF id="barras_baixo6" />           
+            <NODEREF id="barras_baixo7" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="barras_baixo1">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+        <TRANSLATION x="22" y="-100" z="0" />
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+        </DESCENDANTS>
+    </NODE>
+
+	<NODE id="barras_baixo2">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+        <TRANSLATION x="22" y="0" z="0" />
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="barras_baixo3">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+        <TRANSLATION x="-12" y="20" z="0" />
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="barras_baixo4">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+        <TRANSLATION x="-12" y="35" z="0" />
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="barras_baixo5">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+        <TRANSLATION x="-77" y="35" z="0" />
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="barras_baixo6">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+        <TRANSLATION x="25" y="35" z="-2.4" />
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="barras_baixo7">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                  
+
+        <TRANSLATION x="25" y="-100" z="0" />
+
+        <DESCENDANTS>
+            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+        </DESCENDANTS>
+    </NODE>
+
 
     <!-- Side Walls -->
     <NODE id="paredes_lado">
@@ -270,7 +452,7 @@
 
     <NODE id="parede_frente1">      
         <MATERIAL id="null" />    
-        <TEXTURE id="clear" />                  
+        <TEXTURE id="front_wall" />                  
 
         <SCALE sx="7" sy="5" sz=".3" />
         <TRANSLATION x="2.4" y="2.2" z="-10" />
@@ -284,7 +466,7 @@
     <!-- Kitchen closets -->
     <NODE id="armarios_cozinha">
         <MATERIAL id="null" />    
-        <TEXTURE id="clear" />                  
+        <TEXTURE id="wood_cabinets" />                  
 
         <DESCENDANTS>
             <NODEREF id="armario_cima_frente" />           
@@ -297,7 +479,7 @@
 
     <NODE id="armario_cima_frente">      
         <MATERIAL id="null" />    
-        <TEXTURE id="clear" />                  
+        <TEXTURE id="null" />                  
 
         <SCALE sx=".7" sy="1.2" sz="3" />
         <TRANSLATION x="-12" y="13.2" z="12" />
@@ -309,7 +491,7 @@
 
     <NODE id="armario_cima_lado">      
         <MATERIAL id="null" />    
-        <TEXTURE id="clear" />                  
+        <TEXTURE id="null" />                  
 
         <SCALE sx="1.3" sy="1.2" sz=".7" />
         <TRANSLATION x="-3.2" y="13.2" z="35" />
@@ -321,7 +503,7 @@
 
     <NODE id="armario_baixo_frente">      
         <MATERIAL id="null" />    
-        <TEXTURE id="clear" />                  
+        <TEXTURE id="null" />                  
 
         <SCALE sx=".7" sy="1.5" sz="3" />
         <TRANSLATION x="-12" y="4" z="12" />
@@ -333,7 +515,7 @@
 
     <NODE id="armario_baixo_lado">      
         <MATERIAL id="null" />    
-        <TEXTURE id="clear" />                  
+        <TEXTURE id="null" />                  
 
         <SCALE sx="1.3" sy="1.5" sz="1" />
         <TRANSLATION x="-3.2" y="4" z="26" />
@@ -725,6 +907,20 @@
             <NODEREF id="televisao" />
             <NODEREF id="suporte_baixo" />
             <NODEREF id="candelabro" />
+            <NODEREF id="escultura" />
+        </DESCENDANTS>
+    </NODE>
+
+   <!-- Sculpture -->
+    <NODE id="escultura">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="vidral" />                 
+ 
+        <SCALE sx="1.1" sy="1" sz="1.1" />
+        <TRANSLATION x="-2.75" y="-0.3" z="-1" />
+               
+        <DESCENDANTS>
+            <NODEREF id="piramide"/> 
         </DESCENDANTS>
     </NODE>
 
@@ -747,10 +943,12 @@
         <MATERIAL id="null" />      
         <TEXTURE id="clear" />                 
 
-        <TRANSLATION x="15.25" y="15" z="12"/>
+        <SCALE sx="1.2" sy="1.2" sz="1.2" />
+        <TRANSLATION x="13" y="15" z="10"/>
 
         <DESCENDANTS>
             <NODEREF id="armacao"/> 
+            <NODEREF id="luzes_candelabro" />
         </DESCENDANTS>
     </NODE>
    
@@ -765,7 +963,6 @@
         <DESCENDANTS>
             <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
             <NODEREF id="bracos" />
-            <NODEREF id="luzes_candelabro" />
         </DESCENDANTS>
     </NODE> 
 
@@ -821,11 +1018,12 @@
 
     <NODE id="luzes_candelabro">       
         <MATERIAL id="null" />      
-        <TEXTURE id="null" />                 
+        <TEXTURE id="lamp_white" />                 
 
-        <SCALE sx=".25" sy="2" sz=".05" />
-        <TRANSLATION x="7" y=".5" z="0" />
-
+        <SCALE sx=".5" sy=".7" sz=".5" />
+        <TRANSLATION x="31.7" y="1.9" z="-22.6" />
+ 		<ROTATION axis="z" angle="-180" />
+       
         <DESCENDANTS>
             <NODEREF id="luzes_candelabro1"/> 
             <NODEREF id="luzes_candelabro2"/> 
@@ -837,8 +1035,7 @@
         <MATERIAL id="null" />      
         <TEXTURE id="null" />                 
 
-        <SCALE sx=".25" sy="2" sz=".05" />
-        <TRANSLATION x="7" y=".5" z="0" />
+        <TRANSLATION x="2.2" y="0" z="3.5" />
 
         <DESCENDANTS>
             <NODEREF id="piramide"/> 
@@ -849,8 +1046,7 @@
         <MATERIAL id="null" />      
         <TEXTURE id="null" />                 
 
-        <SCALE sx=".25" sy="2" sz=".05" />
-        <TRANSLATION x="7" y=".5" z="0" />
+        <TRANSLATION x="2.2" y="0" z="-3.5" />
 
         <DESCENDANTS>
             <NODEREF id="piramide"/> 
@@ -861,8 +1057,7 @@
         <MATERIAL id="null" />      
         <TEXTURE id="null" />                 
 
-        <SCALE sx=".25" sy="2" sz=".05" />
-        <TRANSLATION x="7" y=".5" z="0" />
+        <TRANSLATION x="-4.7" y="0" z="-0.2" />
 
         <DESCENDANTS>
             <NODEREF id="piramide"/> 
@@ -905,10 +1100,12 @@
         </DESCENDANTS>
     </NODE>
 
+
+
     <!-- A pyramid -->
     <NODE id="piramide">       
         <MATERIAL id="null" />      
-        <TEXTURE id="vidral" />       			
+        <TEXTURE id="null" />       			
 
         <TRANSLATION x="30" y="5.5" z="20" />
         <SCALE sx="0.2" sy="1" sz="0.2" />
