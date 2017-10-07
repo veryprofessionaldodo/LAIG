@@ -46,14 +46,19 @@ MyQuad.prototype.initBuffers = function (args) {
 };
 
 MyQuad.prototype.updateTexCoords = function(ampS, ampT) {
-	var deltaX = Math.abs(this.values[2] - this.values[0]);
-	var deltaY = Math.abs(this.values[1] - this.values[3]);
+	var deltaX = this.values[2] - this.values[0];
+	var deltaY = this.values[1] - this.values[3];
 	this.texCoords = [
 		0, deltaY/ampT,
 		deltaX/ampS, deltaY/ampT,
 		0, 0,
 		deltaX/ampS, 0
 	];
-
+/*
+	for(var i = 0; i < this.texCoords; i+= 2){
+		this.texCoords[i] = this.texCoords[i]/ampS;
+		this.texCoords[i+1] = this.texCoords[i]/ampT;
+	}
+*/
 	this.updateTexCoordsGLBuffers();
 }

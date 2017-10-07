@@ -23,7 +23,7 @@
  	} else if(this.type === 'rectangle') {
  		this.obj = new MyQuad(this.graph.scene,this.args);
  	} else if(this.type === 'cylinder') {
- 		this.obj = new MyCylinder(this.graph.scene,this.args);
+ 		this.obj = new MyCylinderWithCap(this.graph.scene,this.args);
 	} else if(this.type === 'sphere') {
 		this.obj = new MySphere(this.graph.scene,this.args);
 	}
@@ -31,7 +31,7 @@
 
 
 MyGraphLeaf.prototype.displayLeaf = function(texture) {
-	if(texture != null && this.type !== 'cylinder'){
+	if(texture != null && this.type !== 'cylinder' && this.type !== 'sphere'){
 		this.obj.updateTexCoords(texture[1], texture[2]);
 	}
 	this.obj.display();

@@ -1,16 +1,13 @@
-function MyCylinder(scene, args/*slices, stacks*/) {
+function MyCylinder(scene, args) {
     CGFobject.call(this,scene);
-   	var values = args.split(" ");
-	for(var i = 0; i < values.length; i++){
-		values[i] = parseInt(values[i]);
-	}
+	this.scene = scene;
 
-	this.height = values[0];
-    this.slices = values[4];
-    this.stacks = values[3];
-    this.topRadius = values[2];
-    this.bottomRadius = values[1];
- 
+	this.height = args[0];
+    this.slices = args[4];
+    this.stacks = args[3];
+    this.topRadius = args[2];
+    this.bottomRadius = args[1];
+
     this.initBuffers();
 };
 
@@ -62,7 +59,6 @@ MyCylinder.prototype.initBuffers = function() {
 		last = 0;
 		radius += inc;
 	}
-	
 	this.tempTexCoords = this.texCoords.slice();
 	this.primitiveType = this.scene.gl.TRIANGLES;
 	this.initGLBuffers();

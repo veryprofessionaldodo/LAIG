@@ -52,11 +52,11 @@
 	this.primitiveType = this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
  };
-
+/*
 MySphere.prototype.updateTexCoords = function(ampS, ampT) {
 	for(var i = 0; i < this.texCoords.length; i+=2){
 		this.texCoords[i] = this.tempTexCoords[i]/ampS;
 		this.texCoords[i+1] = this.tempTexCoords[i+1]/ampT;
 	}
 	this.updateTexCoordsGLBuffers();
-}
+}*/
