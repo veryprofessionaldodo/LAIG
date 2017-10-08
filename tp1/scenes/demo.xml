@@ -72,9 +72,28 @@
 
 <!-- Textures -->
 <TEXTURES>
-	<!-- Tree trunk -->
-    <TEXTURE id="trunk">
-        <file path="images/trunk-image.jpg" />               
+
+	<!-- Dark Wood -->
+    <TEXTURE id="dark_wood">
+        <file path="images/dark_wood.jpg" />               
+        <amplif_factor s="2" t="2" />                           
+    </TEXTURE>
+
+	<!-- Leather Couch -->
+    <TEXTURE id="leather">
+        <file path="images/leather.jpg" />               
+        <amplif_factor s="2" t="2" />                           
+    </TEXTURE>
+
+    <!-- Right and Left Speakers -->
+    <TEXTURE id="speakers">
+        <file path="images/speakers.jpg" />               
+        <amplif_factor s="5" t="4" />                           
+    </TEXTURE>
+
+    <!-- Marble Kitchen Table -->
+    <TEXTURE id="marble">
+        <file path="images/marble.jpg" />               
         <amplif_factor s="2" t="2" />                           
     </TEXTURE>
 
@@ -114,7 +133,7 @@
         <amplif_factor s="5" t="4" />                           
     </TEXTURE>
 
-	<!-- Lamp texture -->
+	<!-- Lamp -->
      <TEXTURE id="lamp_white">
         <file path="images/lamp.jpg" />               
         <amplif_factor s="10" t="10" />                           
@@ -154,6 +173,15 @@
         <diffuse r="1.0" g="0.68" b="0.4" a="1" />        
         <ambient r="0.2" g="0.2" b="0.2" a="1" />         
         <emission r="0.0" g="0.0" b="0.0" a="1" />        
+    </MATERIAL>
+
+    <!-- SteelMaterial material -->
+    <MATERIAL id="steelMaterial">                                  
+        <shininess value="1" />
+        <specular r="1" g="1" b="1" a="1" />        
+        <diffuse r=".5" g=".5" b=".5" a="1" />        
+        <ambient r="0.1" g="0.1" b="0.1" a="1" />         
+        <emission r="0.3" g="0.3" b="0.3" a="1" />        
     </MATERIAL>
 	
 	<!-- Tree leaves material -->
@@ -262,14 +290,53 @@
             <NODEREF id="paredes_chao" />
             <NODEREF id="paredes_lado" />
             <NODEREF id="armarios_cozinha" />
+            <NODEREF id="mesa_cozinha" />
             <NODEREF id="acessorios" />
             <NODEREF id="barras" />
         </DESCENDANTS>
     </NODE>
 
+    <!-- Kitchen Table -->
+    <NODE id="mesa_cozinha">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="7" y="5" z="40" />
+        <SCALE sx="2" sy=".7" sz="3" />
+
+        <DESCENDANTS>
+            <NODEREF id="mesa_baixo" />           
+            <NODEREF id="tampo" />           
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="mesa_baixo">
+        <MATERIAL id="null" />    
+        <TEXTURE id="marble" />   
+
+        <TRANSLATION x="0" y="1.8" z="0" />
+        <SCALE sx=".9" sy="3.2" sz=".9" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />          
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="tampo">
+        <MATERIAL id="steelMaterial" />    
+        <TEXTURE id="polished_metal" />                  
+
+        <TRANSLATION x="0" y="7" z="0" />
+        <SCALE sx="1.2" sy="0.1" sz="1.2" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />           
+        </DESCENDANTS>
+    </NODE>
+
     <!-- Bars -->
     <NODE id="barras">
-        <MATERIAL id="null" />    
+        <MATERIAL id="steelMaterial" />    
         <TEXTURE id="polished_metal" />                  
 
         <DESCENDANTS>
@@ -753,30 +820,34 @@
     <!-- Couchs -->
     <NODE id="sofas">       
         <MATERIAL id="null" />     
-        <TEXTURE id="null" />       			
+        <TEXTURE id="leather" />       			
         
         <TRANSLATION x="10" y="1" z="6" />
+        <SCALE sx="1" sy="0.5" sz="1.5" />
 
         <DESCENDANTS>
-       		<NODEREF id="sofa1" />
-            <NODEREF id="sofa2" />
-            <NODEREF id="sofa3" />
+       		<NODEREF id="sofa_fundo1" />
+       		<NODEREF id="sofa_encosto1" />
+            <NODEREF id="sofa_fundo2" />
+       		<NODEREF id="sofa_encosto2" />
+            <NODEREF id="sofa_fundo3" />
+       		
+       		
         </DESCENDANTS>
     </NODE>
 
-     <NODE id="sofa1">       
+     <NODE id="sofa_fundo1">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />       			
 
-        <TRANSLATION x="10" y="1" z="6" />
-        <SCALE sx="1" sy="1" sz="1.5" />
-        
+        <TRANSLATION x="13" y="1" z="2" />
+     
         <DESCENDANTS>
        		<NODEREF id="cubo" />
         </DESCENDANTS>
     </NODE>
 
-     <NODE id="sofa2">       
+    <NODE id="sofa_encosto1">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />       			
         
@@ -785,7 +856,25 @@
         </DESCENDANTS>
     </NODE>
 
-     <NODE id="sofa3">       
+     <NODE id="sofa_fundo2">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+        
+        <DESCENDANTS>
+        	<NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="sofa_encosto2">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />       			
+        
+        <DESCENDANTS>
+        	<NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="sofa_fundo3">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />       			
      
@@ -905,14 +994,224 @@
 
         <DESCENDANTS>
             <NODEREF id="televisao" />
+            <NODEREF id="colunas" />
             <NODEREF id="suporte_baixo" />
             <NODEREF id="candelabro" />
+            <NODEREF id="estante" />
+            <NODEREF id="livros" />
             <NODEREF id="escultura" />
             <NODEREF id="sofas" />
         </DESCENDANTS>
     </NODE>
 
-   <!-- Sculpture -->
+    <!-- Books -->
+    <NODE id="livros">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+ 
+        <SCALE sx="1.1" sy="1" sz="1.1" />
+        <TRANSLATION x="-2.75" y="-0.3" z="-1" />
+               
+        <DESCENDANTS>	
+            <NODEREF id="livros1"/> 
+            <NODEREF id="livros2"/> 
+            <NODEREF id="livros3"/> 
+            <NODEREF id="livros4"/> 
+            <NODEREF id="livros5"/> 
+            <NODEREF id="livros6"/> 
+            <NODEREF id="livros7"/> 
+            <NODEREF id="livros8"/> 
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="livros1">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+ 
+        <SCALE sx="1.1" sy="1" sz="1.1" />
+        <TRANSLATION x="-2.75" y="-0.3" z="-1" />
+               
+        <DESCENDANTS>	
+        	<NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+	<NODE id="livros2">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+ 
+        <SCALE sx="1.1" sy="1" sz="1.1" />
+        <TRANSLATION x="-2.75" y="-0.3" z="-1" />
+               
+        <DESCENDANTS>	
+        	<NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="livros3">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+ 
+        <SCALE sx="1.1" sy="1" sz="1.1" />
+        <TRANSLATION x="-2.75" y="-0.3" z="-1" />
+               
+        <DESCENDANTS>	
+        	<NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="livros4">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+ 
+        <SCALE sx="1.1" sy="1" sz="1.1" />
+        <TRANSLATION x="-2.75" y="-0.3" z="-1" />
+               
+        <DESCENDANTS>	
+        	<NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="livros5">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+ 
+        <SCALE sx="1.1" sy="1" sz="1.1" />
+        <TRANSLATION x="-2.75" y="-0.3" z="-1" />
+               
+        <DESCENDANTS>	
+        	<NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="livros6">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+ 
+        <SCALE sx="1.1" sy="1" sz="1.1" />
+        <TRANSLATION x="-2.75" y="-0.3" z="-1" />
+               
+        <DESCENDANTS>	
+        	<NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="livros7">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+ 
+        <SCALE sx="1.1" sy="1" sz="1.1" />
+        <TRANSLATION x="-2.75" y="-0.3" z="-1" />
+               
+        <DESCENDANTS>	
+        	<NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="livros8">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+ 
+        <SCALE sx="1.1" sy="1" sz="1.1" />
+        <TRANSLATION x="-2.75" y="-0.3" z="-1" />
+               
+        <DESCENDANTS>	
+        	<NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+
+    <!-- Bookshelf -->
+    <NODE id="estante">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+
+        <TRANSLATION x="1" y="1" z="3" />
+        <SCALE sx="1.1" sy="0.7" sz="2.4" />
+               
+        <DESCENDANTS>
+            <NODEREF id="prateleira1"/> 
+            <NODEREF id="prateleira2"/> 
+            <NODEREF id="prateleira3"/> 
+            <NODEREF id="prateleira4"/> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="prateleira1">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+        
+        <DESCENDANTS>
+            <NODEREF id="caixa_televisao"/> 
+        </DESCENDANTS>
+    </NODE>
+	
+	<NODE id="prateleira2">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+        
+        <DESCENDANTS>
+            <NODEREF id="caixa_televisao"/> 
+        </DESCENDANTS>
+    </NODE> 
+
+   	<NODE id="prateleira3">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+        
+        <DESCENDANTS>
+            <NODEREF id="caixa_televisao"/> 
+        </DESCENDANTS>
+    </NODE> 
+
+
+	<NODE id="prateleira4">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+        
+        <DESCENDANTS>
+            <NODEREF id="caixa_televisao"/> 
+        </DESCENDANTS>
+    </NODE> 
+
+	<NODE id="prateleira5">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+        
+        <DESCENDANTS>
+            <NODEREF id="caixa_televisao"/> 
+        </DESCENDANTS>
+    </NODE> 
+
+	<NODE id="prateleira6">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+        
+        <DESCENDANTS>
+            <NODEREF id="caixa_televisao"/> 
+        </DESCENDANTS>
+    </NODE> 
+
+	<NODE id="prateleira7">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+        
+        <DESCENDANTS>
+            <NODEREF id="caixa_televisao"/> 
+        </DESCENDANTS>
+    </NODE> 
+
+	<NODE id="prateleira8">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />                 
+        
+        <DESCENDANTS>
+            <NODEREF id="caixa_televisao"/> 
+        </DESCENDANTS>
+    </NODE> 
+
+
+      <!-- Sculpture -->
     <NODE id="escultura">       
         <MATERIAL id="null" />      
         <TEXTURE id="vidral" />                 
@@ -930,9 +1229,114 @@
         <MATERIAL id="televisionMaterial" />      
         <TEXTURE id="television_news" />                 
 
-        <TRANSLATION x="0.5" y="9" z="9.8" />
+        <ROTATION axis="y" angle="90" />
+        <TRANSLATION x="2" y="9" z="15" />
         <SCALE sx="0.1" sy="1.8" sz="3.2" />
         <SCALE sx="1" sy="0.8" sz="0.8" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo"/> 
+            <NODEREF id="caixa_televisao" />
+        </DESCENDANTS>
+    </NODE>
+
+	<!-- Box Around Television -->
+    <NODE id="caixa_televisao">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="wood_white_floor" />                 
+
+        <ROTATION axis="y" angle="90" />
+        <TRANSLATION x="0" y="0" z="-3" />
+        
+        <DESCENDANTS>
+            <NODEREF id="caixa_televisao1" />      
+            <NODEREF id="caixa_televisao2" />      
+            <NODEREF id="caixa_televisao3" />      
+            <NODEREF id="caixa_televisao4" />      
+        </DESCENDANTS>
+    </NODE>
+
+    
+    <NODE id="caixa_televisao1">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" /> 
+
+        <TRANSLATION x="2.5" y="0.1" z="0" />
+        <SCALE sx="0.05" sy="1.2" sz="1" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />      
+        </DESCENDANTS>
+    </NODE>    
+
+    <NODE id="caixa_televisao2">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />       			
+
+        <TRANSLATION x="-2.5" y="0.1" z="0" />
+        <SCALE sx="0.05" sy="1.2" sz="1" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />      
+        </DESCENDANTS>
+    </NODE>    
+
+    <NODE id="caixa_televisao3">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />       			
+
+		<TRANSLATION x="0" y="1.8" z="0" />
+		<SCALE sx="1.1" sy="0.1" sz="1" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />      
+        </DESCENDANTS>
+    </NODE>    
+
+    <NODE id="caixa_televisao4">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="null" />       			
+
+        <TRANSLATION x="0" y="-2.4" z="0" />
+        <SCALE sx="1.1" sy="0.1" sz="1" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />      
+        </DESCENDANTS>
+    </NODE> 
+
+    <!-- Speakers -->
+    <NODE id="colunas">       
+        <MATERIAL id="televisionMaterial" />      
+        <TEXTURE id="speakers" />                 
+
+        <ROTATION axis="y" angle="90" />
+        <TRANSLATION x="2" y="9" z="15" />
+        <SCALE sx="0.2" sy="1.8" sz="0.35" />
+        <SCALE sx="1" sy="0.8" sz="0.8" />
+
+        <DESCENDANTS>
+            <NODEREF id="coluna_esquerda"/> 
+            <NODEREF id="coluna_direita"/> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="coluna_direita">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="speakers" />             
+
+        <TRANSLATION x="0" y="0" z="37" />    
+
+        <DESCENDANTS>
+            <NODEREF id="cubo"/> 
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="coluna_esquerda">       
+        <MATERIAL id="null" />      
+        <TEXTURE id="speakers" />                 
+
+        <TRANSLATION x="0" y="0" z="-37" />    
 
         <DESCENDANTS>
             <NODEREF id="cubo"/> 
@@ -954,7 +1358,7 @@
     </NODE>
    
     <NODE id="armacao">
-        <MATERIAL id="lightPostMaterial" />     
+        <MATERIAL id="steelMaterial" />     
         <TEXTURE id="polished_metal" />                  
 
         <TRANSLATION x="0" y="-1" z="0" />        
@@ -1067,11 +1471,12 @@
     
     <NODE id="suporte_baixo">       
         <MATERIAL id="null" />      
-        <TEXTURE id="rocks" />                 
+        <TEXTURE id="null" />                 
 
-        <TRANSLATION x="1" y="3.5" z="9.8" />
+        <TRANSLATION x="15" y="3" z="-3" />
+        <ROTATION axis="y" angle="90" />
         <SCALE sx="1" sy=".9" sz="1" />
-        <SCALE sx=".6" sy="0.6" sz="0.8" />
+        <SCALE sx=".3" sy="0.5" sz="0.8" />
 
         <DESCENDANTS>
             <NODEREF id="suporte_baixo_esquerda"/> 
@@ -1086,7 +1491,7 @@
         <TRANSLATION x="0" y="0" z="3.7" />
         
         <DESCENDANTS>
-            <NODEREF id="cubo"/> 
+            <NODEREF id="caixa_televisao"/> 
         </DESCENDANTS>
     </NODE>
     
@@ -1097,10 +1502,9 @@
         <TRANSLATION x="0" y="0" z="-3.7" />
 
         <DESCENDANTS>
-            <NODEREF id="cubo"/> 
+            <NODEREF id="caixa_televisao"/>  
         </DESCENDANTS>
     </NODE>
-
 
 
     <!-- A pyramid -->
@@ -1131,9 +1535,9 @@
         <DESCENDANTS>
 					<LEAF  type="rectangle" args="0 4 5 0" />        
         </DESCENDANTS>
-
     </NODE>
 
+	
     <!-- Half a pyramid -->
     <NODE id="meiaPiramide1">       
         <MATERIAL id="null" />      
