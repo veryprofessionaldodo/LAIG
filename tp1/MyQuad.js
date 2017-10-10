@@ -14,7 +14,7 @@ MyQuad.prototype.constructor=MyQuad;
 MyQuad.prototype.initBuffers = function (args) {
 	this.values = args.split(" ");
 	for(var i = 0; i < this.values.length; i++){
-		this.values[i] = parseInt(this.values[i]);
+		this.values[i] = parseFloat(this.values[i]);
 	}
 	this.vertices = [
 		this.values[0], this.values[3], 0, //bottom left

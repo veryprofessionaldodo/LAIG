@@ -9,7 +9,7 @@ MyTriangle.prototype.constructor=MyTriangle;
 MyTriangle.prototype.initBuffers = function (args) {
 	values = args.split(" ");
 	for(var i = 0; i < values.length; i++){
-		values[i] = parseInt(values[i]);
+		values[i] = parseFloat(values[i]);
 	}
 	this.vertices = values;
 	this.indices = [

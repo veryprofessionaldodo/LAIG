@@ -6,7 +6,7 @@ function MyCylinderWithCap(scene, args){
 
     var values = args.split(" ");
     for(var i = 0; i < values.length; i++){
-        values[i] = parseInt(values[i]);
+        values[i] = parseFloat(values[i]);
     }
     this.scene = scene;
 

@@ -1453,24 +1453,6 @@ MySceneGraph.prototype.recursiveDisplay = function(nodeName, matrix, textureID, 
         }
         //multiplicates the matrixes
         this.scene.multMatrix(node.transformMatrix);
-        if(node.children.length > 0){
-            for(var i = 0; i < node.children.length; i++){
-                this.scene.pushMatrix();
-                //applies the materials and textures
-                /*if(this.newMaterial != null){
-                    if(this.newTexture != null){
-                        this.newMaterial.setTexture(this.newTexture[0]);
-                    }
-                    else {
-                        this.newMaterial.setTexture(null);
-                    }
-                    this.newMaterial.apply();
-                }*/
-                //recursive call
-                this.recursiveDisplay(node.children[i], matrix, textureID, materialID);
-                this.scene.popMatrix();
-            }
-        }
         //applies the materials and textures
         if(this.newMaterial != null){
             if(this.newTexture != null){
@@ -1485,6 +1467,27 @@ MySceneGraph.prototype.recursiveDisplay = function(nodeName, matrix, textureID, 
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
                 node.leaves[i].displayLeaf(this.newTexture);
+            }
+        }
+        
+        if(node.children.length > 0){
+            for(var i = 0; i < node.children.length; i++){
+                this.scene.pushMatrix();
+                //applies the materials and textures
+                /*if(this.newMaterial != null){
+                    if(this.newTexture != null){
+                        this.newMaterial.setTexture(this.newTexture[0]);
+                    }
+                    else {
+                        this.newMaterial.setTexture(null);
+                    }
+                    this.newMaterial.apply();
+                }*/
+                this.newMaterial = null;
+                this.newTexture = null;
+                //recursive call
+                this.recursiveDisplay(node.children[i], matrix, textureID, materialID);
+                this.scene.popMatrix();
             }
         }
     }
