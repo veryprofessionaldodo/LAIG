@@ -1474,15 +1474,6 @@ MySceneGraph.prototype.recursiveDisplay = function(nodeName, matrix, textureID, 
             for(var i = 0; i < node.children.length; i++){
                 this.scene.pushMatrix();
                 //applies the materials and textures
-                /*if(this.newMaterial != null){
-                    if(this.newTexture != null){
-                        this.newMaterial.setTexture(this.newTexture[0]);
-                    }
-                    else {
-                        this.newMaterial.setTexture(null);
-                    }
-                    this.newMaterial.apply();
-                }*/
                 this.newMaterial = null;
                 this.newTexture = null;
                 //recursive call

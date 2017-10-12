@@ -54,11 +54,6 @@ MyQuad.prototype.updateTexCoords = function(ampS, ampT) {
 		0, 0,
 		deltaX/ampS, 0
 	];
-/*
-	for(var i = 0; i < this.texCoords; i+= 2){
-		this.texCoords[i] = this.texCoords[i]/ampS;
-		this.texCoords[i+1] = this.texCoords[i]/ampT;
-	}
-*/
+
 	this.updateTexCoordsGLBuffers();
 }
