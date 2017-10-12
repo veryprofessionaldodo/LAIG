@@ -10,6 +10,14 @@
  	this.args = null;
  	this.obj = null;
 
+ 	console.log(this.xmlelem.cpline);
+ 	if(this.xmlelem.cpline != null){
+ 		console.log(this.xmlelem);
+ 		this.type = 'patch';
+ 		this.obj = new MyPatch(this.graph.scene, this.xmlelem);
+ 		return;
+ 	} 
+
  	if(this.xmlelem.attributes.length === 2){
  		this.type = this.xmlelem.attributes[0].value;
  		this.args = this.xmlelem.attributes[1].value;
@@ -24,16 +32,20 @@
  		this.obj = new MyQuad(this.graph.scene,this.args);
  	} else if(this.type === 'cylinder') {
  		this.obj = new MyCylinderWithCap(this.graph.scene,this.args);
-	} else if(this.type === 'sphere') {
-		this.obj = new MySphere(this.graph.scene,this.args);
-	}
-}
+ 	} else if(this.type === 'sphere') {
+ 		this.obj = new MySphere(this.graph.scene,this.args);
+ 	}
+ }
 
 
-MyGraphLeaf.prototype.displayLeaf = function(texture) {
-	if(texture != null && this.type !== 'cylinder' && this.type !== 'sphere'){
-		this.obj.updateTexCoords(texture[1], texture[2]);
-	}
-	this.obj.display();
-}
+ MyGraphLeaf.prototype.displayLeaf = function(texture) {
+ 	if(texture != null && this.type === 'triangle' && this.type === 'rectangle'){
+ 		this.obj.updateTexCoords(texture[1], texture[2]);
+ 	}
+ 	if(this.type === 'patch'){
+ 		this.obj.patch.display();
+ 	}
+ 	else
+ 		this.obj.display();
+ }
 
