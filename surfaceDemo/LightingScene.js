@@ -20,7 +20,7 @@ LightingScene.prototype.init = function (application) {
     this.gl.clearColor(0,0,0, 1.0);
     this.gl.clearDepth(10000.0);
     this.gl.enable(this.gl.DEPTH_TEST);
-	//this.gl.enable(this.gl.CULL_FACE);
+	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
     
 	this.axis=new CGFaxis(this);
@@ -38,7 +38,119 @@ LightingScene.prototype.init = function (application) {
 	this.appearance.setTextureWrap ('REPEAT', 'REPEAT');
 	
 	this.surfaces = [];
+
+	// POR FAZER encosto frente
+	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
+					 3, // degree on V: 4 control vertexes on V
+					[	// U = 0
+
+						[ // V = 0..3							 
+							[ 1, 2, 0, 1 ],
+							 [ 0.25, 2, 2, 1 ],
+							 [ -0.25, 2,2, 1 ],
+							 [ -1, 2, 0.0, 1 ]
+						],
+						
+						// U = 1
+						[ // V = 0..3							 
+							[ 1, 2, 0, 1 ],
+							 [ 0.25, 3, 1, 1 ],
+							 [ -0.25, 3, 1, 1 ],
+							 [ -1, 2, 0.0, 1 ]
+						],[ // V = 0..3							 
+							[ 1, 2, 0.0, 1 ],
+							 [ 0.25, 4, 0, 1 ],
+							 [ -0.25, 4, 0, 1 ],
+							 [ -1, 2, 0.0, 1 ]
+						]
+					]);
+
+	// POR FAZER encosto lado
+	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
+					 3, // degree on V: 4 control vertexes on V
+					[	// U = 0
+
+[ // V = 0..3							 
+							[ -1, -1, 0, 1 ],
+							 [ -1, -1, -1, 1 ],
+							 [ -1, -1,-1.3, 1 ],
+							 [ -1, -1, -2, 1 ]
+						],
+						
+						// U = 1
+						[ // V = 0..3							 
+							[ -1, 0, 0, 1 ],
+							 [ -1, 0, -1, 1 ],
+							 [ -1, 0,-1.3, 1 ],
+							 [ -1, 0, -2, 1 ]
+						],
+						[ // V = 0..3							 
+							[ -1, 2, 0, 1 ],
+							 [ -1, 2, -1, 1 ],
+							 [ -1, 2,-1.3, 1 ],
+							 [ -1, 2, -2, 1 ]
+						]					]);
+
+
+		// POR FAZER Parte de baixo de encosto
+		this.makeSurface("2", 2, // degree on U: 3 control vertexes U
+					 3, // degree on V: 4 control vertexes on V
+					[	// U = 0
+
+						[ // V = 0..3							 
+							[ 1, 2, 0.0, 1 ],
+							 [ 0.25, 4, 0, 1 ],
+							 [ -0.25, 4, 0, 1 ],
+							 [ -1, 2, 0.0, 1 ]
+						],
+						
+						// U = 1
+						[ // V = 0..3							 
+							[ 1, 2, -1.0, 1 ],
+							 [ 0.25, 4, -1.0, 1 ],
+							 [ -0.25, 4, -1.0, 1 ],
+							 [ -1, 2, -1.0, 1 ]
+						],
+						[ // V = 0..3							 
+							[ 1, 2, -2.0, 1 ],
+							 [ 0.25, 4, -2.0, 1 ],
+							 [ -0.25, 4, -2.0, 1 ],
+							 [ -1, 2, -2.0, 1 ]
+						]
+					]);
+
+		// POR FAZER parte de baixo twist
+	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
+					 3, // degree on V: 4 control vertexes on V
+					[	// U = 0
+						[ // V = 0..3							 
+							[ 1, -3, 0.0, 1 ],
+							 [ 1, -3, -1, 1 ],
+							 [ 1, -3, -1.5, 1 ],
+							 [ 1, -3, -2, 1 ]
+						],
+						// U = 1
+						[ // V = 0..3;
+							 [ -0.8, -3, 0.0, 1 ],
+							 [ -0.8, -3, -1.1, 1 ],
+							 [ -0.8, -3, -1.7, 1 ],
+							 [ -0.8, -3, -2, 1 ]
+							
+						],
+						[ // V = 0..3;
+							 [ -1, -1, 0.0, 1 ],
+							 [ -1, -1, -1.1, 1 ],
+							 [ -1, -1, -1.7, 1 ],
+							 [ -1, -1, -2, 1 ]
+							
+						]
+						
+					]);
+
 	
+
+	
+	// FEITO 1
 	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
 					 3, // degree on V: 4 control vertexes on V
 					[	// U = 0
@@ -64,7 +176,11 @@ LightingScene.prototype.init = function (application) {
 							
 						]
 						// U = 2
-					]);this.makeSurface("2", 2, // degree on U: 3 control vertexes U
+					]);
+
+	
+	// FEITO
+	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
 					 3, // degree on V: 4 control vertexes on V
 					[	// U = 0
 						
@@ -90,6 +206,7 @@ LightingScene.prototype.init = function (application) {
 						]
 					]);
 
+	// FEITO
 	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
 					 3, // degree on V: 4 control vertexes on V
 					[	// U = 0
@@ -116,6 +233,7 @@ LightingScene.prototype.init = function (application) {
 						
 					]);
 
+	// FEITO
 	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
 					 3, // degree on V: 4 control vertexes on V
 					[	// U = 0
@@ -142,10 +260,16 @@ LightingScene.prototype.init = function (application) {
 						
 					]);
 
+	
+	this.translations.push([0,0,0]);
+	this.translations.push([0,0,0]);
+	this.translations.push([0,0,0]);
 	this.translations.push([0,0,0]);
 	this.translations.push([0,0,0]);
 	this.translations.push([0,0,0]);
 	this.translations.push([0,0,0]); 
+	this.translations.push([0,0,0]); 
+
 };
 
 LightingScene.prototype.getKnotsVector = function(degree) { // TODO (CGF 0.19.3): add to CGFnurbsSurface
