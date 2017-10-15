@@ -1507,15 +1507,133 @@
 <!-- Sculpture -->
 <NODE id="escultura">       
     <MATERIAL id="null" />      
-    <TEXTURE id="vidral" />                 
+    <TEXTURE id="vidral" />           
 
-    <SCALE sx="1.1" sy="1" sz="1.1" />
-    <TRANSLATION x="-2.75" y="-0.3" z="-1" />
+    <ROTATION axis="x" angle="-90" />
 
     <DESCENDANTS>
-        <NODEREF id="piramide"/> 
+        <NODEREF id="vaso1"/> 
+        <NODEREF id="vaso2"/> 
     </DESCENDANTS>
 </NODE>
+
+<NODE id="vaso1">       
+    <MATERIAL id="null" />      
+    <TEXTURE id="null" />                   
+
+    <TRANSLATION x="32" y="-23.5" z="2" />
+    <SCALE sx=".7" sy=".7" sz="1.4" />
+
+    <DESCENDANTS>
+       <NODEREF id="meio_vaso" />
+    </DESCENDANTS>   
+</NODE>
+
+<NODE id="vaso2">       
+    <MATERIAL id="null" />      
+    <TEXTURE id="null" />                   
+ 
+    <TRANSLATION x="32" y="-23.5" z="2" />
+    <ROTATION axis="z" angle="180" />
+    <SCALE sx=".7" sy=".7" sz="1.4" />
+
+    <DESCENDANTS>
+       <NODEREF id="meio_vaso" />
+    </DESCENDANTS>   
+</NODE>
+
+<NODE id="meio_vaso">       
+    <MATERIAL id="null" />      
+    <TEXTURE id="null" />                   
+
+    <DESCENDANTS>
+       <LEAF  type="patch" args="3 2" />  
+           <CPLINE>
+            <CPOINT xx="0" yy="2" zz="0" ww="1" />
+            <CPOINT xx="4" yy="0" zz="0" ww="1" />
+            <CPOINT xx="0" yy="-2" zz="0" ww="1" />
+            </CPLINE>
+        <CPLINE>
+            <CPOINT xx="0" yy="4" zz="2" ww="1" />
+            <CPOINT xx="8" yy="0" zz="2" ww="1" />
+            <CPOINT xx="0" yy="-4" zz="2" ww="1" />
+        </CPLINE>
+        <CPLINE>
+            <CPOINT xx="0" yy="1" zz="4" ww="1" />
+            <CPOINT xx="2" yy="0" zz="4" ww="1" />
+            <CPOINT xx="0" yy="-1" zz="4" ww="1" />
+        </CPLINE>
+            <CPLINE>
+            <CPOINT xx="0" yy="2" zz="5" ww="1" />
+            <CPOINT xx="4" yy="0" zz="5" ww="1" />
+            <CPOINT xx="0" yy="-2" zz="5" ww="1" />
+        </CPLINE>
+    </DESCENDANTS>   
+</NODE>
+
+<!-- Sculpture 
+<NODE id="escultura">       
+    <MATERIAL id="null" />      
+    <TEXTURE id="vidral" />                 
+
+    <DESCENDANTS>
+        <NODEREF id="vaso1"/> 
+        <NODEREF id="vaso2"/>
+    </DESCENDANTS>
+</NODE> -->
+
+<!-- One half of the vase 
+<NODE id="vaso1">       
+    <MATERIAL id="null" />      
+    <TEXTURE id="null" />                   
+
+    <DESCENDANTS>
+       <NODEREF id="meio_vaso" />
+    </DESCENDANTS>   
+</NODE> -->
+
+<!-- Another half of the vase 
+<NODE id="vaso2">       
+    <MATERIAL id="null" />      
+    <TEXTURE id="null" />                   
+ 
+    <ROTATION axis="z" angle="90" />
+
+    <DESCENDANTS>
+       <NODEREF id="meio_vaso" />
+    </DESCENDANTS>   
+</NODE> -->
+
+
+<!-- A pyramid 
+<NODE id="meio_vaso">       
+    <MATERIAL id="null" />      
+    <TEXTURE id="null" />                   
+
+    <DESCENDANTS>
+       <LEAF  type="patch" args="3 2" />  
+           <CPLINE>
+            <CPOINT xx="0" yy="2" zz="0" ww="1" />
+            <CPOINT xx="2" yy="0" zz="0" ww="1" />
+            <CPOINT xx="0" yy="-2" zz="0" ww="1" />
+            </CPLINE>
+        <CPLINE>
+            <CPOINT xx="0" yy="4" zz="2" ww="1" />
+            <CPOINT xx="4" yy="0" zz="2" ww="1" />
+            <CPOINT xx="0" yy="-4" zz="2" ww="1" />
+        </CPLINE>
+        <CPLINE>
+            <CPOINT xx="0" yy="1" zz="4" ww="1" />
+            <CPOINT xx="1" yy="0" zz="4" ww="1" />
+            <CPOINT xx="0" yy="-1" zz="4" ww="1" />
+        </CPLINE>
+            <CPLINE>
+            <CPOINT xx="0" yy="2" zz="5" ww="1" />
+            <CPOINT xx="2" yy="0" zz="5" ww="1" />
+            <CPOINT xx="0" yy="-2" zz="5" ww="1" />
+        </CPLINE>
+    </DESCENDANTS>   
+</NODE> -->
 
 <!-- Television -->
 <NODE id="televisao">       

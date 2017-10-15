@@ -39,235 +39,44 @@ LightingScene.prototype.init = function (application) {
 	
 	this.surfaces = [];
 
-	// POR FAZER encosto frente
-	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
-					 3, // degree on V: 4 control vertexes on V
-					[	// U = 0
-
-						[ // V = 0..3							 
-							[ 1, 2, 0, 1 ],
-							 [ 0.25, 2, 2, 1 ],
-							 [ -0.25, 2,2, 1 ],
-							 [ -1, 2, 0.0, 1 ]
-						],
-						
-						// U = 1
-						[ // V = 0..3							 
-							[ 1, 2, 0, 1 ],
-							 [ 0.25, 3, 1, 1 ],
-							 [ -0.25, 3, 1, 1 ],
-							 [ -1, 2, 0.0, 1 ]
-						],[ // V = 0..3							 
-							[ 1, 2, 0.0, 1 ],
-							 [ 0.25, 4, 0, 1 ],
-							 [ -0.25, 4, 0, 1 ],
-							 [ -1, 2, 0.0, 1 ]
-						]
-					]);
-
-	// POR FAZER encosto lado
-	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
-					 3, // degree on V: 4 control vertexes on V
-					[	// U = 0
-
-[ // V = 0..3							 
-							[ -1, -1, 0, 1 ],
-							 [ -1, -1, -1, 1 ],
-							 [ -1, -1,-1.3, 1 ],
-							 [ -1, -1, -2, 1 ]
-						],
-						
-						// U = 1
-						[ // V = 0..3							 
-							[ -1, 0, 0, 1 ],
-							 [ -1, 0, -1, 1 ],
-							 [ -1, 0,-1.3, 1 ],
-							 [ -1, 0, -2, 1 ]
-						],
-						[ // V = 0..3							 
-							[ -1, 2, 0, 1 ],
-							 [ -1, 2, -1, 1 ],
-							 [ -1, 2,-1.3, 1 ],
-							 [ -1, 2, -2, 1 ]
-						]					]);
-
-
-		// POR FAZER Parte de baixo de encosto
-		this.makeSurface("2", 2, // degree on U: 3 control vertexes U
-					 3, // degree on V: 4 control vertexes on V
-					[	// U = 0
-
-						[ // V = 0..3							 
-							[ 1, 2, 0.0, 1 ],
-							 [ 0.25, 4, 0, 1 ],
-							 [ -0.25, 4, 0, 1 ],
-							 [ -1, 2, 0.0, 1 ]
-						],
-						
-						// U = 1
-						[ // V = 0..3							 
-							[ 1, 2, -1.0, 1 ],
-							 [ 0.25, 4, -1.0, 1 ],
-							 [ -0.25, 4, -1.0, 1 ],
-							 [ -1, 2, -1.0, 1 ]
-						],
-						[ // V = 0..3							 
-							[ 1, 2, -2.0, 1 ],
-							 [ 0.25, 4, -2.0, 1 ],
-							 [ -0.25, 4, -2.0, 1 ],
-							 [ -1, 2, -2.0, 1 ]
-						]
-					]);
-
-		// POR FAZER parte de baixo twist
-	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
-					 3, // degree on V: 4 control vertexes on V
-					[	// U = 0
-						[ // V = 0..3							 
-							[ 1, -3, 0.0, 1 ],
-							 [ 1, -3, -1, 1 ],
-							 [ 1, -3, -1.5, 1 ],
-							 [ 1, -3, -2, 1 ]
-						],
-						// U = 1
-						[ // V = 0..3;
-							 [ -0.8, -3, 0.0, 1 ],
-							 [ -0.8, -3, -1.1, 1 ],
-							 [ -0.8, -3, -1.7, 1 ],
-							 [ -0.8, -3, -2, 1 ]
-							
-						],
-						[ // V = 0..3;
-							 [ -1, -1, 0.0, 1 ],
-							 [ -1, -1, -1.1, 1 ],
-							 [ -1, -1, -1.7, 1 ],
-							 [ -1, -1, -2, 1 ]
-							
-						]
-						
-					]);
-
-	
-
-	
-	// FEITO 1
-	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
-					 3, // degree on V: 4 control vertexes on V
-					[	// U = 0
-
-						[ // V = 0..3							 
-							[ 1, -1, 0.0, 1 ],
-							 [ 0.25, -1, 2, 1 ],
-							 [ -0.25, -1, 2, 1 ],
-							 [ -1, -1, 0.0, 1 ]
-						],
-						// U = 1
-						[ // V = 0..3
-							[ 1, 0.5, 0.0, 1 ],
-							 [ 0.25, 0.5, 2, 1 ],
-							 [ -0.25, 0.5, 2, 1 ],
-							 [ -1, 0.5, 0.0, 1 ]
-						],
-						[ // V = 0..3;
-							 [ 1, 2, 0.0, 1 ],
-							 [ 0.25, 2, 2, 1 ],
-							 [ -0.25, 2, 2, 1 ],
-							 [ -1, 2, 0.0, 1 ]
-							
-						]
-						// U = 2
-					]);
-
 	
 	// FEITO
-	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
-					 3, // degree on V: 4 control vertexes on V
-					[	// U = 0
-						
-						[ // V = 0..3							 
-							[ 1, -1.5, 0.0, 1 ],
-							 [ 1, -2, 2, 1 ],
-							 [ 1, -2.5, 2, 1 ],
-							 [ 1, -3, 0.0, 1 ]
-						],
-						// U = 1
-						[ // V = 0..3
-							[ 1, -1.1, 0.0, 1 ],
-							 [ 0.25, -1.7, 2, 1 ],
-							 [ -0.25, -2.2, 2, 1 ],
-							 [ -1, -3, 0.0, 1 ]
-						],
-						[ // V = 0..3;
-							 [ 1, -1, 0.0, 1 ],
-							 [ 0.25, -1, 2, 1 ],
-							 [ -0.25, -1, 2, 1 ],
-							 [ -1, -1, 0.0, 1 ]
-							
-						]
-					]);
-
-	// FEITO
-	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
-					 3, // degree on V: 4 control vertexes on V
+	this.makeSurface("3", 3, // degree on U: 3 control vertexes U
+					 2, // degree on V: 4 control vertexes on V
 					[	// U = 0
 						[ // V = 0..3							 
-							[ 6, -1.5, 0.0, 1 ],
-							 [ 6, -2, 2, 1 ],
-							 [ 6, -2.5, 2, 1 ],
-							 [ 6, -3, 0.0, 1 ]
+							[ 0, 1, 0.0, 1 ],
+							 [ 1, 0, 0, 1 ],
+							 [ 0, -1, 0, 1 ],
 						],
 						// U = 1
 						[ // V = 0..3							 
-							[ 4, -1.5, 0.0, 1 ],
-							 [ 4, -2, 2, 1 ],
-							 [ 4, -2.5, 2, 1 ],
-							 [ 4, -3, 0.0, 1 ]
+							[ 0, 2, 2, 1 ],
+							 [ 2, 0, 2, 1 ],
+							 [ 0, -2, 2, 1 ],
 						],
 						// U = 2
 						[ // V = 0..3							 
-							[ 1, -1.5, 0.0, 1 ],
-							 [ 1, -2, 2, 1 ],
-							 [ 1, -2.5, 2, 1 ],
-							 [ 1, -3, 0.0, 1 ]
-						]
-						
-					]);
-
-	// FEITO
-	this.makeSurface("2", 2, // degree on U: 3 control vertexes U
-					 3, // degree on V: 4 control vertexes on V
-					[	// U = 0
+							 [ 0, 0.5, 4, 1 ],
+							 [ 0.5, 0, 4, 1 ],
+							 [ 0, -0.5, 4, 1 ]
+						],// U = 2
 						[ // V = 0..3							 
-							[ 6, -1.5, 0.0, 1 ],
-							 [ 8, -2, 0, 1 ],
-							 [ 8, -2.5, 0, 1 ],
-							 [ 6, -3, 0.0, 1 ]
-						],
-						// U = 1
-						[ // V = 0..3							 
-							[ 6, -1.5, 0.0, 1 ],
-							 [ 7.3, -2, 2, 1 ],
-							 [ 7.3, -2.5, 2, 1 ],
-							 [ 6, -3, 0.0, 1 ]
-						],
-						// U = 2
-						[ // V = 0..3							 
-							[ 6, -1.5, 0.0, 1 ],
-							 [ 6, -2, 2, 1 ],
-							 [ 6, -2.5, 2, 1 ],
-							 [ 6, -3, 0.0, 1 ]
+							 [ 0, 1, 5, 1 ],
+							 [ 1, 0, 5, 1 ],
+							 [ 0, -1, 5, 1 ]
 						]
 						
 					]);
 
 	
-	this.translations.push([0,0,0]);
-	this.translations.push([0,0,0]);
-	this.translations.push([0,0,0]);
-	this.translations.push([0,0,0]);
-	this.translations.push([0,0,0]);
-	this.translations.push([0,0,0]);
-	this.translations.push([0,0,0]); 
+	//this.translations.push([0,0,0]);
+	//this.translations.push([0,0,0]);
+	//this.translations.push([0,0,0]);
+	//this.translations.push([0,0,0]);
+	//this.translations.push([0,0,0]);
+	//this.translations.push([0,0,0]);
+	//this.translations.push([0,0,0]); 
 	this.translations.push([0,0,0]); 
 
 };
