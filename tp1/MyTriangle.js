@@ -47,18 +47,15 @@ MyTriangle.prototype.updateTexCoords = function(ampS, ampT) {
 	var b = Math.sqrt(Math.pow((x2-x1),2) + Math.pow((y2-y1),2) + Math.pow((z2-z1),2));
 	var c = Math.sqrt(Math.pow((x3-x2),2) + Math.pow((y3-y2),2) + Math.pow((z3-z2),2));
 
-	//var angBC = Math.acos((-Math.pow(a,2) + Math.pow(b,2) + Math.pow(c,2))/(2*b*c));
 	var angAC = Math.acos((Math.pow(a,2) - Math.pow(b,2) + Math.pow(c,2))/(2*a*c));
-	//var angBA = Math.acos((Math.pow(a,2) + Math.pow(b,2) - Math.pow(c,2))/(2*a*b));
 
-	//var p0x = c - a*Math.cos(angAC);
-	var p0y = a*Math.sin(angAC);
+	var p0x = c - a*Math.cos(angAC);
+	var p0y = 1- a*Math.sin(angAC);
 
 	this.texCoords = [
-		0, p0y/ampT,
-		c/ampS, p0y/ampT,
 		0, 0,
-		c/ampS, 0
+		c/ampS, 0,
+		p0x/ampS, p0y/ampT
 	];
 	this.updateTexCoordsGLBuffers();
 }
