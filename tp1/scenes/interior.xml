@@ -275,6 +275,14 @@
         <emission r="1" g="1" b="1" a="1" />        
     </MATERIAL>
 
+     <MATERIAL id="sidelampMaterial">                                  
+        <shininess value="100" />
+        <specular r="0.5" g="0.5" b="0.5" a="1" />       
+        <diffuse r="0.5" g="0.2" b="0.45" a="1" />       
+        <ambient r="0.0" g="0.0" b="0.0" a="1" />        
+        <emission r=".7" g=".7" b=".7" a="1" />        
+    </MATERIAL>
+
     <!-- Television Material -->
     <MATERIAL id="televisionMaterial">                                  
         <shininess value="100" />
@@ -862,6 +870,8 @@
     <DESCENDANTS>
        <NODEREF id="sofa_fundo" />
        <NODEREF id="sofa_encosto" />
+       <NODEREF id="sofa_borda1" />
+       <NODEREF id="sofa_borda2" />
    </DESCENDANTS>
 </NODE>
 
@@ -880,14 +890,116 @@
         <NODEREF id="sofa_encosto4"/>
         <NODEREF id="sofa_encosto5"/>
         <NODEREF id="sofa_encosto6"/>
+  
     </DESCENDANTS>
-
-
-        <!-- <DESCENDANTS>
-       		<LEAF type="patch" args="2 2">
-                   
-            </DESCENDANTS> -->
     </NODE>
+
+     <NODE id="sofa_borda1">       
+            <MATERIAL id="null" />     
+            <TEXTURE id="null" /> 
+
+            <ROTATION axis="x" angle="90" />
+            <TRANSLATION x="26.7" y="10.5" z="-1" />
+            <SCALE sx=".4" sy="4" sz="1.2" />
+
+            <DESCENDANTS>
+                <NODEREF id="borda" />
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="sofa_borda2">       
+            <MATERIAL id="null" />     
+            <TEXTURE id="null" />                   
+
+            <ROTATION axis="x" angle="90" />
+            <ROTATION axis="z" angle="-90" />
+            <TRANSLATION x="-6.6" y="19.3" z="0" />
+            <SCALE sx=".4" sy="7.5" sz="1" />
+            <DESCENDANTS>
+                <NODEREF id="borda" />
+        </DESCENDANTS>
+    </NODE>
+
+     <NODE id="borda">       
+            <MATERIAL id="null" />     
+            <TEXTURE id="null" />                   
+
+            <DESCENDANTS>
+                <LEAF type="patch" args="4 3" />  
+                <CPLINE>
+                 <CPOINT xx="0" yy="1" zz="1" ww="1" />
+                 <CPOINT xx="0" yy="1" zz="0.3" ww="1" />
+                 <CPOINT xx="0" yy="1" zz="-0.3" ww="1" />
+                 <CPOINT xx="0" yy="1" zz="-1" ww="1" />
+             </CPLINE>
+             <CPLINE>
+                <CPOINT xx="0" yy="0.7" zz="1" ww="1" />
+                <CPOINT xx="2" yy="0.7" zz="0.3" ww="1" />
+                <CPOINT xx="2" yy="0.7" zz="-0.3" ww="1" />
+                <CPOINT xx="0" yy="0.7" zz="-1" ww="1" />
+            </CPLINE>
+            <CPLINE>
+                <CPOINT xx="0" yy="0" zz="1" ww="1" />
+                <CPOINT xx="1" yy="0" zz="0.3" ww="1" />
+                <CPOINT xx="1" yy="0" zz="-0.3" ww="1" />
+                <CPOINT xx="0" yy="0" zz="-1" ww="1" />
+            </CPLINE>
+            <CPLINE>
+                <CPOINT xx="0" yy="-0.7" zz="1" ww="1" />
+                <CPOINT xx="2" yy="-0.7" zz="0.3" ww="1" />
+                <CPOINT xx="2" yy="-0.7" zz="-0.3" ww="1" />
+                <CPOINT xx="0" yy="-0.7" zz="-1" ww="1" />
+            </CPLINE>
+            <CPLINE>
+                <CPOINT xx="0" yy="-1" zz="1" ww="1" />
+                <CPOINT xx="0" yy="-1" zz="0.3" ww="1" />
+                <CPOINT xx="0" yy="-1" zz="-0.3" ww="1" />
+                <CPOINT xx="0" yy="-1" zz="-1" ww="1" />
+            </CPLINE>
+
+        </DESCENDANTS>
+    </NODE>
+    <!-- this.makeSurface("3", 4, // degree on U: 3 control vertexes U
+                     3, // degree on V: 4 control vertexes on V
+                    [   // U = 0
+                        [ // V = 0..3                            
+                             [ 0, 1, 1, 1 ],
+                             [ 0, 1, .3, 1 ],
+                             [ 0, 1, -.3, 1 ],
+                             [ 0, 1, -1, 1 ],
+                        ]
+                        ,
+                        [ // V = 0..3                            
+                             [ 0, 0.7, 1, 1 ],
+                             [ 2, 0.7, .3, 1 ],
+                             [ 2, 0.7, -.3, 1 ],
+                             [ 0, 0.7, -1, 1 ],
+                        ],
+                        [ // V = 0..3                            
+                             [ 0, 0, 1, 1 ],
+                             [ 1, 0, .3, 1 ],
+                             [ 1, 0, -.3, 1 ],
+                             [ 0, 0, -1, 1 ],
+                        ],// U = 
+                        // U = 1
+                        [ // V = 0..3                            
+                             [ 0, -0.7, 1, 1 ],
+                             [ 2, -0.7, .3, 1 ],
+                             [ 2, -0.7, -.3, 1 ],
+                             [ 0, -0.7, -1, 1 ],
+                        ],
+                        // U = 2
+                        
+                    
+                        [ // V = 0..3                            
+                            [ 0, -1, 1, 1 ],
+                             [ 0, -1, .3, 1 ],
+                             [ 0, -1, -.3, 1 ],
+                             [ 0, -1, -1, 1 ],
+                        ]
+                        
+                        
+                    ]); -->
 
         <NODE id="sofa_encosto1">       
             <MATERIAL id="null" />     
@@ -1320,57 +1432,98 @@
         <NODEREF id="livros" />
         <NODEREF id="escultura" />
         <NODEREF id="sofas" />
-        <NODEREF id="candeeiro_lado" />
+        <NODEREF id="candeeiro_base" />
+        <NODEREF id="candeeiro_topo" />
     </DESCENDANTS>
 </NODE>
 
-<NODE id="candeeiro_lado">       
+<NODE id="candeeiro_base">       
     <MATERIAL id="null" />      
     <TEXTURE id="polished_metal" /> 
 
-    <ROTATION axis="x" angle="90" />
-    <TRANSLATION x="3" y="19" z="-4" />
-
-    <DESCENDANTS>   
-        <NODEREF id="base"/> 
-        <NODEREF id="centro"/> 
-        <NODEREF id="topo"/> 
+    <DESCENDANTS>  
+        <NODEREF id="candeeiro_metade1" />
+        <NODEREF id="candeeiro_metade2" />
+     
     </DESCENDANTS>
 </NODE>
 
-<NODE id="base">       
-    <MATERIAL id="steelMaterial" />      
-    <TEXTURE id="redWood" />                 
+<NODE id="candeeiro_metade1">       
+    <MATERIAL id="null" />      
+    <TEXTURE id="polished_metal" /> 
 
-    <TRANSLATION x="0" y="0" z="3.5" />
-    <SCALE sx="2.5" sy="2.5" sz=".1" />
+    <ROTATION axis="x" angle="-90" />
+    <TRANSLATION x="3" y="-19" z="0" />
+    <SCALE sx="2" sy="1" sz="3.5" />
 
-    <DESCENDANTS>   
-     <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 1 1" /> 
- </DESCENDANTS>
-</NODE>
-
-<NODE id="centro">       
-    <MATERIAL id="steelMaterial" />      
-    <TEXTURE id="redWood" />                 
-
-    <TRANSLATION x="0" y="0" z="-4" />
-    <SCALE sx=".2" sy=".2" sz="1.7" />
-
-    <DESCENDANTS>   
-        <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 1 1" /> 
+    <DESCENDANTS>  
+        <NODEREF id="candeeiro_metade" />     
     </DESCENDANTS>
 </NODE>
 
-<NODE id="topo">       
-    <MATERIAL id="lampMaterial" />      
-    <TEXTURE id="null" />
+<NODE id="candeeiro_metade2">       
+    <MATERIAL id="null" />      
+    <TEXTURE id="polished_metal" /> 
 
-    <TRANSLATION x="0" y="0" z="-5" />
-    <SCALE sx="1" sy="1" sz=".7" />
+    <ROTATION axis="x" angle="-90" />
+    <ROTATION axis="z" angle="180" />
+    <TRANSLATION x="-3" y="19" z="0" />
+    <SCALE sx="2" sy="1" sz="3.5" />
+
+    <DESCENDANTS>  
+        <NODEREF id="candeeiro_metade" />     
+    </DESCENDANTS>
+</NODE>
+
+
+<NODE id="candeeiro_metade">       
+    <MATERIAL id="null" />      
+    <TEXTURE id="null" /> 
+
+    <DESCENDANTS>  
+        <LEAF  type="patch" args="5 2" />  
+       <CPLINE>
+        <CPOINT xx="0" yy="1" zz="0" ww="1" />
+        <CPOINT xx="1" yy="0" zz="0" ww="1" />
+        <CPOINT xx="0" yy="-1" zz="0" ww="1" />
+    </CPLINE>
+    <CPLINE>
+        <CPOINT xx="0" yy="1" zz="0.5" ww="1" />
+        <CPOINT xx="1" yy="0" zz="0.5" ww="1" />
+        <CPOINT xx="0" yy="-1" zz="0.5" ww="1" />
+    </CPLINE>
+    <CPLINE>
+        <CPOINT xx="0" yy="0.25" zz="0.7" ww="1" />
+        <CPOINT xx="0.25" yy="0" zz="0.7" ww="1" />
+        <CPOINT xx="0" yy="-0.25" zz="0.7" ww="1" />
+    </CPLINE> 
+    <CPLINE>
+        <CPOINT xx="0" yy="0.2" zz="1.5" ww="1" />
+        <CPOINT xx="0.2" yy="0" zz="1.5" ww="1" />
+        <CPOINT xx="0" yy="-0.2" zz="1.5" ww="1" />
+    </CPLINE> 
+    <CPLINE>
+        <CPOINT xx="0" yy="0.25" zz="2" ww="1" />
+        <CPOINT xx="0.25" yy="0" zz="2" ww="1" />
+        <CPOINT xx="0" yy="-0.25" zz="2" ww="1" />
+    </CPLINE> 
+        <CPLINE>
+        <CPOINT xx="0" yy="0.6" zz="2.5" ww="1" />
+        <CPOINT xx="0.6" yy="0" zz="2.5" ww="1" />
+        <CPOINT xx="0" yy="-0.6" zz="2.5" ww="1" />
+    </CPLINE>
+    </DESCENDANTS>
+</NODE>
+
+<NODE id="candeeiro_topo">       
+    <MATERIAL id="sidelampMaterial" />      
+    <TEXTURE id="null" />     
+
+    <TRANSLATION x="3" y="9" z="19" />
+    <SCALE sx="0.75" sy="0.75" sz="0.75" />
 
     <DESCENDANTS>   
-        <LEAF id="cylinder1" type="cylinder" args="4 1 2 20 20 0 0" />
+        <LEAF id="sphere1" type="sphere" args="2 20 20" />
     </DESCENDANTS>
 </NODE>
 
