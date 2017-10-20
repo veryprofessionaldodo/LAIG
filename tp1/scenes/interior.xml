@@ -925,7 +925,7 @@
             <TEXTURE id="null" />                   
 
             <DESCENDANTS>
-                <LEAF type="patch" args="4 3" />  
+                <LEAF type="patch" args="20 20" >  
                 <CPLINE>
                  <CPOINT xx="0" yy="1" zz="1" ww="1" />
                  <CPOINT xx="0" yy="1" zz="0.3" ww="1" />
@@ -956,77 +956,35 @@
                 <CPOINT xx="0" yy="-1" zz="-0.3" ww="1" />
                 <CPOINT xx="0" yy="-1" zz="-1" ww="1" />
             </CPLINE>
+        </LEAF>
 
         </DESCENDANTS>
     </NODE>
-    <!-- this.makeSurface("3", 4, // degree on U: 3 control vertexes U
-                     3, // degree on V: 4 control vertexes on V
-                    [   // U = 0
-                        [ // V = 0..3                            
-                             [ 0, 1, 1, 1 ],
-                             [ 0, 1, .3, 1 ],
-                             [ 0, 1, -.3, 1 ],
-                             [ 0, 1, -1, 1 ],
-                        ]
-                        ,
-                        [ // V = 0..3                            
-                             [ 0, 0.7, 1, 1 ],
-                             [ 2, 0.7, .3, 1 ],
-                             [ 2, 0.7, -.3, 1 ],
-                             [ 0, 0.7, -1, 1 ],
-                        ],
-                        [ // V = 0..3                            
-                             [ 0, 0, 1, 1 ],
-                             [ 1, 0, .3, 1 ],
-                             [ 1, 0, -.3, 1 ],
-                             [ 0, 0, -1, 1 ],
-                        ],// U = 
-                        // U = 1
-                        [ // V = 0..3                            
-                             [ 0, -0.7, 1, 1 ],
-                             [ 2, -0.7, .3, 1 ],
-                             [ 2, -0.7, -.3, 1 ],
-                             [ 0, -0.7, -1, 1 ],
-                        ],
-                        // U = 2
-                        
-                    
-                        [ // V = 0..3                            
-                            [ 0, -1, 1, 1 ],
-                             [ 0, -1, .3, 1 ],
-                             [ 0, -1, -.3, 1 ],
-                             [ 0, -1, -1, 1 ],
-                        ]
-                        
-                        
-                    ]); -->
+    <NODE id="sofa_encosto1">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />                   
 
-        <NODE id="sofa_encosto1">       
-            <MATERIAL id="null" />     
-            <TEXTURE id="null" />                   
-
-            <DESCENDANTS>
-                <LEAF type="patch" args="2 3" />  
+        <DESCENDANTS>
+            <LEAF type="patch" args="20 20" >  
                 <CPLINE>
-                 <CPOINT xx="1" yy="-1" zz="0" ww="1" />
-                 <CPOINT xx="0.25" yy="-1" zz="2" ww="1" />
-                 <CPOINT xx="-0.25" yy="-1" zz="2" ww="1" />
-                 <CPOINT xx="-1" yy="-1" zz="0" ww="1" />
-             </CPLINE>
-             <CPLINE>
-                <CPOINT xx="1" yy="0.5" zz="0" ww="1" />
-                <CPOINT xx="0.25" yy="0.5" zz="2" ww="1" />
-                <CPOINT xx="-0.25" yy="0.5" zz="2" ww="1" />
-                <CPOINT xx="-1" yy="0.5" zz="0" ww="1" />
-            </CPLINE>
-            <CPLINE>
-                <CPOINT xx="1" yy="2" zz="0" ww="1" />
-                <CPOINT xx="0.25" yy="2" zz="2" ww="1" />
-                <CPOINT xx="-0.25" yy="2" zz="2" ww="1" />
-                <CPOINT xx="-1" yy="2" zz="0" ww="1" />
-            </CPLINE>
-
-
+                     <CPOINT xx="1" yy="-1" zz="0" ww="1" />
+                     <CPOINT xx="0.25" yy="-1" zz="2" ww="1" />
+                     <CPOINT xx="-0.25" yy="-1" zz="2" ww="1" />
+                     <CPOINT xx="-1" yy="-1" zz="0" ww="1" />
+                </CPLINE>
+                <CPLINE>
+                    <CPOINT xx="1" yy="0.5" zz="0" ww="1" />
+                    <CPOINT xx="0.25" yy="0.5" zz="2" ww="1" />
+                    <CPOINT xx="-0.25" yy="0.5" zz="2" ww="1" />
+                    <CPOINT xx="-1" yy="0.5" zz="0" ww="1" />
+                </CPLINE>
+                <CPLINE>
+                    <CPOINT xx="1" yy="2" zz="0" ww="1" />
+                    <CPOINT xx="0.25" yy="2" zz="2" ww="1" />
+                    <CPOINT xx="-0.25" yy="2" zz="2" ww="1" />
+                    <CPOINT xx="-1" yy="2" zz="0" ww="1" />
+                </CPLINE>
+            </LEAF>
         </DESCENDANTS>
     </NODE>
 
@@ -1037,7 +995,7 @@
         <SCALE sx="1" sy="1" sz=".5" />
 
         <DESCENDANTS>
-          <LEAF  type="patch" args="2 3" />  
+          <LEAF  type="patch" args="20 20">  
           <CPLINE>
             <CPOINT xx="1" yy="-1.5" zz="0" ww="1" />
             <CPOINT xx="1" yy="-2" zz="2" ww="1" />
@@ -1056,7 +1014,7 @@
             <CPOINT xx="-0.25" yy="-1" zz="2" ww="1" />
             <CPOINT xx="-1" yy="-1" zz="0" ww="1" />
         </CPLINE>
-
+        </LEAF>
     </DESCENDANTS>
 </NODE>
 
@@ -1065,7 +1023,7 @@
     <TEXTURE id="null" />                   
 
     <DESCENDANTS>
-        <LEAF  type="patch" args="2 3" />  
+        <LEAF  type="patch" args="20 20">  
         <CPLINE>
             <CPOINT xx="1" yy="-1.5" zz="0" ww="1" />
             <CPOINT xx="1" yy="-2" zz="2" ww="1" />
@@ -1084,7 +1042,7 @@
             <CPOINT xx="-0.25" yy="-1" zz="2" ww="1" />
             <CPOINT xx="-1" yy="-1" zz="0" ww="1" />
         </CPLINE>
-
+        </LEAF>
     </DESCENDANTS>
 </NODE>
 
@@ -1093,7 +1051,7 @@
     <TEXTURE id="null" />                   
 
     <DESCENDANTS>
-       <LEAF  type="patch" args="2 3" />  
+       <LEAF  type="patch" args="20 20">  
        <CPLINE>
         <CPOINT xx="6" yy="-1.5" zz="0" ww="1" />
         <CPOINT xx="6" yy="-2" zz="2" ww="1" />
@@ -1112,8 +1070,7 @@
         <CPOINT xx="1" yy="-2.5" zz="2" ww="1" />
         <CPOINT xx="1" yy="-3" zz="0" ww="1" />
     </CPLINE>
-
-
+    </LEAF>
 </DESCENDANTS>
 </NODE>
 
@@ -1122,7 +1079,7 @@
     <TEXTURE id="null" />                   
 
     <DESCENDANTS>
-       <LEAF  type="patch" args="2 3" />  
+       <LEAF  type="patch" args="20 20">  
        <CPLINE>
         <CPOINT xx="6" yy="-1.5" zz="0" ww="1" />
         <CPOINT xx="8" yy="-2" zz="0" ww="1" />
@@ -1141,6 +1098,7 @@
         <CPOINT xx="6" yy="-2.5" zz="2" ww="1" />
         <CPOINT xx="6" yy="-3" zz="0" ww="1" />
     </CPLINE>
+    </LEAF>
 </DESCENDANTS>
 </NODE>
 
@@ -1150,7 +1108,7 @@
     <TEXTURE id="null" />                   
 
     <DESCENDANTS>
-       <LEAF  type="patch" args="2 3" />  
+       <LEAF  type="patch" args="20 20">  
        <CPLINE>
         <CPOINT xx="1" yy="2" zz="0" ww="1" />
         <CPOINT xx="0.25" yy="2" zz="2" ww="1" />
@@ -1169,6 +1127,7 @@
         <CPOINT xx="-0.25" yy="4" zz="0" ww="1" />
         <CPOINT xx="-1" yy="2" zz="0" ww="1" />
     </CPLINE>
+    </LEAF>
 </DESCENDANTS>
 </NODE>
 
@@ -1194,7 +1153,7 @@
     <TEXTURE id="null" />                   
 
     <DESCENDANTS>
-       <LEAF  type="patch" args="2 3" />  
+       <LEAF  type="patch" args="20 20">  
        <CPLINE>
         <CPOINT xx="-1" yy="-1" zz="0" ww="1" />
         <CPOINT xx="-1" yy="-1" zz="-1" ww="1" />
@@ -1213,6 +1172,7 @@
         <CPOINT xx="-1" yy="2" zz="-1.3" ww="1" />
         <CPOINT xx="-1" yy="2" zz="-2" ww="1" />
     </CPLINE>
+    </LEAF>
 </DESCENDANTS>
 </NODE>
 
@@ -1221,7 +1181,7 @@
     <TEXTURE id="null" />                   
 
     <DESCENDANTS>
-       <LEAF  type="patch" args="2 3" />  
+       <LEAF  type="patch" args="20 20">  
        <CPLINE>
         <CPOINT xx="1" yy="2" zz="0" ww="1" />
         <CPOINT xx="0.25" yy="4" zz="0" ww="1" />
@@ -1240,6 +1200,7 @@
         <CPOINT xx="-0.25" yy="4" zz="-2" ww="1" />
         <CPOINT xx="-1" yy="2" zz="-2" ww="1" />
     </CPLINE>
+    </LEAF>
 </DESCENDANTS>
 </NODE>
 
@@ -1248,7 +1209,7 @@
     <TEXTURE id="null" />                   
 
     <DESCENDANTS>
-       <LEAF  type="patch" args="2 3" />  
+       <LEAF  type="patch" args="20 20">  
        <CPLINE>
         <CPOINT xx="1" yy="-3" zz="0" ww="1" />
         <CPOINT xx="1" yy="-3" zz="-1" ww="1" />
@@ -1267,6 +1228,7 @@
         <CPOINT xx="-1" yy="-1" zz="-1.3" ww="1" />
         <CPOINT xx="-1" yy="-1" zz="-2" ww="1" />
     </CPLINE>
+    </LEAF>
 </DESCENDANTS>
 </NODE>
 
@@ -1275,7 +1237,7 @@
     <TEXTURE id="null" />                   
 
     <DESCENDANTS>
-       <LEAF  type="patch" args="2 3" />  
+       <LEAF  type="patch" args="20 20">  
        <CPLINE>
         <CPOINT xx="1" yy="-3" zz="0" ww="1" />
         <CPOINT xx="1" yy="-3" zz="-1" ww="1" />
@@ -1294,6 +1256,7 @@
         <CPOINT xx="-1" yy="-1" zz="-1.3" ww="1" />
         <CPOINT xx="-1" yy="-1" zz="-2" ww="1" />
     </CPLINE>
+    </LEAF>
 </DESCENDANTS>
 </NODE>
 
@@ -1481,7 +1444,7 @@
     <TEXTURE id="null" /> 
 
     <DESCENDANTS>  
-        <LEAF  type="patch" args="5 2" />  
+        <LEAF  type="patch" args="20 20">  
        <CPLINE>
         <CPOINT xx="0" yy="1" zz="0" ww="1" />
         <CPOINT xx="1" yy="0" zz="0" ww="1" />
@@ -1512,6 +1475,7 @@
         <CPOINT xx="0.6" yy="0" zz="2.5" ww="1" />
         <CPOINT xx="0" yy="-0.6" zz="2.5" ww="1" />
     </CPLINE>
+    </LEAF>
     </DESCENDANTS>
 </NODE>
 
@@ -1700,7 +1664,7 @@
     <TEXTURE id="null" />                   
 
     <DESCENDANTS>
-       <LEAF  type="patch" args="3 2" />  
+       <LEAF  type="patch" args="20 20">  
            <CPLINE>
             <CPOINT xx="0" yy="2" zz="0" ww="1" />
             <CPOINT xx="4" yy="0" zz="0" ww="1" />
@@ -1721,73 +1685,9 @@
             <CPOINT xx="4" yy="0" zz="5" ww="1" />
             <CPOINT xx="0" yy="-2" zz="5" ww="1" />
         </CPLINE>
+        </LEAF>
     </DESCENDANTS>   
 </NODE>
-
-<!-- Sculpture 
-<NODE id="escultura">       
-    <MATERIAL id="null" />      
-    <TEXTURE id="vidral" />                 
-
-    <DESCENDANTS>
-        <NODEREF id="vaso1"/> 
-        <NODEREF id="vaso2"/>
-    </DESCENDANTS>
-</NODE> -->
-
-<!-- One half of the vase 
-<NODE id="vaso1">       
-    <MATERIAL id="null" />      
-    <TEXTURE id="null" />                   
-
-    <DESCENDANTS>
-       <NODEREF id="meio_vaso" />
-    </DESCENDANTS>   
-</NODE> -->
-
-<!-- Another half of the vase 
-<NODE id="vaso2">       
-    <MATERIAL id="null" />      
-    <TEXTURE id="null" />                   
- 
-    <ROTATION axis="z" angle="90" />
-
-    <DESCENDANTS>
-       <NODEREF id="meio_vaso" />
-    </DESCENDANTS>   
-</NODE> -->
-
-
-<!-- A pyramid 
-<NODE id="meio_vaso">       
-    <MATERIAL id="null" />      
-    <TEXTURE id="null" />                   
-
-    <DESCENDANTS>
-       <LEAF  type="patch" args="3 2" />  
-           <CPLINE>
-            <CPOINT xx="0" yy="2" zz="0" ww="1" />
-            <CPOINT xx="2" yy="0" zz="0" ww="1" />
-            <CPOINT xx="0" yy="-2" zz="0" ww="1" />
-            </CPLINE>
-        <CPLINE>
-            <CPOINT xx="0" yy="4" zz="2" ww="1" />
-            <CPOINT xx="4" yy="0" zz="2" ww="1" />
-            <CPOINT xx="0" yy="-4" zz="2" ww="1" />
-        </CPLINE>
-        <CPLINE>
-            <CPOINT xx="0" yy="1" zz="4" ww="1" />
-            <CPOINT xx="1" yy="0" zz="4" ww="1" />
-            <CPOINT xx="0" yy="-1" zz="4" ww="1" />
-        </CPLINE>
-            <CPLINE>
-            <CPOINT xx="0" yy="2" zz="5" ww="1" />
-            <CPOINT xx="2" yy="0" zz="5" ww="1" />
-            <CPOINT xx="0" yy="-2" zz="5" ww="1" />
-        </CPLINE>
-    </DESCENDANTS>   
-</NODE> -->
-
 <!-- Television -->
 <NODE id="televisao">       
     <MATERIAL id="televisionMaterial" />      

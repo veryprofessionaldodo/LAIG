@@ -2,15 +2,14 @@ function MyPatch(scene, info) {
 	CGFobject.call(this,scene);
 	this.scene = scene;
 
-	var args = info.xmlelem.attributes[1].value;
+	var args = info.args;
 
 	//degrees
-	this.degrees = new Array();
+	this.divs = new Array();
 	var values = args.split(" ");
 	for(var i = 0; i < values.length; i++){
-		this.degrees.push(parseInt(values[i]));
+		this.divs.push(parseInt(values[i]));
 	}
-
 	//cplines
 	this.controlVertexes = new Array();
 	for(var i = 0; i < info.cpline.length; i++){
@@ -18,12 +17,15 @@ function MyPatch(scene, info) {
 		for(var j = 0; j < info.cpline[i].children.length; j++){
 			this.cpoints = new Array();
 			for(var k = 0; k < info.cpline[i].children[j].attributes.length; k++){
-				this.cpoints.push(info.cpline[i].children[j].attributes[k].value); //has 4 attributes: xx, yy, z and w
+				this.cpoints.push(parseFloat(info.cpline[i].children[j].attributes[k].value)); //has 4 attributes: xx, yy, z and w
 			}
 		this.cplines.push(this.cpoints);
 		}
 		this.controlVertexes.push(this.cplines);
 	}
+	this.degrees = new Array();
+	this.degrees[0] = this.controlVertexes.length - 1;
+	this.degrees[1] = this.controlVertexes[0].length - 1;
 	this.initBuffers();
 };
 
@@ -54,5 +56,5 @@ MyPatch.prototype.initBuffers = function() {
 	};
 	console.log(this.nurbsSurface);
 
-	this.patch = new CGFnurbsObject(this.scene, getSurfacePoint, 20, 20);
+	this.patch = new CGFnurbsObject(this.scene, getSurfacePoint, this.divs[0], this.divs[1]);
 };

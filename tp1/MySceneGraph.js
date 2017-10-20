@@ -1347,21 +1347,15 @@ var NODES_INDEX = 6;
                         this.warn("Error in leaf");
 
                         if(type === 'patch'){
-                            var cplines = new Array();
-                            var k = 0;
-                            for(k = j + 1; k < descendants.length; k++){
-                                if(descendants[k].nodeName === "CPLINE"){
-                                    cplines.push(descendants[k]);
-                                }
-                            }
-                            var info = { "xmlelem": descendants[j], "cpline": cplines};
-                            j = k;
-                            this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,info));
+                            var args = this.reader.getString(descendants[j], 'args');
+                            var info = {"args": args, "cpline": descendants[j].children};
+                            this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,type, info));
                             sizeChildren++;
                             break;
                         }
 						//parse leaf
-						this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,descendants[j]));
+                        var args = this.reader.getString(descendants[j], 'args');
+						this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, type, args));
                         sizeChildren++;
                     }
                     else
