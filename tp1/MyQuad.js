@@ -3,7 +3,7 @@
  * @param gl {WebGLRenderingContext}
  * @constructor 
  */
-function MyQuad(scene, args/*minS,maxS,minT,maxT*/) {
+function MyQuad(scene, args) {
 	CGFobject.call(this,scene);
 	this.initBuffers(args);
 };
@@ -25,17 +25,18 @@ MyQuad.prototype.initBuffers = function (args) {
 
  	this.indices = [
  		0, 1, 2,
- 		1, 3, 2
+ 		3, 2, 1
  	];
 
  	this.primitiveType = this.scene.gl.TRIANGLES;
 
     this.normals = [
-    0, 0, 1,
-    0, 0, 1,
-    0, 0, 1,
-    0, 0, 1
+	    0, 0, 1,
+	    0, 0, 1,
+	    0, 0, 1,
+	    0, 0, 1
     ];
+
     this.texCoords = [
 		0, 1,
 		1, 1,
@@ -53,7 +54,6 @@ MyQuad.prototype.updateTexCoords = function(ampS, ampT) {
 		deltaX/ampS, deltaY/ampT,
 		0, 0,
 		deltaX/ampS, 0
-	];
-
+    ];
 	this.updateTexCoordsGLBuffers();
 }

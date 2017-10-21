@@ -50,7 +50,7 @@ MyTriangle.prototype.updateTexCoords = function(ampS, ampT) {
 	var angAC = Math.acos((Math.pow(a,2) - Math.pow(b,2) + Math.pow(c,2))/(2*a*c));
 
 	var p0x = c - a*Math.cos(angAC);
-	var p0y = 1- a*Math.sin(angAC);
+	var p0y = a*Math.sin(angAC);
 
 	this.texCoords = [
 		0, 0,

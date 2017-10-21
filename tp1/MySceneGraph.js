@@ -1350,12 +1350,11 @@ var NODES_INDEX = 6;
                             var args = this.reader.getString(descendants[j], 'args');
                             var info = {"args": args, "cpline": descendants[j].children};
                             this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,type, info));
-                            sizeChildren++;
-                            break;
                         }
-						//parse leaf
-                        var args = this.reader.getString(descendants[j], 'args');
-						this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, type, args));
+                        else {
+                            var args = this.reader.getString(descendants[j], 'args');
+    						this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, type, args));
+                        }
                         sizeChildren++;
                     }
                     else

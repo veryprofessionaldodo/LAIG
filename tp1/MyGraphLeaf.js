@@ -28,7 +28,7 @@
 
 
  MyGraphLeaf.prototype.displayLeaf = function(texture) {
- 	if(texture != null && this.type === 'triangle' && this.type === 'rectangle'){
+ 	if(texture != null && (this.type === 'triangle' || this.type === 'rectangle')){
  		this.obj.updateTexCoords(texture[1], texture[2]);
  	}
  	if(this.type === 'patch'){
