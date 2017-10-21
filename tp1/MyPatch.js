@@ -4,13 +4,13 @@ function MyPatch(scene, info) {
 
 	var args = info.args;
 
-	//degrees
+	//divs in U and V
 	this.divs = new Array();
 	var values = args.split(" ");
 	for(var i = 0; i < values.length; i++){
 		this.divs.push(parseInt(values[i]));
 	}
-	//cplines
+	//Control Vertexes
 	this.controlVertexes = new Array();
 	for(var i = 0; i < info.cpline.length; i++){
 		this.cplines = new Array();
@@ -23,6 +23,7 @@ function MyPatch(scene, info) {
 		}
 		this.controlVertexes.push(this.cplines);
 	}
+	//Degrees
 	this.degrees = new Array();
 	this.degrees[0] = this.controlVertexes.length - 1;
 	this.degrees[1] = this.controlVertexes[0].length - 1;
@@ -54,7 +55,10 @@ MyPatch.prototype.initBuffers = function() {
 	getSurfacePoint = function(u, v) {
 		return nurbsSurface.getPoint(u, v);
 	};
-	console.log(this.nurbsSurface);
 
 	this.patch = new CGFnurbsObject(this.scene, getSurfacePoint, this.divs[0], this.divs[1]);
 };
+
+MyPatch.prototype.display = function() {
+	this.patch.display();
+}

@@ -21,7 +21,6 @@ MyTriangle.prototype.initBuffers = function (args) {
           0, 0, 1,
     ];
 
-    //por agora
     this.texCoords = [
 		0, 1,
 		1, 1,

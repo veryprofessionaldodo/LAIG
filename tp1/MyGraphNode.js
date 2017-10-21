@@ -37,12 +37,3 @@ MyGraphNode.prototype.addChild = function(nodeID) {
 MyGraphNode.prototype.addLeaf = function(leaf) {
     this.leaves.push(leaf);
 }
-/*
-MyGraphNode.prototype.displayNode = function() {
-    if(this.leaves.length > 0){
-        for(var i = 0; i < this.leaves.length; i++){
-            this.leaves[i].displayLeaf();
-        }
-    }
-}
-*/
