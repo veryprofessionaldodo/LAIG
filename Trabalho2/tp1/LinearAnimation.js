@@ -63,5 +63,7 @@ LinearAnimation.prototype.update = function(currTime) {
 	mat4.rotate(matrix, matrix, rotate, [0,1,0]);
 	mat4.translate(matrix, matrix, [currentPointMatrix[0],currentPointMatrix[1],currentPointMatrix[2]]);
 	mat4.translate(matrix, matrix, [deltaTransformMatrix[0],deltaTransformMatrix[1],deltaTransformMatrix[2]]);
+
+	return matrix;
 }
 

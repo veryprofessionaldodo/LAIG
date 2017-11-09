@@ -1,5 +1,8 @@
-function BezierAnimation(scene){
+function BezierAnimation(velocity, points){
 	Animation.call(this);
+
+	this.velocity = velocity;
+	this.points = points;
 
 }
 

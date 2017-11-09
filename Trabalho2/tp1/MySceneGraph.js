@@ -6,8 +6,9 @@ var ILLUMINATION_INDEX = 1;
 var LIGHTS_INDEX = 2;
 var TEXTURES_INDEX = 3;
 var MATERIALS_INDEX = 4;
-var LEAVES_INDEX = 5;
-var NODES_INDEX = 6;
+var ANIMATIONS_INDEX = 5;
+var LEAVES_INDEX = 6;
+var NODES_INDEX = 7;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -39,6 +40,8 @@ var NODES_INDEX = 6;
 	 */
 
      this.reader.open('scenes/' + filename, this);
+
+     this.scene.setUpdatePeriod(1/60*100);
  }
 
 /*
@@ -136,6 +139,17 @@ var NODES_INDEX = 6;
             this.onXMLMinorError("tag <MATERIALS> out of order");
         
         if ((error = this.parseMaterials(nodes[index])) != null )
+            return error;
+    }
+
+    // <ANIMATIONS>
+    if((index = nodeNames.indexOf("ANIMATIONS")) == -1)
+        return "tag <ANIMATIONS> missing";
+    else {
+        if(index != ANIMATIONS_INDEX)
+            this.onXMLError("tag <ANIMATIONS> out of order");
+
+        if((error = this.parseAnimations(nodes[index])) != null)
             return error;
     }
     
@@ -1158,6 +1172,77 @@ var NODES_INDEX = 6;
     console.log("Parsed materials");
 }
 
+function getArrayControlPoints(reader, initialPoints, processedPoints){
+    for(var i = 0; i < initialPoints.length; i++){
+        var controlPoints = [];
+        var xx = reader.getFloat(initialPoints[i], 'xx');
+        var yy = reader.getFloat(initialPoints[i], 'yy');
+        var zz = reader.getFloat(initialPoints[i], 'zz');
+        controlPoints.push(xx,yy,zz);
+        processedPoints.push(controlPoints);
+    }
+}
+
+
+MySceneGraph.prototype.parseAnimations = function(animationsNode) {
+
+    var children = animationsNode.children;
+
+    this.animations = [];
+
+    for(var i = 0; i < children.length; i++){
+        if (children[i].nodeName != "ANIMATION") {
+            this.onXMLMinorError("unknown tag name <" + children[i].nodeName + ">");
+            continue;
+        }
+
+        var animationID = this.reader.getString(children[i], 'id');
+        if (animationID == null )
+            return "no ID defined for animation";
+        
+        if (this.animations[animationID] != null )
+            return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
+
+        var animationSpeed = this.reader.getFloat(children[i], 'speed');
+        var animationType = this.reader.getString(children[i], 'type');
+        
+        var animationControlPoints = children[i].children;
+        if(animationControlPoints.length <= 1){
+            console.log("animation with ID = " + animationID + " has only one control point, making it impossible to use");
+            break;
+        }
+
+        var animation;
+
+        switch(animationType){
+            case 'linear':
+                var controlPoints = [];
+                getArrayControlPoints(this.reader, animationControlPoints, controlPoints);
+                animation = new LinearAnimation(animationSpeed, controlPoints);
+                break;
+            case 'circular':
+                var animationControlPoints = children[i].children;
+                var centerx = this.reader.getFloat(children[i], 'centerx');
+                var centery = this.reader.getFloat(children[i], 'centery');
+                var centerz = this.reader.getFloat(children[i], 'centerz');
+                var radius = this.reader.getFloat(children[i], 'radius');
+                var startang = this.reader.getFloat(children[i], 'startang');
+                var rotang = this.reader.getFloat(children[i], 'rotang');
+
+                animation = new CircularAnimation(animationSpeed, animationControlPoints, centerx, centery,
+                                                    centerz, radius, startang, rotang);
+                break;
+            case 'bezier':
+                var controlPoints = [];
+                getArrayControlPoints(this.reader, animationControlPoints, controlPoints);
+                animation = new BezierAnimation(animationSpeed, controlPoints);
+                break;
+            /*case 'combo':*/
+            // CHANGE WITH COMBO
+        }
+        this.animations[animationID] = animation;
+    }
+}
 
 /**
  * Parses the <NODES> block.
@@ -1311,6 +1396,21 @@ var NODES_INDEX = 6;
                     break;
                 }
             }
+
+            var animationIndex = specsNames.indexOf("ANIMATIONREFS");
+            if(animationIndex == 1){
+                var animationDescendants = nodeSpecs[animationIndex].children;
+                for(var j = 0; j < animationDescendants.length; j++){
+                    if(animationDescendants[j].nodeName == "ANIMATIONREF"){
+                        var aniId = this.reader.getString(animationDescendants[j], 'id');
+                        if (aniID == null )
+                            return "unable to parse animation ID (node ID = " + nodeID + ")";
+                        if (aniID != "null" && this.animations[aniID] == null )
+                            return "ID does not correspond to a valid animation (node ID = " + nodeID + ")";
+                        this.nodes[nodeID].animations.push(this.animations[aniID]);
+                    }
+                }
+            }
             
             // Retrieves information about children.
             var descendantsIndex = specsNames.indexOf("DESCENDANTS");
@@ -1426,20 +1526,21 @@ MySceneGraph.prototype.log = function(message) {
 /**
  * Displays the scene, processing each node, starting in the root node.
  */
- MySceneGraph.prototype.displayScene = function() {
+ MySceneGraph.prototype.displayScene = function(currTime) {
 	// entry point for graph rendering
 	for(var key in this.nodes) {
         if(this.nodes.hasOwnProperty(key)){
-            this.recursiveDisplay(this.nodes[key].nodeID, 
+            this.recursiveDisplay(currTime, this.nodes[key].nodeID, 
                 this.nodes[key].transformMatrix, 
                 this.nodes[key].textureID, 
-                this.nodes[key].materialID);
+                this.nodes[key].materialID,
+                this.nodes[key].animationsID);
             break;
         }
     }
 }
 
-MySceneGraph.prototype.recursiveDisplay = function(nodeName, matrix, textureID, materialID) {
+MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, textureID, materialID) {
     if(nodeName != null){
         var node = this.nodes[nodeName];
         //updates the material
@@ -1468,20 +1569,23 @@ MySceneGraph.prototype.recursiveDisplay = function(nodeName, matrix, textureID, 
             }
             this.newMaterial.apply();
         }
+        for(var i = 0; i < node.animations.length; i++){
+            var matrix = node.animations[i].update(currTime);
+            this.scene.multMatrix(matrix);
+        }
         //display of the leaves
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
                 node.leaves[i].displayLeaf(this.newTexture);
             }
-        }
-        
+        }  
         if(node.children.length > 0){
             for(var i = 0; i < node.children.length; i++){
                 this.scene.pushMatrix();
                 this.newMaterial = null;
                 this.newTexture = null;
                 //recursive call
-                this.recursiveDisplay(node.children[i], matrix, textureID, materialID);
+                this.recursiveDisplay(currTime, node.children[i], matrix, textureID, materialID);
                 this.scene.popMatrix();
             }
         }
