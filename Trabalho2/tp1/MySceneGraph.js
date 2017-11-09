@@ -1211,9 +1211,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
             console.log("animation with ID = " + animationID + " has only one control point, making it impossible to use");
             break;
         }
-
         var animation;
-
         switch(animationType){
             case 'linear':
                 var controlPoints = [];
@@ -1242,6 +1240,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
         }
         this.animations[animationID] = animation;
     }
+    console.log("Parsed animations");
 }
 
 /**
@@ -1398,11 +1397,11 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
             }
 
             var animationIndex = specsNames.indexOf("ANIMATIONREFS");
-            if(animationIndex == 1){
+            if(animationIndex !== -1){
                 var animationDescendants = nodeSpecs[animationIndex].children;
                 for(var j = 0; j < animationDescendants.length; j++){
                     if(animationDescendants[j].nodeName == "ANIMATIONREF"){
-                        var aniId = this.reader.getString(animationDescendants[j], 'id');
+                        var aniID = this.reader.getString(animationDescendants[j], 'id');
                         if (aniID == null )
                             return "unable to parse animation ID (node ID = " + nodeID + ")";
                         if (aniID != "null" && this.animations[aniID] == null )
@@ -1569,8 +1568,11 @@ MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, t
             }
             this.newMaterial.apply();
         }
+        console.log(node.animations);
+
         for(var i = 0; i < node.animations.length; i++){
             var matrix = node.animations[i].update(currTime);
+            console.log(matrix);
             this.scene.multMatrix(matrix);
         }
         //display of the leaves

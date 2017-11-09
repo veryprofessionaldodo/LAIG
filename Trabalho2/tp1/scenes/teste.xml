@@ -318,7 +318,7 @@
         <controlpoint xx="1.0" yy="1.0" zz="1.0" />
         <controlpoint xx="2.0" yy="2.0" zz="2.0" />
         <controlpoint xx="3.0" yy="3.0" zz="3.0" />
-    </ANIMATION> 
+    </ANIMATION>
     <ANIMATION id="teste1" speed="0.5" type="linear">
         <controlpoint xx="1.0" yy="1.0" zz="1.0" />
         <controlpoint xx="2.0" yy="2.0" zz="2.0" />
@@ -452,7 +452,7 @@
 
     <ANIMATIONREFS>
         <ANIMATIONREF id="teste" />
-    </ANIMATIONREFS>			
+    </ANIMATIONREFS>
 
     <DESCENDANTS>
        <NODEREF id="faceCubo1" />
