@@ -22,6 +22,9 @@ MyInterface.prototype.init = function(application) {
     // init GUI. For more information on the methods, check:
     //  http://workshop.chromeexperiments.com/examples/gui
     
+    this.message = 'dat.gui';
+
+
     this.gui = new dat.GUI();
 
     // add a group of controls (and open/expand by defult)
@@ -36,7 +39,7 @@ MyInterface.prototype.addLightsGroup = function(lights) {
 
     var group = this.gui.addFolder("Lights");
     group.open();
-
+    
     // add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
     // e.g. this.option1=true; this.option2=false;
 
@@ -46,5 +49,12 @@ MyInterface.prototype.addLightsGroup = function(lights) {
             group.add(this.scene.lightValues, key);
         }
     }
+}
+
+/**
+ * Adds a folder containing the IDs of the lights passed as parameter.
+ */
+MyInterface.prototype.addSelectablesGroup = function(selectables) {
+    this.gui.add(this.scene, "selectables", selectables);
 }
 

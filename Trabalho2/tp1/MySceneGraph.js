@@ -590,7 +590,7 @@ var NODES_INDEX = 7;
         
         nodeNames = [];
         for (var j = 0; j < grandChildren.length; j++) {
-            console.log(grandChildren[j].nodeName);
+            //console.log(grandChildren[j].nodeName);
             nodeNames.push(grandChildren[j].nodeName);
         }
         
@@ -865,6 +865,7 @@ var NODES_INDEX = 7;
  MySceneGraph.prototype.parseTextures = function(texturesNode) {
 
     this.textures = [];
+
     
     var eachTexture = texturesNode.children;
     // Each texture.
@@ -1247,6 +1248,8 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
  * Parses the <NODES> block.
  */
  MySceneGraph.prototype.parseNodes = function(nodesNode) {
+    
+    this.selectables = [];
 
     // Traverses nodes.
     var children = nodesNode.children;
@@ -1277,6 +1280,19 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
 
             // Creates node.
             this.nodes[nodeID] = new MyGraphNode(this,nodeID);
+
+            if(children[i].attributes.length == 2){
+              var selectable = this.reader.getString(children[i], 'selectable');
+              if(selectable == null || selectable == "false")
+                selectable = false;
+              else if(selectable == "true"){
+                selectable = true;
+                this.selectables.push(nodeID);
+              }
+              else
+                return "invalid selectable value";
+            }
+            
 
             // Gathers child nodes.
             var nodeSpecs = children[i].children;
@@ -1568,11 +1584,10 @@ MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, t
             }
             this.newMaterial.apply();
         }
-        console.log(node.animations);
-
+        
         for(var i = 0; i < node.animations.length; i++){
             var matrix = node.animations[i].update(currTime);
-            console.log(matrix);
+            //console.log(matrix);
             this.scene.multMatrix(matrix);
         }
         //display of the leaves
