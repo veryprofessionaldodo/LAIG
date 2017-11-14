@@ -32,16 +32,39 @@ var NODES_INDEX = 7;
     
     // File reading 
     this.reader = new CGFXMLreader();
-    
+
+
     /*
 	 * Read the contents of the xml file, and refer to this class for loading and error handlers.
 	 * After the file is read, the reader calls onXMLReady on this object.
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 
-     this.reader.open('scenes/' + filename, this);
+    this.reader.open('scenes/' + filename, this);
 
-     this.scene.setUpdatePeriod(1/60*100);
+    this.scene.setUpdatePeriod(1/60*100);
+
+    this.scene.gl.clearColor(0,0,0, 1.0);
+    this.scene.gl.clearDepth(10000.0);
+    this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
+    this.scene.gl.enable(this.scene.gl.CULL_FACE);
+    this.scene.gl.depthFunc(this.scene.gl.LEQUAL);
+
+    // FOI AQUI QUE A NAÇÃO DO FOGO ATACOU
+
+    this.testShaders=[
+        new CGFshader(this.scene.gl, "shaders/flat.vert", "shaders/flat.frag"),
+        new CGFshader(this.scene.gl, "shaders/uScale.vert", "shaders/uScale.frag"),
+        new CGFshader(this.scene.gl, "shaders/varying.vert", "shaders/varying.frag"),
+        new CGFshader(this.scene.gl, "shaders/texture1.vert", "shaders/texture1.frag"),
+        new CGFshader(this.scene.gl, "shaders/texture2.vert", "shaders/texture2.frag"),
+        new CGFshader(this.scene.gl, "shaders/texture3.vert", "shaders/texture3.frag"),
+        new CGFshader(this.scene.gl, "shaders/texture3.vert", "shaders/sepia.frag"),
+        new CGFshader(this.scene.gl, "shaders/texture3.vert", "shaders/convolution.frag")
+    ];
+
+    this.testShaders[4].setUniformsValues({uSampler2: 1});
+    this.testShaders[5].setUniformsValues({uSampler2: 1});
  }
 
 /*
@@ -1288,6 +1311,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
               else if(selectable == "true"){
                 selectable = true;
                 this.selectables.push(nodeID);
+                this.activeSelectable = 0;
               }
               else
                 return "invalid selectable value";
@@ -1542,6 +1566,12 @@ MySceneGraph.prototype.log = function(message) {
  * Displays the scene, processing each node, starting in the root node.
  */
  MySceneGraph.prototype.displayScene = function(currTime) {
+
+    this.scene.gl.viewport(0, 0, this.scene.gl.canvas.width, this.scene.gl.canvas.height);
+    this.scene.gl.clear(this.scene.gl.COLOR_BUFFER_BIT | this.scene.gl.DEPTH_BUFFER_BIT);
+    this.scene.gl.clearColor(0.1, 0.1, 0.1, 1.0);
+    this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
+
 	// entry point for graph rendering
 	for(var key in this.nodes) {
         if(this.nodes.hasOwnProperty(key)){
@@ -1557,6 +1587,7 @@ MySceneGraph.prototype.log = function(message) {
 
 MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, textureID, materialID) {
     if(nodeName != null){
+        //console.log(nodeName);
         var node = this.nodes[nodeName];
         //updates the material
         if(node.materialID !== "null"){
@@ -1593,7 +1624,15 @@ MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, t
         //display of the leaves
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
-                node.leaves[i].displayLeaf(this.newTexture);
+                if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
+                    console.log("I'm in");
+                    this.scene.setActiveShader(this.testShaders[2]);
+                    node.leaves[i].displayLeaf(this.newTexture);
+                    this.scene.setActiveShader(this.scene.defaultShader);
+                }
+                else {
+                    node.leaves[i].displayLeaf(this.newTexture);
+                }
             }
         }  
         if(node.children.length > 0){

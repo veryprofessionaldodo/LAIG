@@ -26,7 +26,7 @@ LinearAnimation.prototype.constructor = LinearAnimation;
 LinearAnimation.prototype.update = function(currTime) {
 	var deltaTime = currTime - this.time;
 	this.time = currTime;
-	console.log('HERE');
+
 	var matrix = mat4.create();
 	mat4.identity(matrix);
 
