@@ -43,7 +43,7 @@ MyInterface.prototype.addLightsGroup = function(lights) {
     // add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
     // e.g. this.option1=true; this.option2=false;
 
-    for (var key in lights) {
+     for (var key in lights) {
         if (lights.hasOwnProperty(key)) {
             this.scene.lightValues[key] = lights[key][0];
             group.add(this.scene.lightValues, key);
@@ -54,8 +54,14 @@ MyInterface.prototype.addLightsGroup = function(lights) {
 /**
  * Adds a folder containing the IDs of the lights passed as parameter.
  */
-MyInterface.prototype.addSelectablesGroup = function(selectables) {
-    this.gui.add(this.scene, "selectables", selectables).onChange(function(v)
-        { this.scene.activeSelectable = v; });
+MyInterface.prototype.addSelectablesGroup = function(selectables, graph) {
+    this.gui.add(this.scene, "selectables", selectables).onChange(function(v) { 
+            for (var i = 0; i < selectables.length; i++) {
+                if (selectables[i] == v) {
+                    console.log("wow");
+                    graph.activeSelectable = i; 
+                }
+            }
+        });
 }
 

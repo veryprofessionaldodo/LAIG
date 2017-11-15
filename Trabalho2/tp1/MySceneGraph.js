@@ -1626,7 +1626,6 @@ MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, t
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
                 if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
-                    console.log("I'm in");
                     this.scene.setActiveShader(this.testShaders[6]);    
                     node.leaves[i].displayLeaf(this.newTexture);
                     this.scene.setActiveShader(this.scene.defaultShader);
@@ -1643,7 +1642,6 @@ MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, t
                 this.newTexture = null;
                 //recursive call
                 if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
-                    console.log("I'm in the mainframe");
                     this.scene.setActiveShader(this.testShaders[6]);
                     this.recursiveDisplay(currTime, node.children[i], matrix, textureID, materialID);
                     this.scene.setActiveShader(this.scene.defaultShader);
