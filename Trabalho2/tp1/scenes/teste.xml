@@ -324,6 +324,9 @@
         <controlpoint xx="2.0" yy="2.0" zz="2.0" />
         <controlpoint xx="3.0" yy="3.0" zz="3.0" />
     </ANIMATION>
+    <ANIMATION id="teste2" speed="1" type="circular"
+                centerx="1.0" centery="1.0" centerz="1.0"
+                radius="2.0" startang="10" rotang="60"/>
 
 </ANIMATIONS>
 
@@ -459,11 +462,11 @@
     <TEXTURE id="null" />   
 
     <TRANSLATION x="20" y="5.5" z="10" />    
-
+<!--
     <ANIMATIONREFS>
         <ANIMATIONREF id="teste" />
     </ANIMATIONREFS>
-
+-->
     <DESCENDANTS>
        <NODEREF id="faceCubo1" />
        <NODEREF id="faceCubo2" />
@@ -566,6 +569,10 @@
 
     <TRANSLATION x="30" y="5.5" z="20" />
     <SCALE sx="0.2" sy="1" sz="0.2" />
+
+    <ANIMATIONREFS>
+        <ANIMATIONREF id="teste2" />
+    </ANIMATIONREFS>
 
     <DESCENDANTS>
        <NODEREF id="meiaPiramide1" /> 

@@ -40,3 +40,31 @@ MyGraphNode.prototype.addChild = function(nodeID) {
 MyGraphNode.prototype.addLeaf = function(leaf) {
     this.leaves.push(leaf);
 }
+
+MyGraphNode.prototype.display = function(deltaTime) {
+    console.log('MyGraphNode Update');
+    for(var i = 0; i < this.animations.length; i++){
+        var matrix = this.animations[i].update(deltaTime);
+      //  this.graph.scene.pushMatrix();
+        this.graph.scene.multMatrix(matrix);
+       // this.graph.scene.popMatrix();
+        /*var matrix = this.animations[i].update(deltaTime);
+        console.log(matrix);
+        mat4.multiply(this.transformMatrix, this.transformMatrix, matrix);
+        console.log(this.transformMatrix);*/
+    }
+    /*if(this.leaves.length > 0){
+        for(var i = 0; i < this.leaves.length; i++){
+            this.leaves[i].displayLeaf(texture);
+        }
+    }*/
+}
+
+/*
+MyGraphNode.prototype.display = function(currTime){
+    console.log(currTime);
+    for(var i = 0; i < this.animations.length; i++){
+            var matrix = this.animations[i].update(currTime);
+            this.graph.scene.multMatrix(matrix);
+    }
+}*/

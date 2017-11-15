@@ -32,6 +32,7 @@ XMLscene.prototype.init = function(application) {
     this.gl.depthFunc(this.gl.LEQUAL);
     
     this.axis = new CGFaxis(this);
+    this.lastTime = 0;
 }
 
 /**
@@ -94,6 +95,8 @@ XMLscene.prototype.onGraphLoaded = function()
     // Adds lights group.
     this.interface.addLightsGroup(this.graph.lights);
     this.interface.addSelectablesGroup(this.graph.selectables, this.graph);
+
+    this.setUpdatePeriod(1/60*100);
 }
 
 /**
@@ -140,7 +143,7 @@ XMLscene.prototype.display = function() {
         }
 
         // Displays the scene.
-        this.graph.displayScene();
+        this.graph.displayScene(this.deltaTime);
 
     }
 	else
@@ -152,6 +155,21 @@ XMLscene.prototype.display = function() {
 
     this.popMatrix();
     
-    // ---- END Background, camera and axis setup
-    
+    // ---- END Background, camera and axis setup  
+}
+
+XMLscene.prototype.update = function(currTime) {
+
+    console.log('XMLScene Update ' + currTime);
+    if(this.lastTime == 0)
+        this.lastTime = currTime;
+    this.deltaTime = (currTime - this.lastTime)/1000;
+
+   /* for(animationID in this.graph.animations){
+        this.graph.animations[animationID].update(deltaTime);
+    }*/
+
+    /*for(nodeID in this.graph.nodes){
+        this.graph.nodes[nodeID].update(deltaTime);
+    }*/
 }

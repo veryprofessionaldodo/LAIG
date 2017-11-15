@@ -1231,20 +1231,21 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
         var animationSpeed = this.reader.getFloat(children[i], 'speed');
         var animationType = this.reader.getString(children[i], 'type');
         
-        var animationControlPoints = children[i].children;
-        if(animationControlPoints.length <= 1){
-            console.log("animation with ID = " + animationID + " has only one control point, making it impossible to use");
-            break;
-        }
         var animation;
         switch(animationType){
             case 'linear':
+                var animationControlPoints = children[i].children;
+                if(animationControlPoints.length <= 1){
+                    console.log("animation with ID = " + animationID + " has only one control point, making it impossible to use");
+                    break;
+                }
                 var controlPoints = [];
                 getArrayControlPoints(this.reader, animationControlPoints, controlPoints);
-                animation = new LinearAnimation(animationSpeed, controlPoints);
+                animation = new LinearAnimation(this.scene, animationSpeed, controlPoints);
                 break;
             case 'circular':
-                var animationControlPoints = children[i].children;
+                //var animationControlPoints = children[i].children;
+                console.log('CircularAnimation');
                 var centerx = this.reader.getFloat(children[i], 'centerx');
                 var centery = this.reader.getFloat(children[i], 'centery');
                 var centerz = this.reader.getFloat(children[i], 'centerz');
@@ -1252,13 +1253,18 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
                 var startang = this.reader.getFloat(children[i], 'startang');
                 var rotang = this.reader.getFloat(children[i], 'rotang');
 
-                animation = new CircularAnimation(animationSpeed, animationControlPoints, centerx, centery,
-                                                    centerz, radius, startang, rotang);
+                animation = new CircularAnimation(this.scene, animationSpeed, centerx, centery,
+                    centerz, radius, startang, rotang);
                 break;
             case 'bezier':
+                var animationControlPoints = children[i].children;
+                if(animationControlPoints.length <= 1){
+                    console.log("animation with ID = " + animationID + " has only one control point, making it impossible to use");
+                    break;
+                }
                 var controlPoints = [];
                 getArrayControlPoints(this.reader, animationControlPoints, controlPoints);
-                animation = new BezierAnimation(animationSpeed, controlPoints);
+                animation = new BezierAnimation(this.scene, animationSpeed, controlPoints);
                 break;
             /*case 'combo':*/
             // CHANGE WITH COMBO
@@ -1566,7 +1572,7 @@ MySceneGraph.prototype.log = function(message) {
 /**
  * Displays the scene, processing each node, starting in the root node.
  */
- MySceneGraph.prototype.displayScene = function(currTime) {
+ MySceneGraph.prototype.displayScene = function(deltaTime) {
 
     this.scene.gl.viewport(0, 0, this.scene.gl.canvas.width, this.scene.gl.canvas.height);
     this.scene.gl.clear(this.scene.gl.COLOR_BUFFER_BIT | this.scene.gl.DEPTH_BUFFER_BIT);
@@ -1576,7 +1582,7 @@ MySceneGraph.prototype.log = function(message) {
 	// entry point for graph rendering
 	for(var key in this.nodes) {
         if(this.nodes.hasOwnProperty(key)){
-            this.recursiveDisplay(currTime, this.nodes[key].nodeID, 
+            this.recursiveDisplay(deltaTime, this.nodes[key].nodeID, 
                 this.nodes[key].transformMatrix, 
                 this.nodes[key].textureID, 
                 this.nodes[key].materialID,
@@ -1586,7 +1592,7 @@ MySceneGraph.prototype.log = function(message) {
     }
 }
 
-MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, textureID, materialID) {
+MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, textureID, materialID) {
     if(nodeName != null){
         //console.log(nodeName);
         var node = this.nodes[nodeName];
@@ -1604,8 +1610,6 @@ MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, t
         } else if(textureID !== "null"){
             this.newTexture = this.textures[textureID];
         }
-        //multiplicates the matrixes
-        this.scene.multMatrix(node.transformMatrix);
         //applies the materials and textures
         if(this.newMaterial != null){
             if(this.newTexture != null){
@@ -1616,12 +1620,15 @@ MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, t
             }
             this.newMaterial.apply();
         }
-        
-        for(var i = 0; i < node.animations.length; i++){
+        //multiplicates the matrixes
+        node.display(deltaTime);
+        this.scene.multMatrix(node.transformMatrix);
+        console.log(this.scene);
+        /*for(var i = 0; i < node.animations.length; i++){
             var matrix = node.animations[i].update(currTime);
             //console.log(matrix);
             this.scene.multMatrix(matrix);
-        }
+        }*/
         //display of the leaves
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
@@ -1643,11 +1650,11 @@ MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, t
                 //recursive call
                 if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
                     this.scene.setActiveShader(this.testShaders[6]);
-                    this.recursiveDisplay(currTime, node.children[i], matrix, textureID, materialID);
+                    this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);
                     this.scene.setActiveShader(this.scene.defaultShader);
                 }
                 else {
-                    this.recursiveDisplay(currTime, node.children[i], matrix, textureID, materialID);
+                    this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);
                 }
                 this.scene.popMatrix();
             }
