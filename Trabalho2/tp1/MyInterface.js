@@ -55,6 +55,7 @@ MyInterface.prototype.addLightsGroup = function(lights) {
  * Adds a folder containing the IDs of the lights passed as parameter.
  */
 MyInterface.prototype.addSelectablesGroup = function(selectables) {
-    this.gui.add(this.scene, "selectables", selectables);
+    this.gui.add(this.scene, "selectables", selectables).onChange(function(v)
+        { this.scene.activeSelectable = v; });
 }
 

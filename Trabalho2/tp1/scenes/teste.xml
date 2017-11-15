@@ -344,11 +344,21 @@
         <TEXTURE id="null" />  
 
         <DESCENDANTS>    
+            <NODEREF id="teste" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="teste">
+        <MATERIAL id="null"/>
+        <TEXTURE id="television_news" />
+
+        <DESCENDANTS>    
             <!--<NODEREF id="paredes_lado" />-->
             <NODEREF id="chao" />
             <NODEREF id="cubo" />
             <NODEREF id="piramide" />
         </DESCENDANTS>
+
     </NODE>
 
     <NODE id="chao" selectable="true">
@@ -367,7 +377,7 @@
     <!-- Side Walls -->
     <NODE id="paredes_lado">
         <MATERIAL id="null" />    
-        <TEXTURE id="clear" />                  
+        <TEXTURE id="null" />                  
 
         <DESCENDANTS>
             <NODEREF id="parede_cozinha1" />           
@@ -379,7 +389,7 @@
 
     <NODE id="parede_cozinha1">      
         <MATERIAL id="kitchenWallsMaterial" />    
-        <TEXTURE id="clear" />                  
+        <TEXTURE id="null" />                  
 
         <SCALE sx=".3" sy="5" sz="5" />
         <TRANSLATION x="-35" y="2.2" z="7" />
@@ -391,7 +401,7 @@
 
     <NODE id="parede_cozinha2">      
         <MATERIAL id="kitchenWallsMaterial" />    
-        <TEXTURE id="clear" />                  
+        <TEXTURE id="null" />                  
 
         <SCALE sx="2.2" sy="5" sz=".3" />
         <TRANSLATION x="-2" y="2.2" z="77" />
@@ -403,7 +413,7 @@
 
     <NODE id="parede_frente1">      
         <MATERIAL id="frontWallsMaterial" />    
-        <TEXTURE id="frontWallWhite" />                  
+        <TEXTURE id="null" />                  
 
         <TRANSLATION x="-.5" y="0" z=".5" />
 
@@ -424,7 +434,7 @@
 
     <NODE id="parede_frente2">      
         <MATERIAL id="frontWallsMaterial" />    
-        <TEXTURE id="frontWallDark" />                  
+        <TEXTURE id="null" />                  
 
         <TRANSLATION x="-.5" y="0" z=".5" />
 
@@ -550,7 +560,7 @@
 </NODE>
 
 <!-- A pyramid -->
-<NODE id="piramide">       
+<NODE id="piramide" selectable="true">       
     <MATERIAL id="null" />      
     <TEXTURE id="null" />       			
 

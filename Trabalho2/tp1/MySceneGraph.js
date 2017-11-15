@@ -65,6 +65,7 @@ var NODES_INDEX = 7;
 
     this.testShaders[4].setUniformsValues({uSampler2: 1});
     this.testShaders[5].setUniformsValues({uSampler2: 1});
+    this.activeSelectable = 0;
  }
 
 /*
@@ -1311,7 +1312,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
               else if(selectable == "true"){
                 selectable = true;
                 this.selectables.push(nodeID);
-                this.activeSelectable = 0;
+                
               }
               else
                 return "invalid selectable value";
@@ -1626,7 +1627,7 @@ MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, t
             for(var i = 0; i < node.leaves.length; i++){
                 if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
                     console.log("I'm in");
-                    this.scene.setActiveShader(this.testShaders[2]);
+                    this.scene.setActiveShader(this.testShaders[6]);    
                     node.leaves[i].displayLeaf(this.newTexture);
                     this.scene.setActiveShader(this.scene.defaultShader);
                 }
@@ -1641,7 +1642,15 @@ MySceneGraph.prototype.recursiveDisplay = function(currTime, nodeName, matrix, t
                 this.newMaterial = null;
                 this.newTexture = null;
                 //recursive call
-                this.recursiveDisplay(currTime, node.children[i], matrix, textureID, materialID);
+                if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
+                    console.log("I'm in the mainframe");
+                    this.scene.setActiveShader(this.testShaders[6]);
+                    this.recursiveDisplay(currTime, node.children[i], matrix, textureID, materialID);
+                    this.scene.setActiveShader(this.scene.defaultShader);
+                }
+                else {
+                    this.recursiveDisplay(currTime, node.children[i], matrix, textureID, materialID);
+                }
                 this.scene.popMatrix();
             }
         }
