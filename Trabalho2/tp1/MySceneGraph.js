@@ -1632,9 +1632,9 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
                 if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
-                    this.scene.setActiveShader(this.testShaders[0]); 
+                    //this.scene.setActiveShader(this.testShaders[0]); 
                     node.leaves[i].displayLeaf(this.newTexture);
-                    this.scene.setActiveShader(this.scene.defaultShader);
+                    //this.scene.setActiveShader(this.scene.defaultShader);
                 }
                 else {
                     node.leaves[i].displayLeaf(this.newTexture);
@@ -1648,9 +1648,9 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
                 this.newTexture = null;
                 //recursive call
                 if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
-                    this.scene.setActiveShader(this.testShaders[0]);
+                    //this.scene.setActiveShader(this.testShaders[0]);
                     this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);
-                    this.scene.setActiveShader(this.scene.defaultShader);
+                    //this.scene.setActiveShader(this.scene.defaultShader);
                 }
                 else {
                     this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);

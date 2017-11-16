@@ -16,6 +16,8 @@ function LinearAnimation(scene, velocity, points){
 		this.distances.push(newDistance);
 	}
 	this.endAnimation = false;
+
+	this.finalMatrix = [];
 }
 
 LinearAnimation.prototype = Object.create(Animation.prototype);
@@ -30,7 +32,7 @@ LinearAnimation.prototype.update = function(deltaTime) {
 	}
 	if(this.currentStage + 1 >= this.stages){
 		this.endAnimation = true;
-		return;
+		return this.finalMatrix;
 	}
 	//this.travelledDistanceInStage += this.velocity*deltaTime;
 	/*if(this.travelledDistanceInStage > this.distances[this.currentStage]){
@@ -46,8 +48,17 @@ LinearAnimation.prototype.update = function(deltaTime) {
 	this.y = (this.travelledDistanceInStage / this.distances[this.currentStage]) * (this.points[this.currentStage+1][1] - this.points[this.currentStage][1]);
 	this.z = (this.travelledDistanceInStage / this.distances[this.currentStage]) * (this.points[this.currentStage+1][2] - this.points[this.currentStage][2]);
 
-	this.scene.translate(this.x, this.y, this.z);
+	/*this.scene.translate(this.x, this.y, this.z);
 	this.scene.translate(this.points[this.currentStage][0], this.points[this.currentStage][1], this.points[this.currentStage][2]);
-	this.scene.rotate(this.angle, 0, 1, 0);
+	this.scene.rotate(this.angle, 0, 1, 0);*/
+
+	var matrix = mat4.create();
+	mat4.identity(matrix);
+	mat4.translate(matrix, matrix, [this.x, this.y, this.z]);
+	mat4.translate(matrix, matrix, [this.points[this.currentStage][0], this.points[this.currentStage][1], this.points[this.currentStage][2]]);
+	mat4.rotateY(matrix, matrix, this.angle);
+
+	this.finalMatrix = matrix.slice();
+	return matrix;
 }
 

@@ -315,10 +315,6 @@
 <ANIMATIONS>
 
    <ANIMATION id="teste" speed="2.0" type="linear">
-        <!--<controlpoint xx="1.0" yy="1.0" zz="1.0" />
-        <controlpoint xx="20.0" yy="1.0" zz="20.0" />
-        <controlpoint xx="30.0" yy="1.0" zz="30.0" />
-        <controlpoint xx="40.0" yy="1.0" zz="20.0" />-->
         <controlpoint xx="0" yy="0" zz="0" />
         <controlpoint xx="10" yy="0" zz="0" />
         <controlpoint xx="10" yy="0" zz="10" />
@@ -330,9 +326,9 @@
         <controlpoint xx="2.0" yy="2.0" zz="2.0" />
         <controlpoint xx="3.0" yy="3.0" zz="3.0" />
     </ANIMATION>
-    <ANIMATION id="teste2" speed="1" type="circular"
+    <ANIMATION id="teste2" speed="100.0" type="circular"
                 centerx="1.0" centery="1.0" centerz="1.0"
-                radius="2.0" startang="10" rotang="40"/>
+                radius="5.0" startang="10" rotang="200" />
 
 </ANIMATIONS>
 

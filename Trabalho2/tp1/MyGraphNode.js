@@ -42,9 +42,9 @@ MyGraphNode.prototype.addLeaf = function(leaf) {
 }
 
 MyGraphNode.prototype.display = function(deltaTime) {
-    console.log('MyGraphNode Update');
     for(var i = 0; i < this.animations.length; i++){
-        this.animations[i].update(deltaTime);
+        var matrix = this.animations[i].update(deltaTime);
+        this.graph.scene.multMatrix(matrix);
     }
     /*if(this.leaves.length > 0){
         for(var i = 0; i < this.leaves.length; i++){
