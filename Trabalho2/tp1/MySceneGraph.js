@@ -49,22 +49,14 @@ var NODES_INDEX = 7;
     this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
     this.scene.gl.enable(this.scene.gl.CULL_FACE);
     this.scene.gl.depthFunc(this.scene.gl.LEQUAL);
+    this.scene.gl.enable(this.scene.gl.BLEND);
+    this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
 
     // FOI AQUI QUE A NAÇÃO DO FOGO ATACOU
 
     this.testShaders=[
-        new CGFshader(this.scene.gl, "shaders/flat.vert", "shaders/flat.frag"),
-        new CGFshader(this.scene.gl, "shaders/uScale.vert", "shaders/uScale.frag"),
-        new CGFshader(this.scene.gl, "shaders/varying.vert", "shaders/varying.frag"),
-        new CGFshader(this.scene.gl, "shaders/texture1.vert", "shaders/texture1.frag"),
-        new CGFshader(this.scene.gl, "shaders/texture2.vert", "shaders/texture2.frag"),
-        new CGFshader(this.scene.gl, "shaders/texture3.vert", "shaders/texture3.frag"),
-        new CGFshader(this.scene.gl, "shaders/texture3.vert", "shaders/sepia.frag"),
-        new CGFshader(this.scene.gl, "shaders/texture3.vert", "shaders/convolution.frag")
+        new CGFshader(this.scene.gl, "shaders/finalShader.vert", "shaders/finalShader.frag"),
     ];
-
-    this.testShaders[4].setUniformsValues({uSampler2: 1});
-    this.testShaders[5].setUniformsValues({uSampler2: 1});
     this.activeSelectable = 0;
     this.totalTime = 0;
     this.scaleFactor = 0;
@@ -1573,9 +1565,7 @@ MySceneGraph.prototype.log = function(message) {
 }
 
 MySceneGraph.prototype.updateScaleFactor=function(v) {
-    this.testShaders[1].setUniformsValues({normScale: this.scaleFactor});
-    this.testShaders[2].setUniformsValues({normScale: this.scaleFactor});
-    this.testShaders[5].setUniformsValues({normScale: this.scaleFactor});
+    this.testShaders[0].setUniformsValues({normScale: this.scaleFactor});
 }
 
 /**
@@ -1585,12 +1575,10 @@ MySceneGraph.prototype.updateScaleFactor=function(v) {
 
     this.totalTime += deltaTime/100;
 
-    this.scaleFactor = this.multiplyFactor * (1+Math.sin(this.totalTime)) * 0.5;
-    console.log("Deltatemerad " + this.scaleFactor);
+    this.scaleFactor = (1+Math.sin(this.totalTime)) * 0.5;
 
     this.updateScaleFactor();
     
-
     this.scene.gl.viewport(0, 0, this.scene.gl.canvas.width, this.scene.gl.canvas.height);
     this.scene.gl.clear(this.scene.gl.COLOR_BUFFER_BIT | this.scene.gl.DEPTH_BUFFER_BIT);
     this.scene.gl.clearColor(0.1, 0.1, 0.1, 1.0);
@@ -1650,7 +1638,7 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
                 if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
-                    this.scene.setActiveShader(this.testShaders[2]);    
+                    this.scene.setActiveShader(this.testShaders[0]); 
                     node.leaves[i].displayLeaf(this.newTexture);
                     this.scene.setActiveShader(this.scene.defaultShader);
                 }
@@ -1666,7 +1654,7 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
                 this.newTexture = null;
                 //recursive call
                 if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
-                    this.scene.setActiveShader(this.testShaders[2]);
+                    this.scene.setActiveShader(this.testShaders[0]);
                     this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);
                     this.scene.setActiveShader(this.scene.defaultShader);
                 }
