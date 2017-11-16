@@ -1587,7 +1587,7 @@ MySceneGraph.prototype.updateScaleFactor=function(v) {
 	// entry point for graph rendering
 	for(var key in this.nodes) {
         if(this.nodes.hasOwnProperty(key)){
-            this.recursiveDisplay(deltaTime, this.nodes[key].nodeID, 
+            this.recursiveDisplay(deltaTime/1000, this.nodes[key].nodeID, 
                 this.nodes[key].transformMatrix, 
                 this.nodes[key].textureID, 
                 this.nodes[key].materialID,
@@ -1626,14 +1626,8 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
             this.newMaterial.apply();
         }
         //multiplicates the matrixes
-        node.display(deltaTime);
         this.scene.multMatrix(node.transformMatrix);
-        
-        /*for(var i = 0; i < node.animations.length; i++){
-            var matrix = node.animations[i].update(currTime);
-            //console.log(matrix);
-            this.scene.multMatrix(matrix);
-        }*/
+        node.display(deltaTime);
         //display of the leaves
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){

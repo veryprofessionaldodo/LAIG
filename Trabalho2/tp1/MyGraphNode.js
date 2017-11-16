@@ -42,15 +42,9 @@ MyGraphNode.prototype.addLeaf = function(leaf) {
 }
 
 MyGraphNode.prototype.display = function(deltaTime) {
+    console.log('MyGraphNode Update');
     for(var i = 0; i < this.animations.length; i++){
-        var matrix = this.animations[i].update(deltaTime);
-      //  this.graph.scene.pushMatrix();
-        this.graph.scene.multMatrix(matrix);
-       // this.graph.scene.popMatrix();
-        /*var matrix = this.animations[i].update(deltaTime);
-        console.log(matrix);
-        mat4.multiply(this.transformMatrix, this.transformMatrix, matrix);
-        console.log(this.transformMatrix);*/
+        this.animations[i].update(deltaTime);
     }
     /*if(this.leaves.length > 0){
         for(var i = 0; i < this.leaves.length; i++){
