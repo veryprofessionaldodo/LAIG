@@ -351,7 +351,7 @@
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="teste">
+    <NODE id="teste" selectable="true">
         <MATERIAL id="null"/>
         <TEXTURE id="television_news" />
 

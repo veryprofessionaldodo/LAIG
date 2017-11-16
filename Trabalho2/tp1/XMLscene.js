@@ -96,7 +96,7 @@ XMLscene.prototype.onGraphLoaded = function()
     this.interface.addLightsGroup(this.graph.lights);
     this.interface.addSelectablesGroup(this.graph.selectables, this.graph);
 
-    this.setUpdatePeriod(1/60*100);
+    this.setUpdatePeriod(1/60);
 }
 
 /**
@@ -160,11 +160,10 @@ XMLscene.prototype.display = function() {
 
 XMLscene.prototype.update = function(currTime) {
 
-    console.log('XMLScene Update ' + currTime);
-    if(this.lastTime == 0)
-        this.lastTime = currTime;
-    this.deltaTime = (currTime - this.lastTime)/1000;
-
+    //console.log('XMLScene Update ' + currTime);
+    this.deltaTime = (currTime - this.lastTime);
+    this.lastTime = currTime;
+    
    /* for(animationID in this.graph.animations){
         this.graph.animations[animationID].update(deltaTime);
     }*/
