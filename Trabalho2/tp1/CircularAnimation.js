@@ -34,9 +34,6 @@ CircularAnimation.prototype.update = function(deltaTime){
  	}
  	this.deltaAngle += this.w*deltaTime;
 
- 	console.log('angleInterval: ' + this.deltaAngle);
-	console.log('Rotang: ' + (this.rotang + this.startang));
-
  	if(this.deltaAngle > (this.rotang + this.startang)){
  		this.deltaAngle = this.rotang + this.startang;
  		this.endAnimation = true;

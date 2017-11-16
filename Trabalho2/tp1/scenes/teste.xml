@@ -329,6 +329,12 @@
     <ANIMATION id="teste2" speed="100.0" type="circular"
                 centerx="1.0" centery="1.0" centerz="1.0"
                 radius="5.0" startang="10" rotang="200" />
+    <ANIMATION id="teste3" speed="5.0" type="bezier">
+        <controlpoint xx="0" yy="0" zz="0" />
+        <controlpoint xx="20" yy="0" zz="0" />
+        <controlpoint xx="20" yy="0" zz="20" />
+        <controlpoint xx="0" yy="20" zz="20" />
+    </ANIMATION>
 
 </ANIMATIONS>
 
@@ -466,7 +472,7 @@
     <TRANSLATION x="20" y="5.5" z="10" />    
 
     <ANIMATIONREFS>
-        <ANIMATIONREF id="teste" />
+        <ANIMATIONREF id="teste3" />
     </ANIMATIONREFS>
 
     <DESCENDANTS>
