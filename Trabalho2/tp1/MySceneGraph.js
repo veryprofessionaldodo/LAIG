@@ -1222,13 +1222,12 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
         
         if (this.animations[animationID] != null )
             return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
-
-        var animationSpeed = this.reader.getFloat(children[i], 'speed');
-        var animationType = this.reader.getString(children[i], 'type');
         
+        var animationType = this.reader.getString(children[i], 'type');
         var animation;
         switch(animationType){
             case 'linear':
+                var animationSpeed = this.reader.getFloat(children[i], 'speed');
                 var animationControlPoints = children[i].children;
                 if(animationControlPoints.length <= 1){
                     console.log("animation with ID = " + animationID + " has only one control point, making it impossible to use");
@@ -1239,8 +1238,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
                 animation = new LinearAnimation(this.scene, animationSpeed, controlPoints);
                 break;
             case 'circular':
-                //var animationControlPoints = children[i].children;
-                console.log('CircularAnimation');
+                var animationSpeed = this.reader.getFloat(children[i], 'speed');
                 var centerx = this.reader.getFloat(children[i], 'centerx');
                 var centery = this.reader.getFloat(children[i], 'centery');
                 var centerz = this.reader.getFloat(children[i], 'centerz');
@@ -1252,6 +1250,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
                     centerz, radius, startang, rotang);
                 break;
             case 'bezier':
+                var animationSpeed = this.reader.getFloat(children[i], 'speed');
                 var animationControlPoints = children[i].children;
                 if(animationControlPoints.length <= 1){
                     console.log("animation with ID = " + animationID + " has only one control point, making it impossible to use");
@@ -1261,8 +1260,24 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
                 getArrayControlPoints(this.reader, animationControlPoints, controlPoints);
                 animation = new BezierAnimation(this.scene, animationSpeed, controlPoints);
                 break;
-            /*case 'combo':*/
-            // CHANGE WITH COMBO
+            case 'combo':
+                var animationSpans = children[i].children;
+                console.log(animationSpans);
+                var animationCombo = [];
+                if(animationSpans.length == 0){
+                    console.log("animation with ID = " + animationID + " has only one SPANREF, making it impossible to use");
+                    break;
+                }
+                for(var s = 0; s < animationSpans.length; s++){
+                    var sID = this.reader.getString(animationSpans[s], 'id');
+                    if(this.animations[sID] == null){
+                        console.log("animation with ID = " + animationID + " hasn't been declared before, so it cannot be used in combo animation");
+                        continue;
+                    }
+                    animationCombo.push(this.animations[sID]);
+                }
+                animation = new ComboAnimation(this.scene, animationCombo);
+                break;
         }
         this.animations[animationID] = animation;
     }
@@ -1626,8 +1641,8 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
             this.newMaterial.apply();
         }
         //multiplicates the matrixes
-        this.scene.multMatrix(node.transformMatrix);
         node.display(deltaTime);
+        this.scene.multMatrix(node.transformMatrix);
         //display of the leaves
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){

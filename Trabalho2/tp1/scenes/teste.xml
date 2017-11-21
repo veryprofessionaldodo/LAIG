@@ -333,7 +333,11 @@
         <controlpoint xx="0" yy="0" zz="0" />
         <controlpoint xx="20" yy="0" zz="0" />
         <controlpoint xx="20" yy="0" zz="20" />
-        <controlpoint xx="0" yy="20" zz="20" />
+        <controlpoint xx="0" yy="0" zz="20" />
+    </ANIMATION>
+    <ANIMATION id="testecombo" type="combo">
+        <SPANREF id="teste"/>
+        <SPANREF id="teste2"/>
     </ANIMATION>
 
 </ANIMATIONS>
@@ -472,7 +476,7 @@
     <TRANSLATION x="20" y="5.5" z="10" />    
 
     <ANIMATIONREFS>
-        <ANIMATIONREF id="teste3" />
+        <ANIMATIONREF id="testecombo" />
     </ANIMATIONREFS>
 
     <DESCENDANTS>

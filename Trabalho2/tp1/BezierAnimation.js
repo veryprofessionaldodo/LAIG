@@ -7,11 +7,11 @@ function BezierAnimation(scene, velocity, points){
 	this.s = 0;
 
 	this.newPoints = [];
-	this.casteljau(this.points, 3);
+	this.casteljau(this.points, 1);
 	this.totalDistance = totalDistance(this.newPoints);
 
 	this.totalTime = this.totalDistance/this.velocity;
-
+	this.endAnimation = false;
 	this.finalMatrix = [];
 }
 
@@ -27,7 +27,7 @@ BezierAnimation.prototype.casteljau = function(points, nTimes) {
 	var i = 0;
 	newPoints.push(points[0]);
 	for(i; i < points.length - 1; i++){
-		var newPoint = [(points[i + 1][0] + points[i][0])/2, (points[i + 1][1] - points[i][1])/2, (points[i + 1][2] - points[i][2])/2];
+		var newPoint = [(points[i + 1][0] + points[i][0])/2, (points[i + 1][1] + points[i][1])/2, (points[i + 1][2] + points[i][2])/2];
 		newPoints.push(newPoint);
 	}
 	newPoints.push(points[i]);
@@ -55,9 +55,9 @@ function bezier(time, points) {
 }
 
 function derivateBezier(time, points) {
-	this.qx = -3*Math.pow(1 - time, 2) * points[0][0] + (3 * Math.pow(1 - time, 2) - 6*time*(1-time)) * points[1][0] + (6 * time * (1 - time) - 3*time*time) * points[2][0] + 3 * Math.pow(time, 2) * points[3][0];
-    this.qy = -3*Math.pow(1 - time, 2) * points[0][1] + (3 * Math.pow(1 - time, 2) - 6*time*(1-time)) * points[1][1] + (6 * time * (1 - time) - 3*time*time) * points[2][1] + 3 * Math.pow(time, 2) * points[3][1];
-    this.qz = -3*Math.pow(1 - time, 2) * points[0][2] + (3 * Math.pow(1 - time, 2) - 6*time*(1-time)) * points[1][2] + (6 * time * (1 - time) - 3*time*time) * points[2][2] + 3 * Math.pow(time, 2) * points[3][2];
+	this.qx = -3*Math.pow(1 - time, 2) * points[0][0] + (3 * Math.pow(1 - time, 2) - 6*time*(1-time)) * points[1][0] + (6 * time * (1 - time) - 3*Math.pow(time,2)) * points[2][0] + 3 * Math.pow(time, 2) * points[3][0];
+    this.qy = -3*Math.pow(1 - time, 2) * points[0][1] + (3 * Math.pow(1 - time, 2) - 6*time*(1-time)) * points[1][1] + (6 * time * (1 - time) - 3*Math.pow(time,2)) * points[2][1] + 3 * Math.pow(time, 2) * points[3][1];
+    this.qz = -3*Math.pow(1 - time, 2) * points[0][2] + (3 * Math.pow(1 - time, 2) - 6*time*(1-time)) * points[1][2] + (6 * time * (1 - time) - 3*Math.pow(time,2)) * points[2][2] + 3 * Math.pow(time, 2) * points[3][2];
     this.qb = [];
     this.qb.push(this.qx, this.qy, this.qz);
     return this.qb;
@@ -65,7 +65,12 @@ function derivateBezier(time, points) {
 
 BezierAnimation.prototype.update = function(deltaTime) {
 	this.s += deltaTime/this.totalTime;
+
+	if(this.endAnimation === true){
+		return this.finalMatrix;
+	}
 	if(this.s >= 1){
+		this.endAnimation = true;
 		return this.finalMatrix;
 	}
 
@@ -77,7 +82,7 @@ BezierAnimation.prototype.update = function(deltaTime) {
 	var matrix = mat4.create();
 	mat4.identity(matrix);
 
-	mat4.translate(matrix, matrix, [this.points[0][0] + qb[0], this.points[0][1] + qb[1], this.points[0][2] + qb[2]]);
+	mat4.translate(matrix, matrix, [qb[0], qb[1], qb[2]]);
 	mat4.rotateY(matrix, matrix, this.angle);
 
 	this.finalMatrix = matrix.slice();
