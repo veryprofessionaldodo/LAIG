@@ -3,7 +3,9 @@ function ComboAnimation(scene, animations){
 
 	this.scene = scene;
 	this.animations = animations.slice();
+	console.log(this.animations);
 	this.currentAnimation = 0;
+	this.finalMatrix= [];
 }
 
 ComboAnimation.prototype = Object.create(Animation.prototype);
@@ -15,9 +17,13 @@ ComboAnimation.prototype.update = function(deltaTime) {
 		mat4.identity(matrix);
 		return matrix;
 	}
-	if(this.animations[this.currentAnimation].endAnimation === 1){
+	if(this.animations[this.currentAnimation].endAnimation === true){
 		this.currentAnimation++;
 	}
 	
-	this.animations[this.currentAnimation].update(deltaTime);
+	return this.animations[this.currentAnimation].update(deltaTime);
+}
+
+ComboAnimation.prototype.clone = function() {
+	return this;
 }

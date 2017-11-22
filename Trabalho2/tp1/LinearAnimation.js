@@ -62,3 +62,8 @@ LinearAnimation.prototype.update = function(deltaTime) {
 	return matrix;
 }
 
+LinearAnimation.prototype.clone = function() {
+	var clone = new LinearAnimation(this.scene, this.velocity, this.points);
+	return clone;
+}
+

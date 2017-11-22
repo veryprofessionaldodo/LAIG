@@ -88,3 +88,8 @@ BezierAnimation.prototype.update = function(deltaTime) {
 	this.finalMatrix = matrix.slice();
 	return matrix;
 }
+
+BezierAnimation.prototype.clone = function() {
+	var clone = new BezierAnimation(this.scene, this.velocity, this.points);
+	return clone;
+}

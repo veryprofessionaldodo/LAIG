@@ -1463,7 +1463,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
                             return "unable to parse animation ID (node ID = " + nodeID + ")";
                         if (aniID != "null" && this.animations[aniID] == null )
                             return "ID does not correspond to a valid animation (node ID = " + nodeID + ")";
-                        this.nodes[nodeID].animations.push(this.animations[aniID]);
+                        this.nodes[nodeID].animations.push(this.animations[aniID].clone());
                     }
                 }
             }
