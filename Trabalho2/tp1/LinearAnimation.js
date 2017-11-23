@@ -57,10 +57,10 @@ LinearAnimation.prototype.update = function(deltaTime) {
 	var matrix = mat4.create();
 	mat4.identity(matrix);
 	mat4.translate(matrix, matrix, [this.x, this.y, this.z]);
+
 	mat4.rotateY(matrix, matrix, this.angle);
 
 	this.finalMatrix = matrix.slice();
-	console.log([this.x, this.y, this.z], 80*this.angle/Math.PI,this.travelledDistanceInStage, this.distances[this.currentStage]);
 	return matrix;
 }
 

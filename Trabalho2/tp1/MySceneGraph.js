@@ -1638,9 +1638,11 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
             }
             this.newMaterial.apply();
         }
+        this.scene.pushMatrix();
         //multiplicates the matrixes
+        this.scene.multMatrix(node.transformMatrix);        
         node.display(deltaTime);
-        this.scene.multMatrix(node.transformMatrix);
+        
         //display of the leaves
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
@@ -1656,7 +1658,7 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
         }  
         if(node.children.length > 0){
             for(var i = 0; i < node.children.length; i++){
-                this.scene.pushMatrix();
+                
                 this.newMaterial = null;
                 this.newTexture = null;
                 //recursive call
@@ -1668,8 +1670,9 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
                 else {
                     this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);
                 }
-                this.scene.popMatrix();
+                
             }
         }
+        this.scene.popMatrix();
     }
 }

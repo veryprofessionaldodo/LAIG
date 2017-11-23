@@ -19,17 +19,17 @@
 
 
         <!-- Lights -->
-        <LIGHTS>	
+        <LIGHTS>    
          <LIGHT id="light0">
-            <enable value ="1" />                   	       
-            <position  x="-5" y="12" z="25" w="1" />       	   
-            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />        	 
+            <enable value ="1" />                              
+            <position  x="-5" y="12" z="25" w="1" />           
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />          
             <diffuse r="0.75" g="0.75" b="0.35" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </LIGHT>
 
         <LIGHT id="light1">                                    
-            <enable value ="1" />                   	      
+            <enable value ="1" />                             
             <position  x="-7" y="12" z="33" w="1" />           
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
             <diffuse r="0.85" g="0.85" b="0.45" a="1.0" />
@@ -45,8 +45,8 @@
         </LIGHT>
 
         <LIGHT id="light3">                                   
-            <enable value ="1" />                   	       
-            <position x="13" y="15" z="16" w="1" />       		   
+            <enable value ="1" />                              
+            <position x="13" y="15" z="16" w="1" />                
             <ambient r="0.3" g="0.25" b="0.25" a="1.0" />
             <diffuse r="0.65" g="0.6" b="0.6" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -111,10 +111,59 @@
 </MATERIALS>
 
 <ANIMATIONS>
-    <ANIMATION id="canhao1" speed="0.2" type="circular"
-        centerx="30.0" centery="40.0" centerz="50.0"
-        radius="1.0" startang="0" rotang="90" />
-<!--
+
+    <ANIMATION id="animacaoBola1" speed="50.0" type="bezier">
+        <controlpoint xx="0" yy="0" zz="0" />
+        <controlpoint xx="15" yy="45" zz="0" />
+        <controlpoint xx="20" yy="35" zz="0" />
+        <controlpoint xx="40" yy="-20" zz="0" />
+    </ANIMATION>
+    <ANIMATION id="animacaoBola2" speed="20.0" type="bezier">
+        <controlpoint xx="40" yy="-20" zz="0" />
+        <controlpoint xx="44" yy="-10" zz="0" />
+        <controlpoint xx="46" yy="-10" zz="0" />
+        <controlpoint xx="50" yy="-20" zz="0" />
+    </ANIMATION>
+    <ANIMATION id="animacaoBola3" speed="20.0" type="bezier">
+        <controlpoint xx="50" yy="-20" zz="0" />
+        <controlpoint xx="53" yy="-16" zz="0" />
+        <controlpoint xx="55" yy="-16" zz="0" />
+        <controlpoint xx="58" yy="-20" zz="0" />
+    </ANIMATION>
+    <ANIMATION id="animacaoBola4" speed="15.0" type="bezier">
+        <controlpoint xx="58" yy="-20" zz="0" />
+        <controlpoint xx="60" yy="-18" zz="0" />
+        <controlpoint xx="62" yy="-18" zz="0" />
+        <controlpoint xx="64" yy="-20" zz="0" />
+    </ANIMATION>
+    <ANIMATION id="animacaoBola5" speed="10.0" type="bezier">
+        <controlpoint xx="64" yy="-20" zz="0" />
+        <controlpoint xx="65" yy="-19" zz="0" />
+        <controlpoint xx="66" yy="-19" zz="0" />
+        <controlpoint xx="67" yy="-20" zz="0" />
+    </ANIMATION>
+    <ANIMATION id="animacaoBola6" speed="10.0" type="linear">
+        <controlpoint xx="67" yy="-20" zz="0" />
+        <controlpoint xx="72" yy="-20" zz="0" />
+    </ANIMATION>
+    <ANIMATION id="animacaoBola7" speed="90.0" type="bezier">
+        <controlpoint xx="88" yy="-20" zz="0" />
+        <controlpoint xx="90" yy="-25" zz="0" />
+        <controlpoint xx="91" yy="-100" zz="0" />
+        <controlpoint xx="92" yy="-200" zz="0" />
+    </ANIMATION>
+
+    <ANIMATION id="animacaoBola" type="combo">
+        <SPANREF id="animacaoBola1"/>
+        <SPANREF id="animacaoBola2"/>
+        <SPANREF id="animacaoBola3"/>
+        <SPANREF id="animacaoBola4"/>
+        <SPANREF id="animacaoBola5"/>
+        <SPANREF id="animacaoBola6"/>
+        <SPANREF id="animacaoBola7"/>
+    </ANIMATION>
+    
+<!--7
  <ANIMATION id="teste" speed="3.0" type="linear">
     <controlpoint xx="0" yy="0" zz="0" />
     <controlpoint xx="10" yy="0" zz="0" />
@@ -136,11 +185,7 @@
         <controlpoint xx="20" yy="0" zz="20" />
         <controlpoint xx="0" yy="0" zz="20" />
     </ANIMATION>
-    <ANIMATION id="testecombo" type="combo">
-        <SPANREF id="teste"/>
-        <SPANREF id="teste2"/>
-        <SPANREF id="teste3"/>
-    </ANIMATION>
+    
 -->
 </ANIMATIONS>
 
@@ -183,24 +228,20 @@
 
         <TRANSLATION x="0" y="0" z="60" />
         <ROTATION axis="x" angle="-90" />
-        <SCALE sx="20.0" sy="20.0" sz="1" />
+        <SCALE sx="23.0" sy="20.0" sz="1" />
         
         <DESCENDANTS>
             <LEAF type="rectangle" args="0 4 5 0" />
         </DESCENDANTS>
     </NODE>
 
-        <!-- Cube -->
-    <NODE id="plataforma" selectable="true" > <!-- ADD SELECTABLE -->       
+    <!-- Cube -->
+    <NODE id="plataforma" selectable="true" > 
         <MATERIAL id="null" />     
         <TEXTURE id="null" />   
 
         <TRANSLATION x="-10" y="0" z="0" />    
         <SCALE sx="5" sy="5" sz="5" />
-
-<!--        <ANIMATIONREFS>
-            <ANIMATIONREF id="testecombo" />
-        </ANIMATIONREFS> -->
 
         <DESCENDANTS>
          <NODEREF id="cubo" />
@@ -209,17 +250,12 @@
 
 
     <!-- Cube -->
-    <NODE id="canhao" selectable="true" > <!-- ADD SELECTABLE -->       
+    <NODE id="canhao" selectable="true" > 
         <MATERIAL id="null" />     
         <TEXTURE id="null" />   
 
-        <ROTATION axis="x" angle="90" />
-
-        <TRANSLATION x="25" y="17" z="15" />    
-
-       <ANIMATIONREFS>
-            <ANIMATIONREF id="canhao1" />
-        </ANIMATIONREFS> 
+        <TRANSLATION x="30" y="15" z="15" />    
+        <ROTATION axis="z" angle="50" />
 
         <DESCENDANTS>
          <NODEREF id="cubo" />
@@ -230,7 +266,11 @@
         <MATERIAL id="null" />    
         <TEXTURE id="null" />  
  
-        <TRANSLATION x="33" y="23" z="19" />    
+        <TRANSLATION x="34" y="23" z="19" />    
+
+        <ANIMATIONREFS>
+            <ANIMATIONREF id="animacaoBola" />
+        </ANIMATIONREFS> 
  
         <DESCENDANTS>
             <LEAF id="sphere1" type="sphere" args="2 20 20" />
