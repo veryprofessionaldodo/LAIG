@@ -18,6 +18,11 @@ function LinearAnimation(scene, velocity, points){
 	this.endAnimation = false;
 
 	this.finalMatrix = [];
+
+
+	this.x = this.points[this.currentStage][0];
+	this.y = this.points[this.currentStage][1];
+	this.z = this.points[this.currentStage][2];
 }
 
 LinearAnimation.prototype = Object.create(Animation.prototype);
@@ -37,31 +42,25 @@ LinearAnimation.prototype.update = function(deltaTime) {
 		this.endAnimation = true;
 		return this.finalMatrix;
 	}
-	//this.travelledDistanceInStage += this.velocity*deltaTime;
-	/*if(this.travelledDistanceInStage > this.distances[this.currentStage]){
-		//this.travelledDistanceInStage = this.distances[this.currentStage];
-		this.travelledDistanceInStage -= this.distances[this.currentStage];		
-		this.currentStage++; 
+	else {
+		this.directionX = this.points[this.currentStage+1][0] - this.points[this.currentStage][0];
+		this.directionY = this.points[this.currentStage+1][1] - this.points[this.currentStage][1];
+		this.directionZ = this.points[this.currentStage+1][2] - this.points[this.currentStage][2];
 	}
-	if(this.currentStage + 1 >= this.stages){
-		this.endAnimation = true;
-	}*/
-	this.angle = Math.atan2((this.points[this.currentStage + 1][0] - this.points[this.currentStage][0]),(this.points[this.currentStage + 1][2] - this.points[this.currentStage][2]));
-	this.x = (this.travelledDistanceInStage / this.distances[this.currentStage]) * (this.points[this.currentStage+1][0] - this.points[this.currentStage][0]);
-	this.y = (this.travelledDistanceInStage / this.distances[this.currentStage]) * (this.points[this.currentStage+1][1] - this.points[this.currentStage][1]);
-	this.z = (this.travelledDistanceInStage / this.distances[this.currentStage]) * (this.points[this.currentStage+1][2] - this.points[this.currentStage][2]);
-
-	/*this.scene.translate(this.x, this.y, this.z);
-	this.scene.translate(this.points[this.currentStage][0], this.points[this.currentStage][1], this.points[this.currentStage][2]);
-	this.scene.rotate(this.angle, 0, 1, 0);*/
+	
+	this.angle = Math.atan2(this.directionX, this.directionZ);
+	
+	this.x += this.velocity * deltaTime * this.directionX;
+	this.y += this.velocity * deltaTime * this.directionY;
+	this.z += this.velocity * deltaTime * this.directionZ;
 
 	var matrix = mat4.create();
 	mat4.identity(matrix);
 	mat4.translate(matrix, matrix, [this.x, this.y, this.z]);
-	mat4.translate(matrix, matrix, [this.points[this.currentStage][0], this.points[this.currentStage][1], this.points[this.currentStage][2]]);
 	mat4.rotateY(matrix, matrix, this.angle);
 
 	this.finalMatrix = matrix.slice();
+	console.log([this.x, this.y, this.z], 80*this.angle/Math.PI,this.travelledDistanceInStage, this.distances[this.currentStage]);
 	return matrix;
 }
 
