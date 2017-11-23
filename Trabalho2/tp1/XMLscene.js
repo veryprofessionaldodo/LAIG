@@ -161,6 +161,9 @@ XMLscene.prototype.display = function() {
 XMLscene.prototype.update = function(currTime) {
 
     //console.log('XMLScene Update ' + currTime);
+    if(this.lastTime === 0){
+        this.lastTime = currTime;
+    }
     this.deltaTime = (currTime - this.lastTime);
     this.lastTime = currTime;
     

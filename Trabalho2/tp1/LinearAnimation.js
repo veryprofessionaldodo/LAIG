@@ -25,6 +25,9 @@ LinearAnimation.prototype.constructor = LinearAnimation;
 
 LinearAnimation.prototype.update = function(deltaTime) {
 
+	if(this.endAnimation === true){
+ 		return this.finalMatrix;
+ 	}
 	this.travelledDistanceInStage += this.velocity*deltaTime;
 	if(this.travelledDistanceInStage >= this.distances[this.currentStage]){ //next stage
 		this.travelledDistanceInStage -= this.distances[this.currentStage];		

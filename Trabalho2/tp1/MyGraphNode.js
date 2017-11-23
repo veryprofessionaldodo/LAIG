@@ -22,6 +22,8 @@ function MyGraphNode(graph, nodeID) {
 
     // The Animations ID.
     this.animations = [];
+    this.currentAnimation = 0;
+    this.animationFinalMatrix = [];
 
     this.transformMatrix = mat4.create();
     mat4.identity(this.transformMatrix);
@@ -42,22 +44,21 @@ MyGraphNode.prototype.addLeaf = function(leaf) {
 }
 
 MyGraphNode.prototype.display = function(deltaTime) {
-    for(var i = 0; i < this.animations.length; i++){
-        var matrix = this.animations[i].update(deltaTime);
-        this.graph.scene.multMatrix(matrix);
+    if(this.animations.length === 0){
+        return this.transformMatrix;
     }
-    /*if(this.leaves.length > 0){
-        for(var i = 0; i < this.leaves.length; i++){
-            this.leaves[i].displayLeaf(texture);
-        }
-    }*/
+    if(this.currentAnimation >= this.animations.length){
+        this.graph.scene.multMatrix(this.animationFinalMatrix);
+        return;
+    }
+    if(this.animations[this.currentAnimation].endAnimation === true){
+        this.currentAnimation++;
+    }
+    if(this.currentAnimation >= this.animations.length){
+        this.graph.scene.multMatrix(this.animationFinalMatrix);
+        return;
+    }
+    var matrix = this.animations[this.currentAnimation].update(deltaTime);
+    this.graph.scene.multMatrix(matrix);
+    this.animationFinalMatrix = matrix.slice();
 }
-
-/*
-MyGraphNode.prototype.display = function(currTime){
-    console.log(currTime);
-    for(var i = 0; i < this.animations.length; i++){
-            var matrix = this.animations[i].update(currTime);
-            this.graph.scene.multMatrix(matrix);
-    }
-}*/
