@@ -111,6 +111,9 @@
 </MATERIALS>
 
 <ANIMATIONS>
+    <ANIMATION id="canhao1" speed="0.2" type="circular"
+        centerx="30.0" centery="40.0" centerz="50.0"
+        radius="1.0" startang="0" rotang="90" />
 <!--
  <ANIMATION id="teste" speed="3.0" type="linear">
     <controlpoint xx="0" yy="0" zz="0" />
@@ -159,12 +162,12 @@
 
         <DESCENDANTS>    
             <NODEREF id="chao" />
-            <NODEREF id="cubo" />
+            <NODEREF id="plataforma" />
             <NODEREF id="objetosAnimados" />
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="objetosAnimados" selectable="true">
+    <NODE id="objetosAnimados">
         <MATERIAL id="null" />
         <TEXTURE id="null" />
 
@@ -187,37 +190,60 @@
         </DESCENDANTS>
     </NODE>
 
-
-    <!-- Cube -->
-    <NODE id="canhao" selectable="true" > <!-- ADD SELECTABLE -->       
+        <!-- Cube -->
+    <NODE id="plataforma" selectable="true" > <!-- ADD SELECTABLE -->       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />   
 
-        <TRANSLATION x="20" y="5.5" z="10" />    
+        <TRANSLATION x="-10" y="0" z="0" />    
+        <SCALE sx="5" sy="5" sz="5" />
 
 <!--        <ANIMATIONREFS>
             <ANIMATIONREF id="testecombo" />
         </ANIMATIONREFS> -->
 
         <DESCENDANTS>
-         <NODEREF id="faceCubo1" />
-         <NODEREF id="faceCubo2" />
-         <NODEREF id="faceCubo3" />
-         <NODEREF id="faceCubo4" />
-         <NODEREF id="faceCubo5" />
-         <NODEREF id="faceCubo6" />      
+         <NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+
+    <!-- Cube -->
+    <NODE id="canhao" selectable="true" > <!-- ADD SELECTABLE -->       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />   
+
+        <ROTATION axis="x" angle="90" />
+
+        <TRANSLATION x="25" y="17" z="15" />    
+
+       <ANIMATIONREFS>
+            <ANIMATIONREF id="canhao1" />
+        </ANIMATIONREFS> 
+
+        <DESCENDANTS>
+         <NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="bola" selectable="true">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />  
+ 
+        <TRANSLATION x="33" y="23" z="19" />    
+ 
+        <DESCENDANTS>
+            <LEAF id="sphere1" type="sphere" args="2 20 20" />
         </DESCENDANTS>
     </NODE>
 
     <!-- Cube -->
-    <NODE id="cubo" selectable="true" > <!-- ADD SELECTABLE -->       
+    <NODE id="cubo" >
         <MATERIAL id="null" />     
         <TEXTURE id="null" />   
     
-        <SCALE sx="5" sy="5" sz="5" />
         <TRANSLATION x="10" y="2.5" z="4" />
         
-
         <DESCENDANTS>
             <NODEREF id="faceCubo1" />
             <NODEREF id="faceCubo2" />

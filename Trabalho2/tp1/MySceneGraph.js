@@ -54,9 +54,7 @@ var NODES_INDEX = 7;
 
     // FOI AQUI QUE A NAÇÃO DO FOGO ATACOU
 
-    this.testShaders=[
-        new CGFshader(this.scene.gl, "shaders/finalShader.vert", "shaders/finalShader.frag"),
-    ];
+    this.selectableShader= new CGFshader(this.scene.gl, "shaders/finalShader.vert", "shaders/finalShader.frag");
     this.activeSelectable = 0;
     this.totalTime = 0;
     this.scaleFactor = 0;
@@ -1580,7 +1578,7 @@ MySceneGraph.prototype.log = function(message) {
 }
 
 MySceneGraph.prototype.updateScaleFactor=function(v) {
-    this.testShaders[0].setUniformsValues({normScale: this.scaleFactor});
+    this.selectableShader.setUniformsValues({normScale: this.scaleFactor});
 }
 
 /**
@@ -1647,9 +1645,9 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
                 if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
-                    this.scene.setActiveShader(this.testShaders[0]); 
+                    //this.scene.setActiveShader(this.selectableShader); 
                     node.leaves[i].displayLeaf(this.newTexture);
-                    this.scene.setActiveShader(this.scene.defaultShader);
+                    //this.scene.setActiveShader(this.scene.defaultShader);
                 }
                 else {
                     node.leaves[i].displayLeaf(this.newTexture);
@@ -1663,9 +1661,9 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
                 this.newTexture = null;
                 //recursive call
                 if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
-                    this.scene.setActiveShader(this.testShaders[0]);
+                    //this.scene.setActiveShader(this.selectableShader);
                     this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);
-                    this.scene.setActiveShader(this.scene.defaultShader);
+                    //this.scene.setActiveShader(this.scene.defaultShader);
                 }
                 else {
                     this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);
