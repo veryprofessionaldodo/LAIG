@@ -111,9 +111,12 @@
 </MATERIALS>
 
 <ANIMATIONS>
-
-    <ANIMATION id="animacaoBola1" speed="50.0" type="bezier">
+    <ANIMATION id="animacaoBola0" speed="0.1" type="linear">
         <controlpoint xx="0" yy="0" zz="0" />
+        <controlpoint xx="0" yy="0.4" zz="0" />
+    </ANIMATION>
+    <ANIMATION id="animacaoBola1" speed="50.0" type="bezier">
+        <controlpoint xx="0" yy="0.4" zz="0" />
         <controlpoint xx="15" yy="45" zz="0" />
         <controlpoint xx="20" yy="35" zz="0" />
         <controlpoint xx="40" yy="-20" zz="0" />
@@ -144,16 +147,17 @@
     </ANIMATION>
     <ANIMATION id="animacaoBola6" speed="10.0" type="linear">
         <controlpoint xx="67" yy="-20" zz="0" />
-        <controlpoint xx="86" yy="-20" zz="0" />
+        <controlpoint xx="75" yy="-20" zz="0" />
     </ANIMATION>
     <ANIMATION id="animacaoBola7" speed="90.0" type="bezier">
-        <controlpoint xx="86" yy="-20" zz="0" />
-        <controlpoint xx="88" yy="-25" zz="0" />
-        <controlpoint xx="89" yy="-100" zz="0" />
-        <controlpoint xx="90" yy="-200" zz="0" />
+        <controlpoint xx="75" yy="-20" zz="0" />
+        <controlpoint xx="79" yy="-25" zz="0" />
+        <controlpoint xx="83" yy="-100" zz="0" />
+        <controlpoint xx="85" yy="-200" zz="0" />
     </ANIMATION>
 
     <ANIMATION id="animacaoBola" type="combo">
+        <SPANREF id="animacaoBola0"/>
         <SPANREF id="animacaoBola1"/>
         <SPANREF id="animacaoBola2"/>
         <SPANREF id="animacaoBola3"/>
@@ -162,31 +166,41 @@
         <SPANREF id="animacaoBola6"/>
         <SPANREF id="animacaoBola7"/>
     </ANIMATION>
+
+    <ANIMATION id="animacaoCanhao0" speed="0.24" type="circular"
+        centerx="0.0" centery="0.0" centerz="0.0"
+        radius="1" startang="0" rotang="55" />
     
-<!--7
- <ANIMATION id="teste" speed="3.0" type="linear">
-    <controlpoint xx="0" yy="0" zz="0" />
-    <controlpoint xx="10" yy="0" zz="0" />
-    <controlpoint xx="10" yy="0" zz="10" />
-    <controlpoint xx="0" yy="0" zz="10" />
-    <controlpoint xx="0" yy="0" zz="0" />
-</ANIMATION>
-<ANIMATION id="teste1" speed="0.5" type="linear">
-    <controlpoint xx="1.0" yy="1.0" zz="1.0" />
-    <controlpoint xx="2.0" yy="2.0" zz="2.0" />
-    <controlpoint xx="3.0" yy="3.0" zz="3.0" />
-</ANIMATION>
-<ANIMATION id="teste2" speed="1.0" type="circular"
-    centerx="1.0" centery="1.0" centerz="1.0"
-    radius="5.0" startang="10" rotang="200" />
-    <ANIMATION id="teste3" speed="5.0" type="bezier">
+    <ANIMATION id="animacaoCanhao1" speed="20.0" type="circular"
+        centerx="0.0" centery="0.0" centerz="0.0"
+        radius="1" startang="55" rotang="35" />
+
+    <ANIMATION id="animacaoCanhao2" speed="40.0" type="linear">
         <controlpoint xx="0" yy="0" zz="0" />
-        <controlpoint xx="20" yy="0" zz="0" />
-        <controlpoint xx="20" yy="0" zz="20" />
-        <controlpoint xx="0" yy="0" zz="20" />
+        <controlpoint xx="-12" yy="0" zz="0" />
     </ANIMATION>
-    
--->
+
+    <ANIMATION id="animacaoCanhao3" speed="50.0" type="circular"
+        centerx="-12.0" centery="0.0" centerz="20.0"
+        radius="20" startang="90" rotang="45" />
+
+    <ANIMATION id="animacaoCanhao4" speed="55.0" type="circular"
+        centerx="-12.0" centery="0.0" centerz="20.0"
+        radius="20" startang="135" rotang="45" />
+
+    <ANIMATION id="animacaoCanhao5" speed="5.0" type="linear">
+        <controlpoint xx="-32" yy="0" zz="20" />
+        <controlpoint xx="-34" yy="0" zz="20" />
+    </ANIMATION>
+
+    <ANIMATION id="animacaoCanhao" type="combo">
+        <SPANREF id="animacaoCanhao0"/>
+        <SPANREF id="animacaoCanhao1"/>
+        <SPANREF id="animacaoCanhao2"/>
+        <SPANREF id="animacaoCanhao3"/>
+        <SPANREF id="animacaoCanhao4"/>
+        <SPANREF id="animacaoCanhao5"/>
+    </ANIMATION>
 </ANIMATIONS>
 
 
@@ -226,9 +240,9 @@
         <MATERIAL id="null"/>
         <TEXTURE id="null" />
 
-        <TRANSLATION x="0" y="0" z="60" />
+        <TRANSLATION x="-15" y="0" z="60" />
         <ROTATION axis="x" angle="-90" />
-        <SCALE sx="23.0" sy="20.0" sz="1" />
+        <SCALE sx="26.0" sy="20.0" sz="1" />
         
         <DESCENDANTS>
             <LEAF type="rectangle" args="0 4 5 0" />
@@ -240,8 +254,9 @@
         <MATERIAL id="null" />     
         <TEXTURE id="null" />   
 
-        <TRANSLATION x="-10" y="0" z="0" />    
+        <TRANSLATION x="7" y="0" z="0" />
         <SCALE sx="5" sy="5" sz="5" />
+        <TRANSLATION x="7" y="2.5" z="3" />
 
         <DESCENDANTS>
          <NODEREF id="cubo" />
@@ -254,8 +269,12 @@
         <MATERIAL id="null" />     
         <TEXTURE id="null" />   
 
-        <TRANSLATION x="30" y="15" z="15" />    
-        <ROTATION axis="z" angle="50" />
+        <TRANSLATION x="40" y="22" z="16" />    
+        <ROTATION axis="x" angle="90" />
+
+        <ANIMATIONREFS>
+            <ANIMATIONREF id="animacaoCanhao"/>
+        </ANIMATIONREFS> 
 
         <DESCENDANTS>
          <NODEREF id="cubo" />
@@ -266,12 +285,12 @@
         <MATERIAL id="null" />    
         <TEXTURE id="null" />  
  
-        <TRANSLATION x="34" y="23" z="19" />    
+        <TRANSLATION x="40" y="22" z="14" />    
 
         <ANIMATIONREFS>
             <ANIMATIONREF id="animacaoBola" />
         </ANIMATIONREFS> 
- 
+
         <DESCENDANTS>
             <LEAF id="sphere1" type="sphere" args="2 20 20" />
         </DESCENDANTS>
@@ -281,8 +300,6 @@
     <NODE id="cubo" >
         <MATERIAL id="null" />     
         <TEXTURE id="null" />   
-    
-        <TRANSLATION x="10" y="2.5" z="4" />
         
         <DESCENDANTS>
             <NODEREF id="faceCubo1" />
@@ -302,7 +319,7 @@
         <TRANSLATION x="-2.5" y="-2.5" z="2.5" />
 
         <DESCENDANTS>
-            <LEAF  type="rectangle" args="0 4 5 0" />        
+            <LEAF type="rectangle" args="0 4 5 0" />        
         </DESCENDANTS>
 
     </NODE>

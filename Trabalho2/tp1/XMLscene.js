@@ -11,6 +11,7 @@ function XMLscene(interface) {
 
     this.lightValues = {};
     this.selectables = {};
+    this.playAnimations = false;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);

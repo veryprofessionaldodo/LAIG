@@ -38,7 +38,7 @@ MyInterface.prototype.init = function(application) {
 MyInterface.prototype.addLightsGroup = function(lights) {
 
     var group = this.gui.addFolder("Lights");
-    group.open();
+    //group.open();
     
     // add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
     // e.g. this.option1=true; this.option2=false;
@@ -58,10 +58,13 @@ MyInterface.prototype.addSelectablesGroup = function(selectables, graph) {
     this.gui.add(this.scene, "selectables", selectables).onChange(function(v) { 
             for (var i = 0; i < selectables.length; i++) {
                 if (selectables[i] == v) {
-                    console.log("wow");
                     graph.activeSelectable = i; 
                 }
             }
-        });
+     });
+    
+   this.gui.add(this.scene, 'playAnimations').onChange(function(v)
+        { graph.updatePlayAnimations(v)  });
+
 }
 

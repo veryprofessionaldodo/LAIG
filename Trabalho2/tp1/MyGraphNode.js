@@ -58,6 +58,7 @@ MyGraphNode.prototype.display = function(deltaTime) {
         this.graph.scene.multMatrix(this.animationFinalMatrix);
         return;
     }
+
     var matrix = this.animations[this.currentAnimation].update(deltaTime);
     this.graph.scene.multMatrix(matrix);
     this.animationFinalMatrix = matrix.slice();

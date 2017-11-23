@@ -10,6 +10,8 @@ function BezierAnimation(scene, velocity, points){
 	this.casteljau(this.points, 1);
 	this.totalDistance = totalDistance(this.newPoints);
 
+
+
 	this.totalTime = this.totalDistance/this.velocity;
 	this.endAnimation = false;
 	this.finalMatrix = [];
@@ -60,6 +62,7 @@ function derivateBezier(time, points) {
     this.qz = -3*Math.pow(1 - time, 2) * points[0][2] + (3 * Math.pow(1 - time, 2) - 6*time*(1-time)) * points[1][2] + (6 * time * (1 - time) - 3*Math.pow(time,2)) * points[2][2] + 3 * Math.pow(time, 2) * points[3][2];
     this.qb = [];
     this.qb.push(this.qx, this.qy, this.qz);
+
     return this.qb;
 }
 
@@ -75,9 +78,10 @@ BezierAnimation.prototype.update = function(deltaTime) {
 	}
 
 	var qb = bezier(this.s, this.points);
+
 	var derivateQb = derivateBezier(this.s, this.points);
 
-	this.angle = Math.atan2(derivateQb[2], derivateQb[0]);
+	this.angle = Math.atan(derivateQb[2], derivateQb[0]);
 
 	var matrix = mat4.create();
 	mat4.identity(matrix);
@@ -86,6 +90,7 @@ BezierAnimation.prototype.update = function(deltaTime) {
 	mat4.rotateY(matrix, matrix, this.angle);
 
 	this.finalMatrix = matrix.slice();
+
 	return matrix;
 }
 
