@@ -144,13 +144,13 @@
     </ANIMATION>
     <ANIMATION id="animacaoBola6" speed="10.0" type="linear">
         <controlpoint xx="67" yy="-20" zz="0" />
-        <controlpoint xx="72" yy="-20" zz="0" />
+        <controlpoint xx="86" yy="-20" zz="0" />
     </ANIMATION>
     <ANIMATION id="animacaoBola7" speed="90.0" type="bezier">
-        <controlpoint xx="88" yy="-20" zz="0" />
-        <controlpoint xx="90" yy="-25" zz="0" />
-        <controlpoint xx="91" yy="-100" zz="0" />
-        <controlpoint xx="92" yy="-200" zz="0" />
+        <controlpoint xx="86" yy="-20" zz="0" />
+        <controlpoint xx="88" yy="-25" zz="0" />
+        <controlpoint xx="89" yy="-100" zz="0" />
+        <controlpoint xx="90" yy="-200" zz="0" />
     </ANIMATION>
 
     <ANIMATION id="animacaoBola" type="combo">

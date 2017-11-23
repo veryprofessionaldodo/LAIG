@@ -23,6 +23,10 @@ function LinearAnimation(scene, velocity, points){
 	this.x = this.points[this.currentStage][0];
 	this.y = this.points[this.currentStage][1];
 	this.z = this.points[this.currentStage][2];
+
+	this.directionX = this.points[this.currentStage+1][0] - this.points[this.currentStage][0];
+	this.directionY = this.points[this.currentStage+1][1] - this.points[this.currentStage][1];
+	this.directionZ = this.points[this.currentStage+1][2] - this.points[this.currentStage][2];
 }
 
 LinearAnimation.prototype = Object.create(Animation.prototype);
@@ -37,28 +41,34 @@ LinearAnimation.prototype.update = function(deltaTime) {
 	if(this.travelledDistanceInStage >= this.distances[this.currentStage]){ //next stage
 		this.travelledDistanceInStage -= this.distances[this.currentStage];		
 		this.currentStage++; 
-	}
-	if(this.currentStage + 1 >= this.stages){
-		this.endAnimation = true;
-		return this.finalMatrix;
-	}
-	else {
-		this.directionX = this.points[this.currentStage+1][0] - this.points[this.currentStage][0];
-		this.directionY = this.points[this.currentStage+1][1] - this.points[this.currentStage][1];
-		this.directionZ = this.points[this.currentStage+1][2] - this.points[this.currentStage][2];
+
+		if(this.currentStage + 1 < this.stages) {
+			this.directionX = this.points[this.currentStage+1][0] - this.points[this.currentStage][0];
+			this.directionY = this.points[this.currentStage+1][1] - this.points[this.currentStage][1];
+			this.directionZ = this.points[this.currentStage+1][2] - this.points[this.currentStage][2];
+		}
+		else {
+			this.endAnimation = true;
+			return this.finalMatrix;
+		}
 	}
 	
-	this.angle = Math.atan2(this.directionX, this.directionZ);
+	this.angleXZ = Math.atan2(this.directionX, this.directionY);
+	this.angleY = Math.atan2(this.directionX, this.directionZ);
 	
-	this.x += this.velocity * deltaTime * this.directionX;
-	this.y += this.velocity * deltaTime * this.directionY;
-	this.z += this.velocity * deltaTime * this.directionZ;
+	this.x += this.velocity * Math.sin(this.angleXZ) * deltaTime;
+	this.y += this.velocity * Math.cos(this.angleY) * deltaTime;
+	this.z += this.velocity * Math.cos(this.angleXZ) * deltaTime;
+
+	console.log(this.velocity, this.velocity * Math.sin(this.angleXZ) * deltaTime * this.directionX +
+		this.velocity * Math.cos(this.angleY) * deltaTime * this.directionY +
+		this.velocity * Math.cos(this.angleXZ) * deltaTime * this.directionZ);
 
 	var matrix = mat4.create();
 	mat4.identity(matrix);
 	mat4.translate(matrix, matrix, [this.x, this.y, this.z]);
 
-	mat4.rotateY(matrix, matrix, this.angle);
+	mat4.rotateY(matrix, matrix, this.angleY);
 
 	this.finalMatrix = matrix.slice();
 	return matrix;
