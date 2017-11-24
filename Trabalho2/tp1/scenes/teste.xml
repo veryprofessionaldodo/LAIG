@@ -300,7 +300,7 @@
         <MATERIAL id="null" />    
         <TEXTURE id="soccer_ball" />  
  
-        <TRANSLATION x="40" y="22" z="14" />    
+        <TRANSLATION x="40" y="22" z="14" />
 
         <ANIMATIONREFS>
             <ANIMATIONREF id="animacaoBola" />

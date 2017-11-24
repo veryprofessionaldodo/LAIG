@@ -52,19 +52,23 @@ var NODES_INDEX = 7;
     this.scene.gl.enable(this.scene.gl.BLEND);
     this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
 
-
+    //shader
     this.selectableShader= new CGFshader(this.scene.gl, "shaders/finalShader.vert", "shaders/finalShader.frag");
     this.activeSelectable = 0;
     this.totalTime = 0;
     this.scaleFactor = 0;
     this.multiplyFactor = 10;
 
+    //variable that controls the start of the animation
     this.playAnimations = false;
  }
 
- MySceneGraph.prototype.updatePlayAnimations = function(v)  {
+/**
+    Changes the value of the flag that controls the start of the animation
+*/
+MySceneGraph.prototype.updatePlayAnimations = function(v)  {
     this.playAnimations = v;
- }
+}
 
 /*
  * Callback to be executed after successful reading
@@ -1195,6 +1199,9 @@ var NODES_INDEX = 7;
     console.log("Parsed materials");
 }
 
+/**
+    Parses the points of an animation and saves them in an array (processedPoints)
+*/
 function getArrayControlPoints(reader, initialPoints, processedPoints){
     for(var i = 0; i < initialPoints.length; i++){
         var controlPoints = [];
@@ -1206,12 +1213,15 @@ function getArrayControlPoints(reader, initialPoints, processedPoints){
     }
 }
 
-
+/**
+ * Parses the <ANIMATIONS> node.
+ */
 MySceneGraph.prototype.parseAnimations = function(animationsNode) {
 
     var children = animationsNode.children;
 
     this.animations = [];
+    //Each Animation
 
     for(var i = 0; i < children.length; i++){
         if (children[i].nodeName != "ANIMATION") {
@@ -1226,10 +1236,13 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
         if (this.animations[animationID] != null )
             return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
         
+        //Checks the type if the animation and acts accordingly
+
         var animationType = this.reader.getString(children[i], 'type');
         var animation;
         switch(animationType){
             case 'linear':
+                //linear animation
                 var animationSpeed = this.reader.getFloat(children[i], 'speed');
                 var animationControlPoints = children[i].children;
                 if(animationControlPoints.length <= 1){
@@ -1241,6 +1254,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
                 animation = new LinearAnimation(this.scene, animationSpeed, controlPoints);
                 break;
             case 'circular':
+                //circular animation
                 var animationSpeed = this.reader.getFloat(children[i], 'speed');
                 var centerx = this.reader.getFloat(children[i], 'centerx');
                 var centery = this.reader.getFloat(children[i], 'centery');
@@ -1253,6 +1267,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
                     centerz, radius, startang, rotang);
                 break;
             case 'bezier':
+                //bezier animation
                 var animationSpeed = this.reader.getFloat(children[i], 'speed');
                 var animationControlPoints = children[i].children;
                 if(animationControlPoints.length <= 1){
@@ -1264,6 +1279,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
                 animation = new BezierAnimation(this.scene, animationSpeed, controlPoints);
                 break;
             case 'combo':
+                //combo animation
                 var animationSpans = children[i].children;
                 console.log(animationSpans);
                 var animationCombo = [];
@@ -1273,7 +1289,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
                 }
                 for(var s = 0; s < animationSpans.length; s++){
                     var sID = this.reader.getString(animationSpans[s], 'id');
-                    if(this.animations[sID] == null){
+                    if(this.animations[sID] == null){ //checks if there is a correspondent animation to the id
                         console.log("animation with ID = " + animationID + " hasn't been declared before, so it cannot be used in combo animation");
                         continue;
                     }
@@ -1456,8 +1472,10 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
                 }
             }
 
+            //Retrieves the node's animations
             var animationIndex = specsNames.indexOf("ANIMATIONREFS");
-            if(animationIndex !== -1){
+            if(animationIndex !== -1){ 
+                //if there are animations on this node
                 var animationDescendants = nodeSpecs[animationIndex].children;
                 for(var j = 0; j < animationDescendants.length; j++){
                     if(animationDescendants[j].nodeName == "ANIMATIONREF"){
@@ -1466,6 +1484,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
                             return "unable to parse animation ID (node ID = " + nodeID + ")";
                         if (aniID != "null" && this.animations[aniID] == null )
                             return "ID does not correspond to a valid animation (node ID = " + nodeID + ")";
+                        //saves animation in an array of the node
                         this.nodes[nodeID].animations.push(this.animations[aniID].clone());
                     }
                 }
@@ -1642,12 +1661,11 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
             this.newMaterial.apply();
         }
         //multiplies the matrixes
+        this.scene.multMatrix(node.transformMatrix);
         if (this.playAnimations == true) {
             node.display(deltaTime);
         }
-        this.scene.multMatrix(node.transformMatrix);
-        
-        
+         
         //display of the leaves
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){

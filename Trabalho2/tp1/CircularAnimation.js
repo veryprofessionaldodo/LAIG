@@ -1,10 +1,11 @@
 var DEGREE_TO_RAD = Math.PI / 180;
-
+/**
+	Circular Animation does the animation of a circle
+*/
 function CircularAnimation(scene, velocity, centerx, centery,
                             centerz, radius, startang, rotang){
-	Animation.call(this);
+	Animation.call(this, scene);
 
-	this.scene = scene; //colocar isto na classe Animation
 	this.velocity = velocity;
 	this.centerx = centerx;
 	this.centery = centery;
@@ -24,6 +25,9 @@ function CircularAnimation(scene, velocity, centerx, centery,
 CircularAnimation.prototype = Object.create(Animation.prototype);
 CircularAnimation.prototype.constructor = CircularAnimation;
 
+/**
+	Updates the matrix with the curent position of the object in the duration of the animation.
+*/
 CircularAnimation.prototype.update = function(deltaTime){
 
 	var matrix = mat4.create();
@@ -45,14 +49,11 @@ CircularAnimation.prototype.update = function(deltaTime){
  	mat4.rotateY(matrix, matrix, Math.PI/2);
  	this.finalMatrix = matrix.slice();
   	return matrix;
-
-	/*this.scene.translate(this.centerx, this.centery, this.centerz);
-	this.scene.rotate(this.deltaAngle*DEGREE_TO_RAD, 0, 1, 0);
-	this.scene.translate(this.radius, 0, 0);
-	this.scene.rotate(Math.PI/2, 0, 1, 0);*/
-
 }
 
+/**
+	Returns a clone of this animation.
+*/
 CircularAnimation.prototype.clone = function() {
 	var clone = new CircularAnimation(this.scene, this.velocity, this.centerx, this.centery, this.centerz, this.radius, this.startang, this.rotang);
 	return clone;

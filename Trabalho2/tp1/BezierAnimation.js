@@ -1,13 +1,15 @@
+/**
+	Bezier Animation does the animation of a bezier curve
+*/
 function BezierAnimation(scene, velocity, points){
-	Animation.call(this);
+	Animation.call(this, scene);
 
-	this.scene = scene;
 	this.velocity = velocity;
 	this.points = points;
 	this.s = 0;
 
 	this.newPoints = [];
-	this.casteljau(this.points, 1);
+	this.casteljau(this.points, 3);
 	this.totalDistance = totalDistance(this.newPoints);
 
 
@@ -19,7 +21,10 @@ function BezierAnimation(scene, velocity, points){
 
 BezierAnimation.prototype = Object.create(Animation.prototype);
 BezierAnimation.prototype.constructor = BezierAnimation;
-
+/**
+	Recursive algorithm that calculates the points needed to make the bezier curve. 
+	Using 4 levels of recursivity. 
+*/
 BezierAnimation.prototype.casteljau = function(points, nTimes) {
 	var newPoints = [];
 	if(nTimes < 0){
@@ -36,7 +41,9 @@ BezierAnimation.prototype.casteljau = function(points, nTimes) {
 	nTimes--;
 	this.casteljau(newPoints, nTimes);
 }
-
+/**
+	Calculates the total distance between all the points calculated in the casteljau function.
+*/
 function totalDistance(points){
 	var totalDistance = 0;
 	for(var i = 0; i < points.length - 1; i++){
@@ -47,6 +54,9 @@ function totalDistance(points){
 	return totalDistance;
 }
 
+/**
+	Calculates the values of the bezier curve using its formula, based on the t value (mentioned as time).
+*/
 function bezier(time, points) {
     this.qx = Math.pow(1 - time, 3) * points[0][0] + 3 * time * Math.pow(1 - time, 2) * points[1][0] + 3 * Math.pow(time, 2) * (1 - time) * points[2][0] + Math.pow(time, 3) * points[3][0];
     this.qy = Math.pow(1 - time, 3) * points[0][1] + 3 * time * Math.pow(1 - time, 2) * points[1][1] + 3 * Math.pow(time, 2) * (1 - time) * points[2][1] + Math.pow(time, 3) * points[3][1];
@@ -55,7 +65,9 @@ function bezier(time, points) {
     this.qb.push(this.qx, this.qy, this.qz);
     return this.qb;
 }
-
+/**
+	Calculates the derivate of the bezier curve using its formula, based on the t value (mentioned as time).
+*/
 function derivateBezier(time, points) {
 	this.qx = -3*Math.pow(1 - time, 2) * points[0][0] + (3 * Math.pow(1 - time, 2) - 6*time*(1-time)) * points[1][0] + (6 * time * (1 - time) - 3*Math.pow(time,2)) * points[2][0] + 3 * Math.pow(time, 2) * points[3][0];
     this.qy = -3*Math.pow(1 - time, 2) * points[0][1] + (3 * Math.pow(1 - time, 2) - 6*time*(1-time)) * points[1][1] + (6 * time * (1 - time) - 3*Math.pow(time,2)) * points[2][1] + 3 * Math.pow(time, 2) * points[3][1];
@@ -65,7 +77,9 @@ function derivateBezier(time, points) {
 
     return this.qb;
 }
-
+/**
+	Updates the matrix with the curent position of the object in the duration of the animation.
+*/
 BezierAnimation.prototype.update = function(deltaTime) {
 	this.s += deltaTime/this.totalTime;
 
@@ -94,6 +108,9 @@ BezierAnimation.prototype.update = function(deltaTime) {
 	return matrix;
 }
 
+/**
+	Returns a clone of this animation.
+*/
 BezierAnimation.prototype.clone = function() {
 	var clone = new BezierAnimation(this.scene, this.velocity, this.points);
 	return clone;
