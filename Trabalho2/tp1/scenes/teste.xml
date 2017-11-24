@@ -79,15 +79,29 @@
     </LIGHTS>
 
     <!-- Textures -->
-    <TEXTURES>
+<TEXTURES>
 
     <!-- For metal surfaces -->
     <TEXTURE id="polished_metal">
         <file path="images/polished_metal.jpg" />               
         <amplif_factor s="2" t="2" />                           
     </TEXTURE>
-    
-    
+
+    <TEXTURE id="marble">
+        <file path="images/marble.jpg" />               
+        <amplif_factor s="2" t="2" />                           
+    </TEXTURE>
+
+    <TEXTURE id="soccer_ball">
+        <file path="images/soccer.png" />               
+        <amplif_factor s="2" t="2" />                           
+    </TEXTURE>
+
+    <TEXTURE id="dirt">
+        <file path="images/dirt.jpg" />               
+        <amplif_factor s="2" t="2" />                           
+    </TEXTURE>
+
 </TEXTURES>
 
 <MATERIALS>
@@ -238,7 +252,7 @@
 
     <NODE id="chao" selectable="true">
         <MATERIAL id="null"/>
-        <TEXTURE id="null" />
+        <TEXTURE id="dirt" />
 
         <TRANSLATION x="-15" y="0" z="60" />
         <ROTATION axis="x" angle="-90" />
@@ -252,7 +266,7 @@
     <!-- Cube -->
     <NODE id="plataforma" selectable="true" > 
         <MATERIAL id="null" />     
-        <TEXTURE id="null" />   
+        <TEXTURE id="marble" />   
 
         <TRANSLATION x="7" y="0" z="0" />
         <SCALE sx="5" sy="5" sz="5" />
@@ -266,11 +280,12 @@
 
     <!-- Cube -->
     <NODE id="canhao" selectable="true" > 
-        <MATERIAL id="null" />     
-        <TEXTURE id="null" />   
+        <MATERIAL id="steelMaterial" />     
+        <TEXTURE id="polished_metal" />   
 
         <TRANSLATION x="40" y="22" z="16" />    
         <ROTATION axis="x" angle="90" />
+        <SCALE sx="1" sy="2" sz="1" />
 
         <ANIMATIONREFS>
             <ANIMATIONREF id="animacaoCanhao"/>
@@ -283,7 +298,7 @@
 
     <NODE id="bola" selectable="true">
         <MATERIAL id="null" />    
-        <TEXTURE id="null" />  
+        <TEXTURE id="soccer_ball" />  
  
         <TRANSLATION x="40" y="22" z="14" />    
 

@@ -159,20 +159,14 @@ XMLscene.prototype.display = function() {
     // ---- END Background, camera and axis setup  
 }
 
+/**
+    Updates de deltaTime, which is the time difference between the last interruption and the current one
+*/
 XMLscene.prototype.update = function(currTime) {
 
-    //console.log('XMLScene Update ' + currTime);
     if(this.lastTime === 0){
         this.lastTime = currTime;
     }
     this.deltaTime = (currTime - this.lastTime);
     this.lastTime = currTime;
-    
-   /* for(animationID in this.graph.animations){
-        this.graph.animations[animationID].update(deltaTime);
-    }*/
-
-    /*for(nodeID in this.graph.nodes){
-        this.graph.nodes[nodeID].update(deltaTime);
-    }*/
 }

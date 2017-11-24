@@ -1,10 +1,13 @@
+/**
+	Combo Animation contains another animations and goes through them sequentially
+*/
 function ComboAnimation(scene, animations){
 	Animation.call(this);
 
 	this.scene = scene;
 	this.animations = animations.slice();
 	this.currentAnimation = 0;
-	this.finalMatrix= [];
+	this.finalMatrix = [];
 }
 
 ComboAnimation.prototype = Object.create(Animation.prototype);

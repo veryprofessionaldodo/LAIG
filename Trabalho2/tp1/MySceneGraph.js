@@ -52,7 +52,6 @@ var NODES_INDEX = 7;
     this.scene.gl.enable(this.scene.gl.BLEND);
     this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
 
-    // FOI AQUI QUE A NAÇÃO DO FOGO ATACOU
 
     this.selectableShader= new CGFshader(this.scene.gl, "shaders/finalShader.vert", "shaders/finalShader.frag");
     this.activeSelectable = 0;
@@ -64,7 +63,6 @@ var NODES_INDEX = 7;
  }
 
  MySceneGraph.prototype.updatePlayAnimations = function(v)  {
-    console.log("TENTEI");
     this.playAnimations = v;
  }
 
@@ -1593,10 +1591,9 @@ MySceneGraph.prototype.updateScaleFactor=function(v) {
  */
  MySceneGraph.prototype.displayScene = function(deltaTime) {
 
-    this.totalTime += deltaTime/100;
-
-    this.scaleFactor = (1+Math.sin(this.totalTime)) * 0.5;
-
+    //variables to use on the shaders
+    this.totalTime += deltaTime/1000;
+    this.scaleFactor = (1+Math.sin(5*this.totalTime)) * 0.5;
     this.updateScaleFactor();
     
     this.scene.gl.viewport(0, 0, this.scene.gl.canvas.width, this.scene.gl.canvas.height);
@@ -1619,7 +1616,6 @@ MySceneGraph.prototype.updateScaleFactor=function(v) {
 
 MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, textureID, materialID) {
     if(nodeName != null){
-        //console.log(nodeName);
         var node = this.nodes[nodeName];
         //updates the material
         if(node.materialID !== "null"){
@@ -1645,12 +1641,12 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
             }
             this.newMaterial.apply();
         }
-        //multiplicates the matrixes
-        this.scene.multMatrix(node.transformMatrix);
-        
+        //multiplies the matrixes
         if (this.playAnimations == true) {
             node.display(deltaTime);
         }
+        this.scene.multMatrix(node.transformMatrix);
+        
         
         //display of the leaves
         if(node.leaves.length > 0){

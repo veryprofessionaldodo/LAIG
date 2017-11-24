@@ -60,9 +60,9 @@ LinearAnimation.prototype.update = function(deltaTime) {
 	this.y += this.velocity * Math.cos(this.angleY) * deltaTime;
 	this.z += this.velocity * Math.cos(this.angleXZ) * deltaTime;
 
-	console.log(this.velocity, this.velocity * Math.sin(this.angleXZ) * deltaTime * this.directionX +
+	/*console.log(this.velocity, this.velocity * Math.sin(this.angleXZ) * deltaTime * this.directionX +
 		this.velocity * Math.cos(this.angleY) * deltaTime * this.directionY +
-		this.velocity * Math.cos(this.angleXZ) * deltaTime * this.directionZ);
+		this.velocity * Math.cos(this.angleXZ) * deltaTime * this.directionZ);*/
 
 	var matrix = mat4.create();
 	mat4.identity(matrix);
