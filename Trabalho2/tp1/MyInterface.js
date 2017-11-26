@@ -64,7 +64,7 @@ MyInterface.prototype.addSelectablesGroup = function(selectables, graph) {
      });
     
    this.gui.add(this.scene, 'playAnimations').onChange(function(v)
-        { graph.updatePlayAnimations(v)  });
+        { graph.updatePlayAnimations(v);  });
 
 }
 

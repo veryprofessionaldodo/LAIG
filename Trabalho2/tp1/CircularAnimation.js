@@ -26,10 +26,19 @@ CircularAnimation.prototype = Object.create(Animation.prototype);
 CircularAnimation.prototype.constructor = CircularAnimation;
 
 /**
+	Restart the animation to its starting point
+*/	
+CircularAnimation.prototype.restartAnimation = function() {
+	this.deltaAngle = this.startang*DEGREE_TO_RAD;
+	this.endAnimation = false;
+}
+/**
 	Updates the matrix with the curent position of the object in the duration of the animation.
 */
 CircularAnimation.prototype.update = function(deltaTime){
-
+	if(this.scene.graph.restartAnimation === true){
+		this.restartAnimation();
+	}
 	var matrix = mat4.create();
 	mat4.identity(matrix);
 

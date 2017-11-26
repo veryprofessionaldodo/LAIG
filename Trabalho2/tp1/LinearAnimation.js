@@ -36,10 +36,28 @@ LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
 /**
+	Restart the animation to its starting point
+*/	
+LinearAnimation.prototype.restartAnimation = function() {
+	this.travelledDistanceInStage = 0;
+	this.currentStage = 0;
+	this.endAnimation = false;
+
+	this.x = this.points[this.currentStage][0];
+	this.y = this.points[this.currentStage][1];
+	this.z = this.points[this.currentStage][2];
+
+	this.directionX = this.points[this.currentStage+1][0] - this.points[this.currentStage][0];
+	this.directionY = this.points[this.currentStage+1][1] - this.points[this.currentStage][1];
+	this.directionZ = this.points[this.currentStage+1][2] - this.points[this.currentStage][2];
+}
+/**
 	Updates the matrix with the curent position of the object in the duration of the animation.
 */
 LinearAnimation.prototype.update = function(deltaTime) {
-
+	if(this.scene.graph.restartAnimation === true){
+		this.restartAnimation();
+	}
 	if(this.endAnimation === true){
  		return this.finalMatrix;
  	}

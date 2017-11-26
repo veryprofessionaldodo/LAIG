@@ -61,13 +61,23 @@ var NODES_INDEX = 7;
 
     //variable that controls the start of the animation
     this.playAnimations = false;
+    this.restartAnimation = false;
  }
 
 /**
     Changes the value of the flag that controls the start of the animation
 */
 MySceneGraph.prototype.updatePlayAnimations = function(v)  {
+    if(this.playAnimations === false){
+        this.restartAnimation = true;
+    }
     this.playAnimations = v;
+}
+/**
+    Puts the flag to restart the animations to false
+*/
+MySceneGraph.prototype.updateRestartAnimations = function() {
+    this.restartAnimation = false;
 }
 
 /*
@@ -1309,6 +1319,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode) {
  MySceneGraph.prototype.parseNodes = function(nodesNode) {
     
     this.selectables = [];
+    this.selectables.push('none');
 
     // Traverses nodes.
     var children = nodesNode.children;
@@ -1600,7 +1611,9 @@ MySceneGraph.prototype.log = function(message) {
     
     return String.fromCharCode.apply(null, numbers);
 }
-
+/**
+    Updates the scale factor of the shader
+*/
 MySceneGraph.prototype.updateScaleFactor=function(v) {
     this.selectableShader.setUniformsValues({normScale: this.scaleFactor});
 }
@@ -1631,6 +1644,7 @@ MySceneGraph.prototype.updateScaleFactor=function(v) {
             break;
         }
     }
+    this.updateRestartAnimations(); //puts the flag to restart animations to false
 }
 
 MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, textureID, materialID) {
@@ -1669,10 +1683,10 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
         //display of the leaves
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
-                if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
-                    //this.scene.setActiveShader(this.selectableShader); 
+                if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName && this.activeSelectable !== 'none') {
+                    this.scene.setActiveShader(this.selectableShader); 
                     node.leaves[i].displayLeaf(this.newTexture);
-                    //this.scene.setActiveShader(this.scene.defaultShader);
+                    this.scene.setActiveShader(this.scene.defaultShader);
                 }
                 else {
                     node.leaves[i].displayLeaf(this.newTexture);
@@ -1685,10 +1699,10 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
                 this.newMaterial = null;
                 this.newTexture = null;
                 //recursive call
-                if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName) {
-                    //this.scene.setActiveShader(this.selectableShader);
+                if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName && this.activeSelectable !== 'none') {
+                    this.scene.setActiveShader(this.selectableShader);
                     this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);
-                    //this.scene.setActiveShader(this.scene.defaultShader);
+                    this.scene.setActiveShader(this.scene.defaultShader);
                 }
                 else {
                     this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);

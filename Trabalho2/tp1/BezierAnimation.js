@@ -21,11 +21,22 @@ function BezierAnimation(scene, velocity, points){
 
 BezierAnimation.prototype = Object.create(Animation.prototype);
 BezierAnimation.prototype.constructor = BezierAnimation;
+
+/**
+	Restart the animation to its starting point
+*/	
+BezierAnimation.prototype.restartAnimation = function() {
+	this.endAnimation = false;
+	this.s = 0;
+}
 /**
 	Recursive algorithm that calculates the points needed to make the bezier curve. 
 	Using 4 levels of recursivity. 
 */
 BezierAnimation.prototype.casteljau = function(points, nTimes) {
+	if(this.scene.graph.restartAnimation === true){
+		this.restartAnimation();
+	}
 	var newPoints = [];
 	if(nTimes < 0){
 		this.newPoints = points.slice();

@@ -13,9 +13,22 @@ ComboAnimation.prototype = Object.create(Animation.prototype);
 ComboAnimation.prototype.constructor = ComboAnimation;
 
 /**
+	Restart the animation to its starting point, restarting its animations
+*/	
+ComboAnimation.prototype.restartAnimation = function() {
+	this.currentAnimation = 0;
+	for(var i = 0; i < this.animations.length; i++){
+		this.animations[i].restartAnimation();
+	}
+}
+
+/**
 	Goes through the animation sequentially and, when reaches the end of the alst animation, returns the last matrix calculated
 */
 ComboAnimation.prototype.update = function(deltaTime) {
+	if(this.scene.graph.restartAnimation === true){
+		this.restartAnimation();
+	}
 	//ComboAnimation end
 	if(this.currentAnimation >= this.animations.length){
 		return this.finalMatrix;
