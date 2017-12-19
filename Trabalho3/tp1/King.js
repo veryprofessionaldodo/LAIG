@@ -1,0 +1,20 @@
+function King(scene, id, node, x, y, z){
+	Piece.call(this, scene);
+	this.scene = scene;
+	this.node = node;
+	this.id = id;
+
+	this.x = x;
+	this.y = y;
+	this.z = z;
+}
+
+King.prototype = Object.create(King.prototype);
+King.prototype.constructor = King;
+
+King.prototype.display = function() {
+	this.scene.pushMatrix();
+	this.scene.translate(this.x,this.y,this.z);
+	this.node.displayPiece();
+	this.scene.popMatrix();
+}
