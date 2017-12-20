@@ -3,11 +3,11 @@
         <!-- Initial values -->
         <INITIALS>
             <frustum near="0.1" far="500"/>                 
-            <translation x="-1" y="1" z="0" />               
+            <translation x="-1" y="-1" z="0" />               
             <rotation axis="x" angle="0" />                
             <rotation axis="y" angle="0" />                
             <rotation axis="z" angle="0" />                
-            <scale sx="0.15" sy="0.15" sz="0.15" />         
+            <scale sx="0.7" sy="0.7" sz="0.7" />         
             <reference length="5" />                        
         </INITIALS>
 
@@ -80,6 +80,11 @@
 
     <!-- Textures -->
     <TEXTURES>
+        <!-- Board -->
+        <TEXTURE id="board">
+            <file path="images/board.jpg" />               
+            <amplif_factor s="5" t="4" />                           
+        </TEXTURE>
 
        <!-- Dark Wood -->
        <TEXTURE id="dark_wood">
@@ -313,7 +318,7 @@
 </MATERIALS>
 
 <ANIMATIONS>
-
+    <!--
     <ANIMATION id="teste" speed="0.5" type="linear">
         <controlpoint xx="1.0" yy="1.0" zz="1.0" />
         <controlpoint xx="2.0" yy="2.0" zz="2.0" />
@@ -323,7 +328,7 @@
         <controlpoint xx="1.0" yy="1.0" zz="1.0" />
         <controlpoint xx="2.0" yy="2.0" zz="2.0" />
         <controlpoint xx="3.0" yy="3.0" zz="3.0" />
-    </ANIMATION>
+    </ANIMATION>-->
 
 </ANIMATIONS>
 
@@ -336,7 +341,7 @@
 <!-- The nodes -->
 <NODES>
 
-    <ROOT id="root" />     
+    <ROOT id="root" />    
 
     <!-- The root node -->
     <NODE id="root">       
@@ -344,6 +349,101 @@
         <TEXTURE id="null" />  
 
         <DESCENDANTS>    
+            <NODEREF id="boards" />
+            <NODEREF id="scene" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="boards">
+        <MATERIAL id="null" />         
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="0" y="5" z="0.5" />
+
+        <DESCENDANTS>
+            <NODEREF id="gameboard"/>
+            <NODEREF id="boardAuxWhite"/>
+            <NODEREF id="boardAuxRed"/>
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="gameboard">
+        <MATERIAL id="null"/>
+        <TEXTURE id="null"/>
+
+        <SCALE sx="0.1" sy="0.1" sz="0.1" />
+
+        <DESCENDANTS>
+            <NODEREF id="board" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="boardAuxWhite">
+        <MATERIAL id="null"/>
+        <TEXTURE id="null"/>
+
+        <TRANSLATION x="0.5" y="0" z="5" />
+        <SCALE sx="0.1" sy="0.1" sz="0.1" />
+        <SCALE sx="8" sy="0.5" sz="4" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo_board" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="boardAuxRed">
+        <MATERIAL id="null"/>
+        <TEXTURE id="null"/>
+
+        <TRANSLATION x="0.5" y="0" z="-6" />
+        <SCALE sx="0.8" sy="0.05" sz="0.4" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo_board" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="board">
+        <MATERIAL id="null" />         
+        <TEXTURE id="null" />
+
+        <ROTATION axis="x" angle="90" />
+        <SCALE sx="20" sy="16" sz="0.5" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo_board" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="pawn">
+        <MATERIAL id="null"/>
+        <TEXTURE id="null"/>
+
+        <SCALE sx="0.2" sy="0.2" sz="0.2" />
+
+        <DESCENDANTS>
+            <LEAF type="pawn_primitive"/>
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="king">
+        <MATERIAL id="null"/>
+        <TEXTURE id="null"/>
+
+        <SCALE sx="0.25" sy="0.25" sz="0.25" />
+
+        <DESCENDANTS>
+            <LEAF type="king_primitive" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="scene"> 
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="-7" y="-5" z="-40" /> 
+
+        <DESCENDANTS>
             <NODEREF id="chao_abaixo" />
             <NODEREF id="piso_acima" />
             <NODEREF id="escadas" />
@@ -355,6 +455,7 @@
             <NODEREF id="barras" />
         </DESCENDANTS>
     </NODE>
+
 
     <!-- Kitchen Table -->
     <NODE id="mesa_cozinha">
@@ -2084,6 +2185,103 @@
    </DESCENDANTS>
 
 </NODE>
+
+<NODE id="cubo_board" >
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />   
+        
+        <DESCENDANTS>
+            <NODEREF id="faceCubo1_board" />
+            <NODEREF id="faceCubo2_board" />
+            <NODEREF id="faceCubo3_board" />
+            <NODEREF id="faceCubo4_board" />
+            <NODEREF id="faceCubo5_board" />
+            <NODEREF id="faceCubo6_board" />      
+        </DESCENDANTS>
+    </NODE>
+
+    <!-- A cube face -->
+    <NODE id="faceCubo1_board">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />                   
+
+        <TRANSLATION x="-2.5" y="-2.5" z="2.5" />
+
+        <DESCENDANTS>
+            <LEAF type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="faceCubo2_board">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />                   
+
+        <TRANSLATION x="-2.5" y="-2.5" z="-2.5" />
+        <ROTATION axis="y" angle="-90" />
+
+        <DESCENDANTS>
+            <LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="faceCubo3_board">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />                   
+
+        <TRANSLATION x="2.5" y="-2.5" z="2.5" />
+        <ROTATION axis="y" angle="90" />
+
+        <DESCENDANTS>
+            <LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="faceCubo4_board">       
+        <MATERIAL id="null" />    
+        <TEXTURE id="board" />                   
+
+        <TRANSLATION x="2.5" y="-2.5" z="-2.5" />
+        <ROTATION axis="y" angle="180" />
+
+        <DESCENDANTS>
+            <LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="faceCubo5_board">       
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />                   
+
+        <ROTATION axis="x" angle="-90" />
+        <TRANSLATION x="-2.5" y="-2.5" z="1.5" />
+        <SCALE sx="1" sy="1.25" sz="1" />
+
+        <DESCENDANTS>
+            <LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+    </NODE>
+
+    <!-- Another cube face -->
+    <NODE id="faceCubo6_board">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />                   
+
+        <TRANSLATION x="-2.5" y="-2.5" z="-2.5" />
+        <ROTATION axis="x" angle="90" />
+        <SCALE sx="1" sy="1.25" sz="1" />
+
+        <DESCENDANTS>
+            <LEAF  type="rectangle" args="0 4 5 0" />        
+        </DESCENDANTS>
+
+    </NODE>
 
 </NODES>
 

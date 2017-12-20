@@ -45,6 +45,7 @@ MyGraphNode.prototype.addLeaf = function(leaf) {
 }
 
 MyGraphNode.prototype.displayPiece = function() {
+    this.graph.scene.multMatrix(this.transformMatrix);
     for(var i = 0; i < this.leaves.length; i++){
         this.leaves[i].displayLeaf(this.graph.textures[this.textureID]);
     }

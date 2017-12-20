@@ -1494,7 +1494,7 @@ MySceneGraph.prototype.updateScaleFactor=function(v) {
 }
 
 MySceneGraph.prototype.recursiveDisplay = function(n, deltaTime, nodeName, matrix, textureID, materialID) {
-    if(nodeName != null){
+    if(nodeName != null && nodeName !== 'pawn' && nodeName !== 'king'){
         var node = this.nodes[nodeName];
         //updates the material
         if(node.materialID !== "null"){
