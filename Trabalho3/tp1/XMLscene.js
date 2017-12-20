@@ -38,8 +38,6 @@ XMLscene.prototype.init = function(application) {
 
     this.board = new Board(this);
     this.environment = new Environment(this);
-    this.pieces = [];
-    this.boardCells = [];
     this.pawnModel = null;
     this.kingModel = null;
 
@@ -89,42 +87,42 @@ XMLscene.prototype.initCameras = function() {
 }
 
 XMLscene.prototype.initPieces = function() {
-    var boardCellsInd = this.boardCells.length - 10;
+    var boardCellsInd = this.board.boardCells.length - 10;
 
     var id = 1;
     var x = -23, y = 1.5, z = -18;
     for(var i = 0; i < 10; i++){
-        var pawn = new Pawn(this, id, this.pawnModel, this.boardCells[i], x, y, z);
-        this.boardCells[i].piece = pawn;
-        this.pieces.push(pawn); //red
+        var pawn = new Pawn(this, id, this.pawnModel, this.board.boardCells[i], x, y, z);
+        this.board.boardCells[i].piece = pawn;
+        this.board.pieces.push(pawn); //red
         x += 5;
         id++;
     }
     x = -23; z = 10;
     for(var i = 0; i < 10; i++){
-        var pawn = new Pawn(this, id, this.pawnModel, this.boardCells[boardCellsInd], x, y, z);
-        this.boardCells[boardCellsInd].piece = pawn;
-        this.pieces.push(pawn); //white
+        var pawn = new Pawn(this, id, this.pawnModel, this.board.boardCells[boardCellsInd], x, y, z);
+        this.board.boardCells[boardCellsInd].piece = pawn;
+        this.board.pieces.push(pawn); //white
         x += 5;
         id++;
         boardCellsInd++;
     }
-    
-    var king = new King(this, id, this.kingModel, this.boardCells[boardCellsInd - 14], 2.5, 2, 6);
-    this.boardCells[boardCellsInd - 14].piece = king;
-    this.pieces.push(king); //white
+
+    var king = new King(this, id, this.kingModel, this.board.boardCells[boardCellsInd - 14], 2.5, 2, 6);
+    this.board.boardCells[boardCellsInd - 14].piece = king;
+    this.board.pieces.push(king); //white
     id++;
 
-    king = new King(this, id, this.kingModel, this.boardCells[14], -2.5, 2, -14);
-    this.boardCells[14].piece = king;
-    this.pieces.push(king); //red
+    king = new King(this, id, this.kingModel, this.board.boardCells[14], -2.5, 2, -14);
+    this.board.boardCells[14].piece = king;
+    this.board.pieces.push(king); //red
 }
 
 XMLscene.prototype.initBoardCells = function() {
     var x = -25, y = 1.25, z = -16;
     for(var i = 0; i < 8; i++){
         for(var j = 0; j < 10; j++){
-            this.boardCells.push(new BoardCell(this, i +''+ j, x, y, z));
+            this.board.boardCells.push(new BoardCell(this, i +''+ j, x, y, z));
             x += 5;
         }
         x = -25, z += 4;
@@ -176,16 +174,16 @@ XMLscene.prototype.logPicking = function ()
 
 XMLscene.prototype.displayPickableItems = function() {
     var n = 1;
-    for(var i = 0; i < this.pieces.length; i++){
-        this.registerForPick(n, this.pieces[i].id);
+    for(var i = 0; i < this.board.pieces.length; i++){
+        this.registerForPick(n, this.board.pieces[i].id);
         n++;
-        this.pieces[i].display();
+        this.board.pieces[i].display();
     } 
-    for(var i = 0; i < this.boardCells.length; i++){
-        this.registerForPick(n, this.boardCells[i].id);
+    for(var i = 0; i < this.board.boardCells.length; i++){
+        this.registerForPick(n, this.board.boardCells[i].id);
         n++;
         this.setActiveShader(this.boardCellsShader);
-        this.boardCells[i].display();
+        this.board.boardCells[i].display();
         this.setActiveShader(this.defaultShader);
     } 
 }
