@@ -27,7 +27,6 @@ Pawn.prototype.display = function(deltaTime) {
 		else
 			this.matrix = this.animation.update(deltaTime).slice();
 	}
-
 	this.scene.pushMatrix();
 	this.scene.multMatrix(this.matrix);
 	//this.scene.translate(this.x,this.y,this.z);
@@ -40,9 +39,9 @@ Pawn.prototype.move = function(x,y,z){
 	console.log('dest: ' + x + ' ' + y + ' ' + z);
 	var points = new Array();
 	points.push([this.x, this.y, this.z]);
-	points.push([this.x, this.y + 10, this.z]);
-	points.push([x, this.y + 10, z]);
-	points.push([x, this.y, z]);
+	points.push([this.x, this.y + 4, this.z]);
+	points.push([x, this.y + 4, z]);
+	points.push([x, y, z]);
 
 	this.animation = new BezierAnimation(this.scene, 5, points);
 }

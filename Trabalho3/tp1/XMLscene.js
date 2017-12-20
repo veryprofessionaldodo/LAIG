@@ -96,42 +96,42 @@ XMLscene.prototype.initPieces = function() {
     var boardCellsInd = this.board.boardCells.length - 10;
 
     var id = 1;
-    var x = -23, y = 2.5, z = -18;
+    var x = -4.5, y = 5.2, z = -3.1;
     for(var i = 0; i < 10; i++){
         var pawn = new Pawn(this, id, this.pawnModel, this.board.boardCells[i], x, y, z);
         this.board.boardCells[i].piece = pawn;
         this.board.pieces.push(pawn); //red
-        x += 5;
+        x += 1;
         id++;
     }
-    x = -23; z = 10;
+    x = -4.5; z = 2.5;
     for(var i = 0; i < 10; i++){
         var pawn = new Pawn(this, id, this.pawnModel, this.board.boardCells[boardCellsInd], x, y, z);
         this.board.boardCells[boardCellsInd].piece = pawn;
         this.board.pieces.push(pawn); //white
-        x += 5;
+        x += 1;
         id++;
         boardCellsInd++;
     }
 
-    var king = new King(this, id, this.kingModel, this.board.boardCells[boardCellsInd - 14], 2.5, 4, 6);
+    var king = new King(this, id, this.kingModel, this.board.boardCells[boardCellsInd - 14], 0.5, 5.5, -2.25);
     this.board.boardCells[boardCellsInd - 14].piece = king;
     this.board.pieces.push(king); //white
     id++;
 
-    king = new King(this, id, this.kingModel, this.board.boardCells[14], -2.5, 4, -14);
+    king = new King(this, id, this.kingModel, this.board.boardCells[14], 1.5, 5.5, 1.75);
     this.board.boardCells[14].piece = king;
     this.board.pieces.push(king); //red
 }
 
 XMLscene.prototype.initBoardCells = function() {
-    var x = -25, y = 1.25, z = -16;
+    var x = -5, y = 5.15, z = -2.7;
     for(var i = 0; i < 8; i++){
         for(var j = 0; j < 10; j++){
             this.board.boardCells.push(new BoardCell(this, i +''+ j, x, y, z));
-            x += 5;
+            x += 1;
         }
-        x = -25, z += 4;
+        x = -5, z += 0.8;
     }
 }
 

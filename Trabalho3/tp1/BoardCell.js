@@ -20,6 +20,7 @@ BoardCell.prototype.display = function(deltaTime) {
 	this.scene.pushMatrix();
 	this.scene.translate(this.x,this.y,this.z);
 	this.scene.rotate(-90*degToRad, 1, 0, 0);
+	this.scene.scale(0.2,0.2,0.15);
 	this.quad.display();
 	this.scene.popMatrix();
 }
