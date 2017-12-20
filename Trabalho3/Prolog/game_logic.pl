@@ -648,9 +648,7 @@ is_game_over(Player):-board(Board), check_soldiers_and_Dux(Board,0,0,0,0),
         check_possible_moves(Player). 
 
 
-is_game_over(_):-playcounter(X), X<1,
-        cls, print_board, 
-        write('\n The game ended with a draw. \n'), break.
+is_game_over(_):-playcounter(X), X<1, break.
 
 is_game_over(Player):- 
              opposing_player(Player,OppPlayer),
@@ -670,21 +668,13 @@ check_soldiers_and_Dux(_,1,1,1,1).   % tudo normal continuar normalmente
 
 check_soldiers_and_Dux(T,Pb,PB,Pw,PW):- 
         length(T, 1), 
-        Pb=0, 
-        cls, print_board, 
-        write('\n Player 2 Lost, there is no more soldiers \n'), break;
+        Pb=0, break;
         length(T, 1), 
-        PB=0, 
-        cls, print_board, 
-        write('\n Player 2 Lost, you lost your Dux \n'), break;
+        PB=0, break;
         length(T, 1), 
-        Pw=0, 
-        cls, print_board, 
-        write('\n Player 1 Lost, there is no more soldiers \n'), break;
+        Pw=0, break;
         length(T, 1), 
-        PW=0,
-        cls, print_board, 
-        write('\n Player 1 Lost, you lost your Dux \n'), break.
+        PW=0, break.
 
 check_soldiers_and_Dux([H|T],Pb,PB,Pw,PW):-
         check_soldiers_and_Dux_Row(H,Pb,PB,Pw,PW,T).
@@ -702,7 +692,9 @@ check_soldiers_and_Dux_Row([H|T],Pb,PB,Pw,PW,X):-
 
 % Check whether play is valid for a specific player. 
 check_if_valid(Move, Player) :- 
+		write("is own piece"),
         is_own_piece(Move, Player), 
+        write("attempt_to_move"),
         attempt_to_move(Move).
 
 

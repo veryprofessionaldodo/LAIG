@@ -211,14 +211,12 @@ analyse_all([BeforeHead|BeforeTail], [AfterHead|AfterTail], Tmp, Changes, Column
 analyse_line([],[], Tmp, Changes, _Column, _Line) :- Changes = Tmp.
 
 analyse_line([BeforeHead|BeforeTail], [AfterHead|AfterTail], Tmp, Changes, Column, Line) :-
-	write(Tmp),
 	BeforeHead==AfterHead,
 	NewLine is Line + 1,
 	once(analyse_line(BeforeTail, AfterTail, Tmp, Changes, Column, NewLine)).
 
 analyse_line([BeforeHead|BeforeTail], [AfterHead|AfterTail], Tmp, Changes, Column, Line) :-
-	write('Column '),write(Column), write(' Line '), write(Line), write('\n'),
-	append([Column-Line], Tmp, NewIterTmp), write(NewIterTmp),
+	append([Column-Line], Tmp, NewIterTmp), 
 	NewLine is Line + 1,
 	once(analyse_line(BeforeTail, AfterTail, NewIterTmp, Changes, Column, NewLine)).
 

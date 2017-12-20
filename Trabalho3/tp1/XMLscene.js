@@ -12,6 +12,14 @@ function XMLscene(interface) {
     this.lightValues = {};
     this.selectables = {};
     this.playAnimations = false;
+
+    this.gameLoop = new GameLoop();
+
+    document.getElementById("send_button").addEventListener("click", function(event) {
+        var loop = new GameLoop();
+        loop.makeRequest("init");
+    }, false);
+
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -43,14 +51,10 @@ XMLscene.prototype.init = function(application) {
 
     this.boardCellsShader = new CGFshader(this.gl, "shaders/notDisplay.vert", "shaders/notDisplay.frag");
 
-    this.pickingPiecePhase = true;
+    this.hasPickedPiece = false;
     this.pickedPiece = null;
-    this.pickingBoardCellPhase = false;
     this.pickedBoardCell = null;
     this.makingMove = false;
-
-    this.gameLoop = new GameLoop();
-
 }
 
 /**
@@ -106,7 +110,9 @@ XMLscene.prototype.initPieces = function() {
         x += 5;
         id++;
     }
+
     x = -23; z = 10;
+
     for(var i = 0; i < 10; i++){
         var pawn = new Pawn(this, id, this.pawnModel, this.board.boardCells[boardCellsInd], x, y, z);
         this.board.boardCells[boardCellsInd].piece = pawn;
@@ -172,27 +178,50 @@ XMLscene.prototype.logPicking = function ()
                 if (obj)
                 {
                     var customId = this.pickResults[i][1];              
-                    console.log("Picked object: " + obj.id + ", with pick id " + customId);
-
-                    if(this.pickingPiecePhase){
+                    console.log("Picked object: " + obj.id + ", with pick id " + customId + " pickResults ");
+                
+                    if(!this.hasPickedPiece && (idIsPawnOrKing(obj.id))) {
                         this.pickedPiece = obj;
                         this.pickingPiecePhase = false;
                         this.pickingBoardCellPhase = true;
                     } 
-                    else if (this.pickingBoardCellPhase) {
+                    else if (idIsBoard(obj.id)){
                         this.pickedBoardCell = obj;
                         this.pickingPiecePhase = false;
                         this.pickingBoardCellPhase = false;
                         this.makingMove = true;
+
                         var gameMove = new GameMove(this, this.pickedPiece, this.pickedBoardCell, 0);
                         this.board.gameMoves.push(gameMove);
-                        gameMove.execute();
+
+                        if (this.gameLoop.attemptMove(gameMove))
+                            gameMove.execute();
+                        else  
+                            console.log("Invalid move!");
+
+                        this.hasPickedPiece = false;
                     }
                 }
             }
             this.pickResults.splice(0,this.pickResults.length);
         }       
     }
+}
+
+function idIsPawnOrKing(id) {
+    if (id[0] == 'p' && id[1] == 'a' && id[2] == 'w' && id[3] == 'n')
+        return true;
+    if (id[0] == 'k' && id[1] == 'i' && id[2] == 'n' && id[3] == 'g')
+        return true;
+
+    return false;
+}
+
+function idIsBoard(id) {
+    if (id[0] == 'b' && id[1] == 'o' && id[2] == 'a' && id[3] == 'r' && id[4] == 'd')
+        return true;
+
+    return false;
 }
 
 XMLscene.prototype.displayPickableItems = function(deltaTime) {

@@ -102,15 +102,22 @@ parse_input(get_game_state, [ok, Return_Message]) :- get_game_state(Return_Messa
 
 % Handle movement and updates board-
 parse_input([move,Player,MoveCurrPlace-MoveDest], [ok, RemovedPieces]) :- 
+	write(1),
 	string_to_move(MoveCurrPlace-MoveDest, Move), 
+	write(2),
 	check_if_valid(Move, Player),
+	write(3),
 	move(Move), 
+	write(4),
 	get_game_state(BeforeCaptures), 
+	write(5),
 	remove_captured_pieces(Move, Player), 
+	write(6),
 	get_game_state(AfterCaptures), !,
+	write(7),
 	once(analyse_changes(BeforeCaptures, AfterCaptures, RemovedPieces)).
 
-parse_input([move,Player,MoveColumn-MoveLine], [error]).
+parse_input([,Player,MoveColumn-MoveLine], [error]).
 
 % Get new move by AI
 parse_input([get_ai_move, AIPlayer, AILevel], [ok, Move, RemovedPieces]) :-
@@ -121,7 +128,7 @@ parse_input([get_ai_move, AIPlayer, AILevel], [ok, Move, RemovedPieces]) :-
 	once(analyse_changes(BeforeCaptures, AfterCaptures, RemovedPieces)).
 
 % Check if game is over
-parse_input([is_game_over,Player], [game_is_over]).
+parse_input([is_game_over,Player], [game_is_over]).	
 
 parse_input([get_piece,Column-Line], Piece) :-
 	get_piece(Column,Line, Piece).

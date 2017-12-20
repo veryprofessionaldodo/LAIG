@@ -44,3 +44,7 @@ King.prototype.move = function(x,y,z){
 
 	this.animation = new BezierAnimation(this.scene, 5, points);
 }
+
+King.prototype.returnBoardCell = function() {
+	return this.boardCell;
+}
