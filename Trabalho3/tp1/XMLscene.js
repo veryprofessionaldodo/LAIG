@@ -49,6 +49,8 @@ XMLscene.prototype.init = function(application) {
     this.pickedBoardCell = null;
     this.makingMove = false;
 
+    this.gameLoop = new GameLoop();
+
 }
 
 /**
@@ -286,3 +288,4 @@ XMLscene.prototype.update = function(currTime) {
     this.deltaTime = (currTime - this.lastTime);
     this.lastTime = currTime;
 }
+
