@@ -2,7 +2,7 @@ function Pawn(scene, id, node, x, y, z){
 	Piece.call(this, scene);
 	this.scene = scene;
 	this.node = node;
-	this.id = id;
+	this.id = 'pawn'+id;
 
 	this.x = x;
 	this.y = y;

@@ -54,7 +54,7 @@ var NODES_INDEX = 6;
     this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
 
     //shader
-    this.selectableShader= new CGFshader(this.scene.gl, "shaders/finalShader.vert", "shaders/finalShader.frag");
+    //this.selectableShader= new CGFshader(this.scene.gl, "shaders/finalShader.vert", "shaders/finalShader.frag");
     /*this.activeSelectable = 0;
     this.totalTime = 0;
     this.scaleFactor = 0;

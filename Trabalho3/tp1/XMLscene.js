@@ -39,8 +39,11 @@ XMLscene.prototype.init = function(application) {
     this.board = new Board(this);
     this.environment = new Environment(this);
     this.pieces = [];
+    this.boardCells = [];
     this.pawnModel = null;
     this.kingModel = null;
+
+    this.boardCellsShader = new CGFshader(this.gl, "shaders/notDisplay.vert", "shaders/notDisplay.frag");
 
 }
 
@@ -104,6 +107,17 @@ XMLscene.prototype.initPieces = function() {
     this.pieces.push(new King(this, id, this.kingModel, -2.5, 2, -14)); //red
 }
 
+XMLscene.prototype.initBoardCells = function() {
+    var x = -25, y = 1.25, z = -16;
+    for(var i = 0; i < 8; i++){
+        for(var j = 0; j < 10; j++){
+            this.boardCells.push(new BoardCell(this, i +''+ j, x, y, z));
+            x += 5;
+        }
+        x = -25, z += 4;
+    }
+}
+
 /* Handler called when the graph is finally loaded. 
  * As loading is asynchronous, this may be called already after the application has started the run loop
  */
@@ -120,6 +134,7 @@ XMLscene.prototype.onGraphLoaded = function()
     
     this.initLights();
     this.initPieces();
+    this.initBoardCells();
 
     // Adds lights group.
     this.interface.addLightsGroup(this.graph.lights);
@@ -152,6 +167,15 @@ XMLscene.prototype.displayPieces = function() {
         this.pieces[i].display();
     } 
 }
+XMLscene.prototype.displayBoardCells = function() {
+    for(var i = 0; i < this.boardCells.length; i++){
+        this.registerForPick(i+1, this.boardCells[i].id);
+        this.setActiveShader(this.boardCellsShader);
+        this.boardCells[i].display();
+        this.setActiveShader(this.defaultShader);
+    } 
+}
+
 
 /**
  * Displays the scene.
@@ -203,6 +227,8 @@ XMLscene.prototype.display = function() {
         this.graph.displayScene(this.deltaTime);
 
         this.displayPieces();
+        this.clearPickRegistration();
+        this.displayBoardCells();
         this.clearPickRegistration();
     }
 	else
