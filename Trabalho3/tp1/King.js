@@ -39,8 +39,8 @@ King.prototype.move = function(x,y,z){
 	var points = new Array();
 	points.push([this.x, this.y, this.z]);
 	points.push([this.x, this.y + 10, this.z]);
-	points.push([x, y + 10, z]);
-	points.push([x, y, z]);
+	points.push([x, this.y + 10, z]);
+	points.push([x, this.y, z]);
 
 	this.animation = new BezierAnimation(this.scene, 5, points);
 }
