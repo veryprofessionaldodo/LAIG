@@ -20,6 +20,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js',
              'animations/BezierAnimation.js','animations/ComboAnimation.js',
              'King.js', 'Pawn.js', 'Board.js', 'Piece.js', 'Environment.js',
              'primitives/MyPawn.js', 'primitives/MyKing.js', 'BoardCell.js',
+             'GameMove.js',
 
 main=function()
 {

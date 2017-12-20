@@ -16,7 +16,7 @@ function BoardCell(scene, id, x, y, z){
 BoardCell.prototype = Object.create(BoardCell.prototype);
 BoardCell.prototype.constructor = BoardCell;
 
-BoardCell.prototype.display = function() {
+BoardCell.prototype.display = function(deltaTime) {
 	this.scene.pushMatrix();
 	this.scene.translate(this.x,this.y,this.z);
 	this.scene.rotate(-90*degToRad, 1, 0, 0);

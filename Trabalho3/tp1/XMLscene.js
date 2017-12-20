@@ -43,6 +43,12 @@ XMLscene.prototype.init = function(application) {
 
     this.boardCellsShader = new CGFshader(this.gl, "shaders/notDisplay.vert", "shaders/notDisplay.frag");
 
+    this.pickingPiecePhase = true;
+    this.pickedPiece = null;
+    this.pickingBoardCellPhase = false;
+    this.pickedBoardCell = null;
+    this.makingMove = false;
+
 }
 
 /**
@@ -164,7 +170,22 @@ XMLscene.prototype.logPicking = function ()
                 if (obj)
                 {
                     var customId = this.pickResults[i][1];              
-                    console.log("Picked object: " + obj + ", with pick id " + customId);
+                    console.log("Picked object: " + obj.id + ", with pick id " + customId);
+
+                    if(this.pickingPiecePhase){
+                        this.pickedPiece = obj;
+                        this.pickingPiecePhase = false;
+                        this.pickingBoardCellPhase = true;
+                    } 
+                    else if (this.pickingBoardCellPhase) {
+                        this.pickedBoardCell = obj;
+                        this.pickingPiecePhase = false;
+                        this.pickingBoardCellPhase = false;
+                        this.makingMove = true;
+                        var gameMove = new GameMove(this, this.pickedPiece, this.pickedBoardCell, 0);
+                        this.board.gameMoves.push(gameMove);
+                        gameMove.execute();
+                    }
                 }
             }
             this.pickResults.splice(0,this.pickResults.length);
@@ -172,18 +193,18 @@ XMLscene.prototype.logPicking = function ()
     }
 }
 
-XMLscene.prototype.displayPickableItems = function() {
+XMLscene.prototype.displayPickableItems = function(deltaTime) {
     var n = 1;
     for(var i = 0; i < this.board.pieces.length; i++){
-        this.registerForPick(n, this.board.pieces[i].id);
+        this.registerForPick(n, this.board.pieces[i]);
         n++;
-        this.board.pieces[i].display();
+        this.board.pieces[i].display(deltaTime);
     } 
     for(var i = 0; i < this.board.boardCells.length; i++){
-        this.registerForPick(n, this.board.boardCells[i].id);
+        this.registerForPick(n, this.board.boardCells[i]);
         n++;
         this.setActiveShader(this.boardCellsShader);
-        this.board.boardCells[i].display();
+        this.board.boardCells[i].display(deltaTime);
         this.setActiveShader(this.defaultShader);
     } 
 }
@@ -239,7 +260,7 @@ XMLscene.prototype.display = function() {
 
         this.logPicking();
         this.clearPickRegistration();
-        this.displayPickableItems();
+        this.displayPickableItems(this.deltaTime/1000);
         this.clearPickRegistration();
     }
 	else
