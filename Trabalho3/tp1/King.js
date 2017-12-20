@@ -1,8 +1,9 @@
-function King(scene, id, node, x, y, z){
+function King(scene, id, node, boardCell, x, y, z){
 	Piece.call(this, scene);
 	this.scene = scene;
 	this.node = node;
 	this.id = 'king'+id;
+	this.boardCell = boardCell;
 
 	this.x = x;
 	this.y = y;

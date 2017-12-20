@@ -89,22 +89,35 @@ XMLscene.prototype.initCameras = function() {
 }
 
 XMLscene.prototype.initPieces = function() {
+    var boardCellsInd = this.boardCells.length - 10;
+
     var id = 1;
     var x = -23, y = 1.5, z = -18;
     for(var i = 0; i < 10; i++){
-        this.pieces.push(new Pawn(this, id, this.pawnModel, x, y, z)); //red
+        var pawn = new Pawn(this, id, this.pawnModel, this.boardCells[i], x, y, z);
+        this.boardCells[i].piece = pawn;
+        this.pieces.push(pawn); //red
         x += 5;
         id++;
     }
     x = -23; z = 10;
     for(var i = 0; i < 10; i++){
-        this.pieces.push(new Pawn(this, id, this.pawnModel, x, y, z)); //white
+        var pawn = new Pawn(this, id, this.pawnModel, this.boardCells[boardCellsInd], x, y, z);
+        this.boardCells[boardCellsInd].piece = pawn;
+        this.pieces.push(pawn); //white
         x += 5;
         id++;
+        boardCellsInd++;
     }
-    this.pieces.push(new King(this, id, this.kingModel, 2.5, 2, 6)); //white
+    
+    var king = new King(this, id, this.kingModel, this.boardCells[boardCellsInd - 14], 2.5, 2, 6);
+    this.boardCells[boardCellsInd - 14].piece = king;
+    this.pieces.push(king); //white
     id++;
-    this.pieces.push(new King(this, id, this.kingModel, -2.5, 2, -14)); //red
+
+    king = new King(this, id, this.kingModel, this.boardCells[14], -2.5, 2, -14);
+    this.boardCells[14].piece = king;
+    this.pieces.push(king); //red
 }
 
 XMLscene.prototype.initBoardCells = function() {
@@ -133,8 +146,8 @@ XMLscene.prototype.onGraphLoaded = function()
     this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
     
     this.initLights();
-    this.initPieces();
     this.initBoardCells();
+    this.initPieces();
 
     // Adds lights group.
     this.interface.addLightsGroup(this.graph.lights);
@@ -161,20 +174,22 @@ XMLscene.prototype.logPicking = function ()
     }
 }
 
-XMLscene.prototype.displayPieces = function() {
+XMLscene.prototype.displayPickableItems = function() {
+    var n = 1;
     for(var i = 0; i < this.pieces.length; i++){
-        this.registerForPick(i+1, this.pieces[i].id);
+        this.registerForPick(n, this.pieces[i].id);
+        n++;
         this.pieces[i].display();
     } 
-}
-XMLscene.prototype.displayBoardCells = function() {
     for(var i = 0; i < this.boardCells.length; i++){
-        this.registerForPick(i+1, this.boardCells[i].id);
+        this.registerForPick(n, this.boardCells[i].id);
+        n++;
         this.setActiveShader(this.boardCellsShader);
         this.boardCells[i].display();
         this.setActiveShader(this.defaultShader);
     } 
 }
+
 
 
 /**
@@ -194,8 +209,6 @@ XMLscene.prototype.display = function() {
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
 
-    this.logPicking();
-    this.clearPickRegistration();
     
     this.pushMatrix();
     
@@ -226,9 +239,9 @@ XMLscene.prototype.display = function() {
         // Displays the scene.
         this.graph.displayScene(this.deltaTime);
 
-        this.displayPieces();
+        this.logPicking();
         this.clearPickRegistration();
-        this.displayBoardCells();
+        this.displayPickableItems();
         this.clearPickRegistration();
     }
 	else

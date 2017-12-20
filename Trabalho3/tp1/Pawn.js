@@ -1,8 +1,9 @@
-function Pawn(scene, id, node, x, y, z){
+function Pawn(scene, id, node, boardCell, x, y, z){
 	Piece.call(this, scene);
 	this.scene = scene;
 	this.node = node;
 	this.id = 'pawn'+id;
+	this.boardCell = boardCell;
 
 	this.x = x;
 	this.y = y;
