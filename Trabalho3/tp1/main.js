@@ -11,6 +11,7 @@ function getUrlVars() {
     return vars;
 }	 
 
+        
 serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 
 			 'MyGraphNode.js', 'MyGraphLeaf.js', 'MyInterface.js',
              'primitives/MyTriangle.js', 'primitives/MyQuad.js', 'primitives/MyCylinder.js', 
@@ -50,3 +51,4 @@ main=function()
 }
 
 ]);
+
