@@ -96,7 +96,7 @@ XMLscene.prototype.initPieces = function() {
     var boardCellsInd = this.board.boardCells.length - 10;
 
     var id = 1;
-    var x = -23, y = 1.5, z = -18;
+    var x = -23, y = 2.5, z = -18;
     for(var i = 0; i < 10; i++){
         var pawn = new Pawn(this, id, this.pawnModel, this.board.boardCells[i], x, y, z);
         this.board.boardCells[i].piece = pawn;
@@ -114,12 +114,12 @@ XMLscene.prototype.initPieces = function() {
         boardCellsInd++;
     }
 
-    var king = new King(this, id, this.kingModel, this.board.boardCells[boardCellsInd - 14], 2.5, 2, 6);
+    var king = new King(this, id, this.kingModel, this.board.boardCells[boardCellsInd - 14], 2.5, 4, 6);
     this.board.boardCells[boardCellsInd - 14].piece = king;
     this.board.pieces.push(king); //white
     id++;
 
-    king = new King(this, id, this.kingModel, this.board.boardCells[14], -2.5, 2, -14);
+    king = new King(this, id, this.kingModel, this.board.boardCells[14], -2.5, 4, -14);
     this.board.boardCells[14].piece = king;
     this.board.pieces.push(king); //red
 }

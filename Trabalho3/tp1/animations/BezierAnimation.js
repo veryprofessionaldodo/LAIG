@@ -112,7 +112,7 @@ BezierAnimation.prototype.update = function(deltaTime) {
 	mat4.identity(matrix);
 
 	mat4.translate(matrix, matrix, [qb[0], qb[1], qb[2]]);
-	mat4.rotateY(matrix, matrix, this.angle);
+	//mat4.rotateY(matrix, matrix, this.angle);
 
 	this.finalMatrix = matrix.slice();
 
