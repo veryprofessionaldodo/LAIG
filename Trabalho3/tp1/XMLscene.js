@@ -11,6 +11,7 @@ function XMLscene(interface) {
 
     this.lightValues = {};
     this.selectables = {};
+    this.environments = ['scene1.xml', 'scene2.xml'];
     this.playAnimations = false;
 
     this.gameLoop = new GameLoop();
@@ -48,8 +49,12 @@ XMLscene.prototype.init = function(application) {
     this.environment = new Environment(this);
     this.pawnModel = null;
     this.kingModel = null;
+    this.pickableElements = new Array();
 
     this.boardCellsShader = new CGFshader(this.gl, "shaders/notDisplay.vert", "shaders/notDisplay.frag");
+    this.pickedElement = new CGFshader(this.gl, "shaders/picked.vert", "shaders/picked.frag");
+    this.totalTime = 0;
+    this.scaleFactor = 0;
 
     this.hasPickedPiece = false;
     this.pickedPiece = null;
@@ -95,6 +100,12 @@ XMLscene.prototype.initLights = function() {
  * Initializes the scene cameras.
  */
 XMLscene.prototype.initCameras = function() {
+
+    this.cameraPositions = new Array();
+    this.cameraPositions = new CameraPosition('Beggining', vec3.fromValues(0, 1, 17), vec3.fromValues(0, -3, 0));
+    this.cameraPositions = new CameraPosition('Player 1', vec3.fromValues(0, 15, 15), vec3.fromValues(0, 0, 0));
+    this.cameraPositions = new CameraPosition('Player 2', vec3.fromValues(0, 15, -15), vec3.fromValues(0, 0, 0));
+
     this.camera = new CGFcamera(0.4,0.1,500,vec3.fromValues(15, 15, 15),vec3.fromValues(0, 0, 0));
 }
 
@@ -104,7 +115,7 @@ XMLscene.prototype.initPieces = function() {
     var id = 1;
     var x = -4.5, y = 5.2, z = -3.1;
     for(var i = 0; i < 10; i++){
-        var pawn = new Pawn(this, id, this.pawnModel, this.board.boardCells[i], x, y, z);
+        var pawn = new Pawn(this, id, this.pawnModel, this.board.boardCells[i], x, y, z, "redWood", "redWoodMaterial");
         this.board.boardCells[i].piece = pawn;
         this.board.pieces.push(pawn); //red
         x += 1;
@@ -112,7 +123,7 @@ XMLscene.prototype.initPieces = function() {
     }
     x = -4.5; z = 2.5;
     for(var i = 0; i < 10; i++){
-        var pawn = new Pawn(this, id, this.pawnModel, this.board.boardCells[boardCellsInd], x, y, z);
+        var pawn = new Pawn(this, id, this.pawnModel, this.board.boardCells[boardCellsInd], x, y, z, "banco", "steelMaterial");
         this.board.boardCells[boardCellsInd].piece = pawn;
         this.board.pieces.push(pawn); //white
         x += 1;
@@ -120,14 +131,14 @@ XMLscene.prototype.initPieces = function() {
         boardCellsInd++;
     }
 
-    var king = new King(this, id, this.kingModel, this.board.boardCells[boardCellsInd - 14], 0.5, 5.5, -2.25);
+    var king = new King(this, id, this.kingModel, this.board.boardCells[boardCellsInd - 14], 0.5, 5.5, -2.25, "redWood", "redWoodMaterial");
     this.board.boardCells[boardCellsInd - 14].piece = king;
-    this.board.pieces.push(king); //white
+    this.board.pieces.push(king); //red
     id++;
 
-    king = new King(this, id, this.kingModel, this.board.boardCells[14], 1.5, 5.5, 1.75);
+    king = new King(this, id, this.kingModel, this.board.boardCells[14], 1.5, 5.5, 1.75, "banco", "steelMaterial");
     this.board.boardCells[14].piece = king;
-    this.board.pieces.push(king); //red
+    this.board.pieces.push(king); //white
 }
 
 XMLscene.prototype.initBoardCells = function() {
@@ -160,8 +171,9 @@ XMLscene.prototype.onGraphLoaded = function()
     this.initPieces();
 
     // Adds lights group.
-    this.interface.addLightsGroup(this.graph.lights);
+    //this.interface.addLightsGroup(this.graph.lights);
     this.interface.addSelectablesGroup(this.graph.selectables, this.graph);
+    this.interface.addEnvironmentGroup(this.environments, this);
 
     this.setUpdatePeriod(1/60);
 }
@@ -177,6 +189,7 @@ XMLscene.prototype.logPicking = function ()
                 {
                     var customId = this.pickResults[i][1];              
                     console.log("Picked object: " + obj.id + ", with pick id " + customId + " pickResults ");
+                    obj.picked = ~obj.picked;
                 
                     if(!this.hasPickedPiece && (idIsPawnOrKing(obj.id))) {
                         this.pickedPiece = obj;
@@ -236,9 +249,22 @@ XMLscene.prototype.displayPickableItems = function(deltaTime) {
         this.board.boardCells[i].display(deltaTime);
         this.setActiveShader(this.defaultShader);
     } 
+    // insert here some flag if the beggining or not of the game
+    // reduces the number of pickable elements
+    for(var i = 0; i < this.pickableElements.length; i++){
+        this.registerForPick(n, this.pickableElements[i]);
+        this.pickableElements[i].display(deltaTime);
+        n++;
+    }
 }
 
+XMLscene.prototype.changeEnvironment = function(filename) {
+    new MySceneGraph(filename, this);
+}
 
+XMLscene.prototype.updateScaleFactor=function(v) {
+    this.pickedElement.setUniformsValues({normScale: this.scaleFactor});
+}
 
 /**
  * Displays the scene.
@@ -257,6 +283,9 @@ XMLscene.prototype.display = function() {
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
 
+    this.totalTime += this.deltaTime/1000;
+    this.scaleFactor = (1+Math.sin(5*this.totalTime)) * 0.5;
+    this.updateScaleFactor();
     
     this.pushMatrix();
     

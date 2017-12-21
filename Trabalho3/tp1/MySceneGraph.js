@@ -13,16 +13,16 @@ var NODES_INDEX = 6;
  * MySceneGraph class, representing the scene graph.
  * @constructor
  */
- function MySceneGraph(filename, scene) {
+function MySceneGraph(filename, scene) {
     this.loadedOk = null ;
-    
+
     // Establish bidirectional references between scene and graph.
     this.scene = scene;
     scene.graph = this;
-    
+
     this.nodes = [];
     //this.piecesNode = [];
-    
+
     this.idRoot = null;                    // The id of the root element.
     //this.idPiecesRoot = null;
 
@@ -30,16 +30,16 @@ var NODES_INDEX = 6;
     this.axisCoords['x'] = [1, 0, 0];
     this.axisCoords['y'] = [0, 1, 0];
     this.axisCoords['z'] = [0, 0, 1];
-    
+
     // File reading 
     this.reader = new CGFXMLreader();
 
 
     /*
-	 * Read the contents of the xml file, and refer to this class for loading and error handlers.
-	 * After the file is read, the reader calls onXMLReady on this object.
-	 * If any error occurs, the reader calls onXMLError on this object, with an error message
-	 */
+     * Read the contents of the xml file, and refer to this class for loading and error handlers.
+     * After the file is read, the reader calls onXMLReady on this object.
+     * If any error occurs, the reader calls onXMLError on this object, with an error message
+     */
 
     this.reader.open('scenes/' + filename, this);
 
@@ -53,14 +53,7 @@ var NODES_INDEX = 6;
     this.scene.gl.enable(this.scene.gl.BLEND);
     this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
 
-    //shader
-    //this.selectableShader= new CGFshader(this.scene.gl, "shaders/finalShader.vert", "shaders/finalShader.frag");
-    /*this.activeSelectable = 0;
-    this.totalTime = 0;
-    this.scaleFactor = 0;
-    this.multiplyFactor = 10;*/
-
- }
+}
 
 /*
  * Callback to be executed after successful reading
@@ -1226,8 +1219,14 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                 this.nodes[nodeID].pieceNode = true;
             } 
 
-            
+            var pickable = this.reader.getString(children[i], 'pickable');
+            if(pickable === 'true'){
+                var element = new PickableElement(this.scene, this.nodes[nodeID]);
+                this.scene.pickableElements.push(element);
+                this.nodes[nodeID].pieceNode = true;
+            }
 
+            
             // Gathers child nodes.
             var nodeSpecs = children[i].children;
             var specsNames = [];
@@ -1461,10 +1460,6 @@ MySceneGraph.prototype.log = function(message) {
 /**
     Updates the scale factor of the shader
 */
-/*
-MySceneGraph.prototype.updateScaleFactor=function(v) {
-    this.selectableShader.setUniformsValues({normScale: this.scaleFactor});
-}*/
 
 /**
  * Displays the scene, processing each node, starting in the root node.
@@ -1472,9 +1467,6 @@ MySceneGraph.prototype.updateScaleFactor=function(v) {
  MySceneGraph.prototype.displayScene = function(deltaTime) {
 
     //variables to use on the shaders
-    /*this.totalTime += deltaTime/1000;
-    this.scaleFactor = (1+Math.sin(5*this.totalTime)) * 0.5;
-    this.updateScaleFactor();*/
     
     this.scene.gl.viewport(0, 0, this.scene.gl.canvas.width, this.scene.gl.canvas.height);
     this.scene.gl.clear(this.scene.gl.COLOR_BUFFER_BIT | this.scene.gl.DEPTH_BUFFER_BIT);
@@ -1483,7 +1475,7 @@ MySceneGraph.prototype.updateScaleFactor=function(v) {
 	// entry point for graph rendering
 	for(var key in this.nodes) {
         if(this.nodes.hasOwnProperty(key)){
-            this.recursiveDisplay(1, deltaTime/1000, this.nodes[key].nodeID, 
+            this.recursiveDisplay(deltaTime/1000, this.nodes[key].nodeID, 
                 this.nodes[key].transformMatrix, 
                 this.nodes[key].textureID, 
                 this.nodes[key].materialID,
@@ -1493,9 +1485,11 @@ MySceneGraph.prototype.updateScaleFactor=function(v) {
     }
 }
 
-MySceneGraph.prototype.recursiveDisplay = function(n, deltaTime, nodeName, matrix, textureID, materialID) {
-    if(nodeName != null && nodeName !== 'pawn' && nodeName !== 'king'){
+MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, textureID, materialID) {
+    if(nodeName != null){
         var node = this.nodes[nodeName];
+        if(node.pieceNode)
+            return;
         //updates the material
         if(node.materialID !== "null"){
             materialID = node.materialID;
@@ -1522,12 +1516,7 @@ MySceneGraph.prototype.recursiveDisplay = function(n, deltaTime, nodeName, matri
         }
         //multiplies the matrixes
         this.scene.multMatrix(node.transformMatrix);
-
-        /*if(node.pickable === true){
-            this.scene.clearPickRegistration();
-            this.scene.registerForPick(n, node.nodeID);
-            node.display(deltaTime);
-        }*/
+        node.display();
 
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){
@@ -1549,11 +1538,11 @@ MySceneGraph.prototype.recursiveDisplay = function(n, deltaTime, nodeName, matri
                 //recursive call
                 if (this.selectables.includes(nodeName) && this.selectables[this.activeSelectable] == nodeName && this.activeSelectable !== 'none') {
                     this.scene.setActiveShader(this.selectableShader);
-                    this.recursiveDisplay(n++, deltaTime, node.children[i], matrix, textureID, materialID);
+                    this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);
                     this.scene.setActiveShader(this.scene.defaultShader);
                 }
                 else {
-                    this.recursiveDisplay(n++, deltaTime, node.children[i], matrix, textureID, materialID);
+                    this.recursiveDisplay(deltaTime, node.children[i], matrix, textureID, materialID);
                 }
                 this.scene.popMatrix();
             }

@@ -52,5 +52,5 @@ MyGraphNode.prototype.displayPiece = function() {
 }
 
 MyGraphNode.prototype.display = function(deltaTime) {
-    
+
 }

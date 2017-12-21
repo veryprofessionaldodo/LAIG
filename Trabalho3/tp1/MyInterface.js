@@ -36,7 +36,7 @@ MyInterface.prototype.init = function(application) {
  * Adds a folder containing the IDs of the lights passed as parameter.
  */
 MyInterface.prototype.addLightsGroup = function(lights) {
-
+    
     var group = this.gui.addFolder("Lights");
     //group.open();
     
@@ -63,5 +63,15 @@ MyInterface.prototype.addSelectablesGroup = function(selectables, graph) {
             }
      });*/
 
+}
+
+MyInterface.prototype.addEnvironmentGroup = function(environments, scene){
+    this.gui.add(scene, "environments", environments).onChange(function(v) { 
+            for (var i = 0; i < environments.length; i++) {
+                if (environments[i] == v) {
+                    scene.changeEnvironment(environments[i]); 
+                }
+            }
+    });
 }
 

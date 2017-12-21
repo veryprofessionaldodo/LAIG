@@ -1,13 +1,16 @@
-function Pawn(scene, id, node, boardCell, x, y, z){
+function Pawn(scene, id, node, boardCell, x, y, z, texture, material){
 	Piece.call(this, scene);
 	this.scene = scene;
 	this.node = node;
 	this.id = 'pawn'+id;
 	this.boardCell = boardCell;
+	this.picked = false;
 
 	this.x = x;
 	this.y = y;
 	this.z = z;
+	this.materialID = material;
+	this.textureID = texture;
 
 	this.matrix = mat4.create();
 	mat4.identity(this.matrix);
@@ -27,10 +30,19 @@ Pawn.prototype.display = function(deltaTime) {
 		else
 			this.matrix = this.animation.update(deltaTime).slice();
 	}
+
+	var texture = this.scene.graph.textures[this.textureID];
+	var material = this.scene.graph.materials[this.materialID];
+
 	this.scene.pushMatrix();
+	material.setTexture(texture[0]);
+	material.apply();
 	this.scene.multMatrix(this.matrix);
 	//this.scene.translate(this.x,this.y,this.z);
+	if(this.picked)
+		this.scene.setActiveShader(this.scene.pickedElement);
 	this.node.displayPiece();
+	this.scene.setActiveShader(this.scene.defaultShader);
 	this.scene.popMatrix();
 }
 
