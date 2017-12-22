@@ -1,7 +1,21 @@
-function GameLoop() {
+function GameLoop(scene) {
+    this.scene = scene;
 	this.stackedMoves = [];
 
     this.currentPlayer = 2;
+
+    this.BEGIN_PHASE = true;
+    this.GAME_LOOP = false;
+    this.PLAYER = 0;
+    this.PICKING_PIECE = false;
+    this.PICKING_BOARD = false;
+    this.MAKING_MOVE = false;
+    this.END_GAME = false;
+
+    this.gameDifficulty = null;
+
+    this.pickedPiece = null;
+    this.pickedBoardCell = null;
 }
 
 GameLoop.prototype.getPrologRequest = function(requestString, onSuccess, onError, port) {
@@ -112,9 +126,86 @@ GameLoop.prototype.handleReply = function(data){
 
 }
 
-
 function stringToResponse(responseString){
 	var array;
 
 	return array;
+}
+
+GameLoop.prototype.loop = function(obj) {
+    if(this.BEGIN_PHASE){ //choose difficulty
+        if(obj.id === 'facil'){
+            this.gameDifficulty = 0;
+            this.BEGIN_PHASE = false;
+            this.GAME_LOOP = true;
+            this.PICKING_PIECE = true;
+            obj.picked = false;
+            this.scene.updateCamera(1);
+        }
+        else if(obj.id === 'dificil'){
+            this.gameDifficulty = 1;
+            this.BEGIN_PHASE = false;
+            this.GAME_LOOP = true;
+            this.PICKING_PIECE = true;
+            obj.picked = false;
+            this.scene.updateCamera(1);
+        }
+    }
+    else if(this.GAME_LOOP){ //make a play
+        if(this.PICKING_PIECE){
+            if(idIsPawnOrKing(obj.id)){
+                //check if obj corresponds to the correct player
+                this.pickedPiece = obj;
+                this.PICKING_PIECE = false;
+                this.PICKING_BOARD = true;
+            }
+            else {
+                console.log('Pick a Valid Piece');
+            }
+        }
+        else if(this.PICKING_BOARD){
+            if(idIsBoard(obj.id)){
+                this.pickedBoardCell = obj;
+
+                var gameMove = new GameMove(this.scene, this.pickedPiece, this.pickedBoardCell, 0);
+
+                if (this.attemptMove(gameMove)){
+                    console.log('Move is valid!');
+                    gameMove.execute();
+
+                    this.pickedPiece.picked = false;
+                    this.pickedBoardCell.picked = false;
+
+                    this.stackedMoves.push(gameMove);
+                    this.MAKING_MOVE = true;
+                    this.PICKING_BOARD = false;
+                }
+                else {
+                    console.log("Invalid move!");
+                    this.PICKING_BOARD = false;
+                    this.PICKING_PIECE = true;
+                }
+
+            }
+        }
+    }
+    else if(this.MAKING_MOVE){
+        console.log('A move is still being made, please wait.');
+    }
+    else if(this.END_GAME){
+        console.log('End game');
+        //make a scene to restart or not
+        this.scene.updateCamera('Beggining');
+    }
+}
+
+GameLoop.prototype.update = function() {
+    if(this.MAKING_MOVE){
+        if(this.pickedPiece.animation.endAnimation){
+            this.MAKING_MOVE = false;
+            this.PLAYER = ~this.PLAYER;
+            this.PICKING_PIECE = true;
+            this.scene.updateCamera(this.PLAYER);
+        }
+    }
 }

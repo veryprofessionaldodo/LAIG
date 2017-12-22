@@ -3,7 +3,7 @@ var degToRad = Math.PI / 180.0;
 function PickableElement(scene, node){
 	this.scene = scene;
 	this.node = node;
-	this.id = 'pickable';
+	this.id = this.node.nodeID;
 	console.log(this.node);
 	this.picked = false;
 }

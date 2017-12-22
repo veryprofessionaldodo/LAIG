@@ -5,7 +5,7 @@ function Board(scene){
 	this.scene = scene;
 	this.pieces = new Array();
 	this.boardCells = new Array();
-	this.gameMoves = new Array();
+	//this.gameMoves = new Array();
 }
 
 Board.prototype = Object.create(Board.prototype);

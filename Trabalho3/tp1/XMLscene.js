@@ -14,7 +14,7 @@ function XMLscene(interface) {
     this.environments = ['scene1.xml', 'scene2.xml'];
     this.playAnimations = false;
 
-    this.gameLoop = new GameLoop();
+    this.gameLoop = new GameLoop(this);
 
     document.getElementById("send_button").addEventListener("click", function(event) {
         var loop = new GameLoop();
@@ -56,10 +56,10 @@ XMLscene.prototype.init = function(application) {
     this.totalTime = 0;
     this.scaleFactor = 0;
 
-    this.hasPickedPiece = false;
+    /*this.hasPickedPiece = false;
     this.pickedPiece = null;
     this.pickedBoardCell = null;
-    this.makingMove = false;
+    this.makingMove = false;*/
 }
 
 /**
@@ -102,11 +102,13 @@ XMLscene.prototype.initLights = function() {
 XMLscene.prototype.initCameras = function() {
 
     this.cameraPositions = new Array();
-    this.cameraPositions = new CameraPosition('Beggining', vec3.fromValues(0, 1, 17), vec3.fromValues(0, -3, 0));
-    this.cameraPositions = new CameraPosition('Player 1', vec3.fromValues(0, 15, 15), vec3.fromValues(0, 0, 0));
-    this.cameraPositions = new CameraPosition('Player 2', vec3.fromValues(0, 15, -15), vec3.fromValues(0, 0, 0));
+    this.cameraPositions[0] = new CameraPosition('Beggining', vec3.fromValues(-1, 1, 17), vec3.fromValues(-1, -2, 0));
+    this.cameraPositions[1] = new CameraPosition('Player 1', vec3.fromValues(-1, 15, 15), vec3.fromValues(-1, 0, 0));
+    this.cameraPositions[2] = new CameraPosition('Player 2', vec3.fromValues(-1, 15, -15), vec3.fromValues(-1, 0, 0));
 
-    this.camera = new CGFcamera(0.4,0.1,500,vec3.fromValues(15, 15, 15),vec3.fromValues(0, 0, 0));
+    //this.camera = new CGFcamera(0.4,0.1,500,vec3.fromValues(15, 15, 15),vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[0].position,this.cameraPositions[0].target);
+    this.cameraAnimation = null;
 }
 
 XMLscene.prototype.initPieces = function() {
@@ -152,6 +154,10 @@ XMLscene.prototype.initBoardCells = function() {
     }
 }
 
+XMLscene.prototype.updateCamera = function(cameraID){
+    this.cameraAnimation = new CameraAnimation(this, this.camera, this.cameraPositions[cameraID]);
+}
+
 /* Handler called when the graph is finally loaded. 
  * As loading is asynchronous, this may be called already after the application has started the run loop
  */
@@ -190,8 +196,8 @@ XMLscene.prototype.logPicking = function ()
                     var customId = this.pickResults[i][1];              
                     console.log("Picked object: " + obj.id + ", with pick id " + customId + " pickResults ");
                     obj.picked = ~obj.picked;
-                
-                    if(!this.hasPickedPiece && (idIsPawnOrKing(obj.id))) {
+                    this.gameLoop.loop(obj);
+                    /*if(!this.hasPickedPiece && (idIsPawnOrKing(obj.id))) {
                         this.pickedPiece = obj;
                         this.pickingPiecePhase = false;
                         this.pickingBoardCellPhase = true;
@@ -211,7 +217,7 @@ XMLscene.prototype.logPicking = function ()
                             console.log("Invalid move!");
 
                         this.hasPickedPiece = false;
-                    }
+                    }*/
                 }
             }
             this.pickResults.splice(0,this.pickResults.length);
@@ -287,6 +293,7 @@ XMLscene.prototype.display = function() {
     this.scaleFactor = (1+Math.sin(5*this.totalTime)) * 0.5;
     this.updateScaleFactor();
     
+    this.gameLoop.update();
     this.pushMatrix();
     
     if (this.graph.loadedOk) 
@@ -343,5 +350,16 @@ XMLscene.prototype.update = function(currTime) {
     }
     this.deltaTime = (currTime - this.lastTime);
     this.lastTime = currTime;
+
+    if(this.cameraAnimation !== null){
+        this.animateCamera(this.deltaTime);
+    }
+}
+
+XMLscene.prototype.animateCamera = function(deltaTime){
+    if(this.cameraAnimation.endAnimation)
+        this.cameraAnimation = null;
+    else
+        this.cameraAnimation.update(deltaTime);
 }
 

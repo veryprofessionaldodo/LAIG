@@ -1,5 +1,4 @@
-function CameraPosition(scene, name, position, target){
-	this.scene = scene;
+function CameraPosition(name, position, target){
 	this.name = name;
 	this.position = position;
 	this.target = target;
