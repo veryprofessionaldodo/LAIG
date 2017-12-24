@@ -318,18 +318,6 @@
 </MATERIALS>
 
 <ANIMATIONS>
-    <!--
-    <ANIMATION id="teste" speed="0.5" type="linear">
-        <controlpoint xx="1.0" yy="1.0" zz="1.0" />
-        <controlpoint xx="2.0" yy="2.0" zz="2.0" />
-        <controlpoint xx="3.0" yy="3.0" zz="3.0" />
-    </ANIMATION> 
-    <ANIMATION id="teste1" speed="0.5" type="linear">
-        <controlpoint xx="1.0" yy="1.0" zz="1.0" />
-        <controlpoint xx="2.0" yy="2.0" zz="2.0" />
-        <controlpoint xx="3.0" yy="3.0" zz="3.0" />
-    </ANIMATION>-->
-
 </ANIMATIONS>
 
 
@@ -381,7 +369,7 @@
 
     <NODE id="boardAuxWhite" pickable="false">
         <MATERIAL id="null"/>
-        <TEXTURE id="null"/>
+        <TEXTURE id="clear"/>
 
         <TRANSLATION x="0.5" y="0" z="5" />
         <SCALE sx="0.1" sy="0.1" sz="0.1" />
@@ -394,7 +382,7 @@
 
     <NODE id="boardAuxRed" pickable="false">
         <MATERIAL id="null"/>
-        <TEXTURE id="null"/>
+        <TEXTURE id="clear"/>
 
         <TRANSLATION x="0.5" y="0" z="-6" />
         <SCALE sx="0.8" sy="0.05" sz="0.4" />
@@ -469,7 +457,7 @@
         <TEXTURE id="null" />
 
         <TRANSLATION x="-3" y="-1" z="8" />
-        <SCALE sx="0.5" sy="0.5" sz="0.5" />
+        <SCALE sx="0.25" sy="0.25" sz="0.25" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
@@ -480,8 +468,32 @@
         <MATERIAL id="null" />    
         <TEXTURE id="null" />
 
+        <TRANSLATION x="-1" y="-1" z="8" />
+        <SCALE sx="0.25" sy="0.25" sz="0.25" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="humano_humano" pickable="true">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="1" y="-1" z="8" />
+        <SCALE sx="0.25" sy="0.25" sz="0.25" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="humano_maquina" pickable="true">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />
+
         <TRANSLATION x="3" y="-1" z="8" />
-        <SCALE sx="0.5" sy="0.5" sz="0.5" />
+        <SCALE sx="0.25" sy="0.25" sz="0.25" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />

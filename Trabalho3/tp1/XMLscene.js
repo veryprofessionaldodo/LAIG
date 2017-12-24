@@ -200,6 +200,7 @@ XMLscene.prototype.logPicking = function ()
                     var customId = this.pickResults[i][1];              
                     console.log("Picked object: " + obj.id + ", with pick id " + customId + " pickResults ");
                     obj.picked = ~obj.picked;
+                    
                     this.gameLoop.loop(obj);
                     /*if(!this.hasPickedPiece && (idIsPawnOrKing(obj.id))) {
                         this.pickedPiece = obj;

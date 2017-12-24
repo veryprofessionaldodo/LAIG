@@ -12,7 +12,8 @@ function GameLoop(scene) {
     this.MAKING_MOVE = false;
     this.END_GAME = false;
 
-    this.gameDifficulty = null;
+    this.gameDifficulty = null; // 0 - facil, 1 - dificil
+    this.gameType = null; // 0 - humano/humano, 1 - humano/maquina
 
     this.pickedPiece = null;
     this.pickedBoardCell = null;
@@ -136,18 +137,24 @@ GameLoop.prototype.loop = function(obj) {
     if(this.BEGIN_PHASE){ //choose difficulty
         if(obj.id === 'facil'){
             this.gameDifficulty = 0;
-            this.BEGIN_PHASE = false;
-            this.GAME_LOOP = true;
-            this.PICKING_PIECE = true;
             obj.picked = false;
-            this.scene.updateCamera(1);
         }
         else if(obj.id === 'dificil'){
             this.gameDifficulty = 1;
+            obj.picked = false;        
+        }
+        else if(obj.id === 'humano_humano'){
+            this.gameType = 0;
+            obj.picked = false;
+        }
+        else if(obj.id === 'humano_maquina'){
+            this.gameType = 0;
+            obj.picked = false;
+        }
+        if(this.gameDifficulty !== null && this.gameType !== null){
             this.BEGIN_PHASE = false;
             this.GAME_LOOP = true;
             this.PICKING_PIECE = true;
-            obj.picked = false;
             this.scene.updateCamera(1);
         }
     }
