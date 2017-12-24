@@ -108,6 +108,7 @@ XMLscene.prototype.initCameras = function() {
 
     //this.camera = new CGFcamera(0.4,0.1,500,vec3.fromValues(15, 15, 15),vec3.fromValues(0, 0, 0));
     this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[0].position,this.cameraPositions[0].target);
+    this.currentCameraID = this.cameraPositions[0].name;
     this.cameraAnimation = null;
 }
 
@@ -155,7 +156,10 @@ XMLscene.prototype.initBoardCells = function() {
 }
 
 XMLscene.prototype.updateCamera = function(cameraID){
-    this.cameraAnimation = new CameraAnimation(this, this.camera, this.cameraPositions[cameraID]);
+    if(this.currentCameraID == 'Beggining' || cameraID === 'Beggining')
+        this.cameraAnimation = new CameraAnimation(this, 0, this.camera, this.cameraPositions[cameraID]);
+    else
+        this.cameraAnimation = new CameraAnimation(this, 1, this.camera, this.cameraPositions[cameraID]);
 }
 
 /* Handler called when the graph is finally loaded. 
@@ -352,7 +356,7 @@ XMLscene.prototype.update = function(currTime) {
     this.lastTime = currTime;
 
     if(this.cameraAnimation !== null){
-        this.animateCamera(this.deltaTime);
+        this.animateCamera(this.deltaTime/1000);
     }
 }
 
