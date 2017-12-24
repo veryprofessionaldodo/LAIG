@@ -250,9 +250,10 @@ get_piece(_,_,Piece):-
 %Replaces a character in a given position on the board.
 set_piece(ColumnLetter,Line,Piece):- 
         column_to_number(ColumnLetter, Column), 
+        NewColumn is Column,
         line_to_position(Line, LineNumber),                                   
         board(Board), 
-        replace(Board,LineNumber,Column,Piece,NewBoard),
+        replace(Board,LineNumber,NewColumn,Piece,NewBoard),
         retract(board(Board)), 
         assert(board(NewBoard)).
 
@@ -387,7 +388,6 @@ phalanx_attack(Pos,Direction,Player):-
 
 phalanx_attack(_,_,_).
 
-
 /**
 *Checks if a move caused a push and crush capture, if it did removes the piece from the board
 */
@@ -401,7 +401,6 @@ helper_push_and_crush_capture2(Pos,Direction,Player):-
         (player_letter(OppPlayer,Piece);
             equal(Piece,' ')).      %gets the piece and checks if it's an enemy or empty space
 
-                                 
 helper_push_and_crush_capture(Pos,Direction,Player,0):- 
         add1_pos(Direction,Pos,NextPiece), 
         nth0(0,NextPiece,ColumnLetter), 
@@ -423,7 +422,6 @@ helper_push_and_crush_capture(Pos,Direction,Player,1):-
         opposing_player(Player,OppPlayer),
         player_piece(OppPlayer,Piece),      %gets the piece and checks if it's an enemy
         \+ helper_push_and_crush_capture2(NextPiece,Direction,Player).  %checks if the next piece is an enemy if it isn't follows the rule              
-
 
 push_and_crush_capture(Pos,Direction,Player):-
         add1_pos(Direction,Pos,NextPiece), 
@@ -692,11 +690,10 @@ check_soldiers_and_Dux_Row([H|T],Pb,PB,Pw,PW,X):-
 
 % Check whether play is valid for a specific player. 
 check_if_valid(Move, Player) :- 
-		write("is own piece"),
+		write('is own piece \n'),
         is_own_piece(Move, Player), 
-        write("attempt_to_move"),
+        write('attempt_to_move \n'),
         attempt_to_move(Move).
-
 
 %checks if the dux has atleast one enemy around him
 dux_sides_attacked(Player,DuxPos,Counter):-

@@ -95,6 +95,7 @@ print_header_line(_).
 :-reconsult(interface).
 :-reconsult(game_logic).
 :-reconsult(game_loop).
+:-reconsult(artificial_intelligence).
 :-reconsult(utils).
 
 % In case game state is required.
@@ -105,7 +106,8 @@ parse_input([move,Player,MoveCurrPlace-MoveDest], [ok, RemovedPieces]) :-
 	write(1),
 	string_to_move(MoveCurrPlace-MoveDest, Move), 
 	write(2),
-	check_if_valid(Move, Player),
+	write('Move is '), write(Move), 
+	check_if_valid(Move, Player), !,
 	write(3),
 	move(Move), 
 	write(4),
@@ -117,7 +119,7 @@ parse_input([move,Player,MoveCurrPlace-MoveDest], [ok, RemovedPieces]) :-
 	write(7),
 	once(analyse_changes(BeforeCaptures, AfterCaptures, RemovedPieces)).
 
-parse_input([,Player,MoveColumn-MoveLine], [error]).
+parse_input([move,Player,MoveColumn-MoveLine], [error]).
 
 % Get new move by AI
 parse_input([get_ai_move, AIPlayer, AILevel], [ok, Move, RemovedPieces]) :-

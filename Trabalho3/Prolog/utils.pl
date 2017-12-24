@@ -2,7 +2,7 @@
 :- dynamic(playcounter/1).
 
 is_row(Number) :- Number > 0, Number < 9.
-isColumn(Letter) :- member(Letter, "abcdefghjABCDEFGHJ").
+isColumn(Letter) :- member(Letter, "abcdefghijABCDEFGHIJ").
 
 equal(A,A).
 different(A,B) :- A\==B.
@@ -68,7 +68,6 @@ string_to_move(StringA-StringB, ListOfMove):-
 	is_row(Row1), 
 	is_row(Row2),
 	ListOfMove = [Column1,Row1,Column2,Row2].
-
 
 /**
 *Line Number to position in Board array. 
