@@ -12,8 +12,10 @@ function XMLscene(interface) {
     this.lightValues = {};
     this.selectables = {};
     this.environments = ['scene1.xml', 'scene2.xml'];
+    this.currentEnvironment = 'scene1.xml';
     this.playAnimations = false;
 
+    this.cameraPositions = new Array();
     this.gameLoop = new GameLoop(this);
 
     document.getElementById("send_button").addEventListener("click", function(event) {
@@ -101,8 +103,11 @@ XMLscene.prototype.initLights = function() {
  */
 XMLscene.prototype.initCameras = function() {
 
-    this.cameraPositions = new Array();
-    this.cameraPositions[0] = new CameraPosition('Beggining', vec3.fromValues(-1, 1, 17), vec3.fromValues(-1, -2, 0));
+    this.cameraPositions = [];
+    if(this.currentEnvironment === 'scene1.xml')
+        this.cameraPositions[0] = new CameraPosition('Beggining', vec3.fromValues(-1, 1, 17), vec3.fromValues(-1, -2, 0));
+    else if (this.currentEnvironment === 'scene2.xml')
+        this.cameraPositions[0] = new CameraPosition('Beggining', vec3.fromValues(-5, 3, -11), vec3.fromValues(-35, 1, -12));
     this.cameraPositions[1] = new CameraPosition('Player 1', vec3.fromValues(-1, 15, 15), vec3.fromValues(-1, 0, 0));
     this.cameraPositions[2] = new CameraPosition('Player 2', vec3.fromValues(-1, 15, -15), vec3.fromValues(-1, 0, 0));
 
@@ -270,6 +275,8 @@ XMLscene.prototype.displayPickableItems = function(deltaTime) {
 }
 
 XMLscene.prototype.changeEnvironment = function(filename) {
+    this.currentEnvironment = filename;
+    this.initCameras();
     new MySceneGraph(filename, this);
 }
 

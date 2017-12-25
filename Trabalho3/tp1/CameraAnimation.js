@@ -8,7 +8,7 @@ function CameraAnimation(scene, type, ori, dest){
 	this.destPos = this.dest.position;
 
 	if(this.type === 0){
-		this.timeTotal = 10;
+		this.timeTotal = 5;
 		this.positionDist = vec3.create();
 		vec3.subtract(this.positionDist, this.destPos, this.originPos);
 

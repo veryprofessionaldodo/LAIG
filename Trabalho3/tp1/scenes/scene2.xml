@@ -21,21 +21,21 @@
         <!-- Lights -->
         <LIGHTS>	
            <LIGHT id="light0">
-            <enable value ="1" />                   	       
-            <position  x="-5" y="12" z="25" w="1" />       	   
-            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />        	 
-            <diffuse r="0.75" g="0.75" b="0.35" a="1.0" />
-            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
-        </LIGHT>
+                <enable value ="1" />                              
+                <position  x="0" y="20" z="0" w="0" />             
+                <ambient r="1.0" g="1.0" b="1.0" a="1.0" />          
+                <diffuse r="0.75" g="0.75" b="0.35" a="1.0" />
+                <specular r="0.75" g="0.75" b="0.75" a="1.0" />
+            </LIGHT>
+            <LIGHT id="light1">
+                <enable value ="1" />                   	       
+                <position  x="20" y="20" z="10" w="0" />       	   
+                <ambient r="1.0" g="1.0" b="1.0" a="1.0" />        	 
+                <diffuse r="0.75" g="0.75" b="0.75" a="1.0" />
+                <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+            </LIGHT>
 
-        <LIGHT id="light1">                                    
-            <enable value ="1" />                   	      
-            <position  x="-7" y="12" z="33" w="1" />           
-            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />      
-            <diffuse r="0.85" g="0.85" b="0.45" a="1.0" />
-            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
-        </LIGHT> 
-    </LIGHTS>
+        </LIGHTS>
 
     <!-- Textures -->
     <TEXTURES>
@@ -45,134 +45,67 @@
             <amplif_factor s="5" t="4" />                           
         </TEXTURE>
 
-       <!-- Dark Wood -->
-   <TEXTURE id="dark_wood">
-    <file path="images/dark_wood.jpg" />               
-    <amplif_factor s="2" t="2" />                           
-    </TEXTURE>
+        <!-- Marble Kitchen Table -->
+        <TEXTURE id="marble">
+            <file path="images/marble.jpg" />               
+            <amplif_factor s="2" t="2" />                           
+        </TEXTURE>
 
-    <!-- Leather Couch -->
-    <TEXTURE id="leather">
-        <file path="images/leather.jpg" />               
-        <amplif_factor s="6" t="9" />                           
-    </TEXTURE>
+        <!-- For metal surfaces -->
+        <TEXTURE id="polished_metal">
+            <file path="images/polished_metal.jpg" />               
+            <amplif_factor s="2" t="2" />                           
+        </TEXTURE>
 
-    <!-- Right and Left Speakers -->
-    <TEXTURE id="speakers">
-        <file path="images/speakers.jpg" />               
-        <amplif_factor s="5" t="4" />                           
-    </TEXTURE>
+        <!-- Lamp -->
+        <TEXTURE id="lamp_white">
+            <file path="images/lamp.jpg" />               
+            <amplif_factor s="10" t="10" />                           
+        </TEXTURE>
 
-    <!-- Marble Kitchen Table -->
-    <TEXTURE id="marble">
-        <file path="images/marble.jpg" />               
-        <amplif_factor s="2" t="2" />                           
-    </TEXTURE>
+        <!-- Tree leaves -->
+        <TEXTURE id="folhas">
+            <file path="images/leaves.jpg" />                
+            <amplif_factor s="3" t="4" />                           
+        </TEXTURE>
 
-    <!-- For the cabinets -->
-    <TEXTURE id="wood_cabinets">
-        <file path="images/wood.jpg" />               
-        <amplif_factor s="6" t="6" />                           
-    </TEXTURE>
+        <!-- Rocks -->
+        <TEXTURE id="rocks">
+            <file path="images/rocks.jpg" />                
+            <amplif_factor s="1" t="1" />                           
+        </TEXTURE>
 
-    <!-- For metal surfaces -->
-    <TEXTURE id="polished_metal">
-        <file path="images/polished_metal.jpg" />               
-        <amplif_factor s="2" t="2" />                           
-    </TEXTURE>
-    
-    <!-- Wooden Floor -->
-    <TEXTURE id="wood_floor">
-        <file path="images/wood_floor.jpg" />               
-        <amplif_factor s="3" t="3" />                           
-    </TEXTURE>
 
-    <!-- White front wall -->
-    <TEXTURE id="frontWallWhite">
-        <file path="images/front_wall.jpg" />               
-        <amplif_factor s="1" t="1" />                           
-    </TEXTURE>
+        <TEXTURE id="redWood">
+            <file path="images/red_wood.jpg" />                
+            <amplif_factor s="1" t="1" />                           
+        </TEXTURE>
 
-    <!-- Dark front wall -->
-    <TEXTURE id="frontWallDark">
-        <file path="images/dark_wall.jpg" />               
-        <amplif_factor s="1" t="1" />                           
-    </TEXTURE>
+        <!-- Glass work -->
+        <TEXTURE id="vidral">
+            <file path="images/vidral.jpg" />               
+            <amplif_factor s="15" t="10" />                           
+        </TEXTURE>
 
-    <!-- Wooden White Floor -->
-    <TEXTURE id="wood_white_floor">
-        <file path="images/wood_white_floor.jpg" />               
-        <amplif_factor s="3" t="3" />                           
-    </TEXTURE>
+        <!-- Street bench -->
+        <TEXTURE id="banco">
+            <file path="images/bank.jpg" />                
+            <amplif_factor s="1" t="1" />                           
+        </TEXTURE>
 
-    <!-- So sad -->
-    <TEXTURE id="television_news">
-        <file path="images/fake_news.jpg" />               
-        <amplif_factor s="5" t="4" />                           
-    </TEXTURE>
+        <!-- Tree trunk -->
+        <TEXTURE id="trunk">
+            <file path="images/trunk-image.jpg" />               
+            <amplif_factor s="2" t="2" />                           
+        </TEXTURE>
 
-    <!-- Lamp -->
-    <TEXTURE id="lamp_white">
-        <file path="images/lamp.jpg" />               
-        <amplif_factor s="10" t="10" />                           
-    </TEXTURE>
-
-    <!-- Tree leaves -->
-    <TEXTURE id="folhas">
-        <file path="images/leaves.jpg" />                
-        <amplif_factor s="3" t="4" />                           
-    </TEXTURE>
-
-    <!-- Rocks -->
-    <TEXTURE id="rocks">
-        <file path="images/rocks.jpg" />                
-        <amplif_factor s="1" t="1" />                           
-    </TEXTURE>
-
-    <!-- Books -->
-    <TEXTURE id="books1">
-        <file path="images/books1.jpg" />                
-        <amplif_factor s="4" t="4" />                           
-    </TEXTURE>
-
-    <TEXTURE id="books2">
-        <file path="images/books1.jpg" />                
-        <amplif_factor s="4" t="4" />                           
-    </TEXTURE>
-
-    <TEXTURE id="books3">
-        <file path="images/books3.jpg" />                
-        <amplif_factor s="4" t="4" />                           
-    </TEXTURE>
-
-    <TEXTURE id="books4">
-        <file path="images/books4.jpg" />                
-        <amplif_factor s="1" t="1" />                           
-    </TEXTURE>
-
-    <TEXTURE id="books5">
-        <file path="images/books5.jpg" />                
-        <amplif_factor s="1" t="1" />                           
-    </TEXTURE>
-
-    <TEXTURE id="redWood">
-        <file path="images/red_wood.jpg" />                
-        <amplif_factor s="1" t="1" />                           
-    </TEXTURE>
-
-    <!-- Glass work -->
-    <TEXTURE id="vidral">
-        <file path="images/vidral.jpg" />               
-        <amplif_factor s="15" t="10" />                           
-    </TEXTURE>
-
-    <!-- Street bench -->
-    <TEXTURE id="banco">
-        <file path="images/bank.jpg" />                
-        <amplif_factor s="1" t="1" />                           
-    </TEXTURE>
-    
-</TEXTURES>
+        <!-- Grass -->
+        <TEXTURE id="grass">
+            <file path="images/grass.png" />               
+            <amplif_factor s="1" t="1" />                           
+        </TEXTURE>
+        
+    </TEXTURES>
 
 <MATERIALS>
 	<!-- Pyramid material -->
@@ -193,6 +126,15 @@
         <emission r="0.3" g="0.3" b="0.3" a="1" />        
     </MATERIAL>
 
+    <!-- Light bulb material -->
+    <MATERIAL id="lightMaterial">                                  
+        <shininess value="100" />
+        <specular r="0.5" g="0.5" b="0.5" a="1" />       
+        <diffuse r="0.5" g="0.5" b="0.5" a="1" />       
+        <ambient r="0.0" g="0.0" b="0.0" a="1" />        
+        <emission r="0.0" g="0.0" b="0.0" a="1" />        
+    </MATERIAL>
+
     <!-- Tree leaves material -->
     <MATERIAL id="leavesTreeMaterial">                                  
         <shininess value="1" />
@@ -211,25 +153,6 @@
         <emission r="0.0" g="0.0" b="0.0" a="1" />       
     </MATERIAL>
 
-
-    <!-- Kitchen Walls Material -->
-    <MATERIAL id="kitchenWallsMaterial">                       
-        <shininess value="100" />
-        <specular r=".3" g="0" b="0.1" a="1" />       
-        <diffuse r="0.07" g="0" b="0.1" a="1" />       
-        <ambient r="0.0" g="0.0" b="0.0" a="1" />        
-        <emission r="0.0" g="0.0" b="0.0" a="1" />        
-    </MATERIAL>
-
-    <!-- Front Walls Material -->
-    <MATERIAL id="frontWallsMaterial">
-        <shininess value="100" />
-        <specular r="0.6" g="0.6" b="0.6" a="1" />       
-        <diffuse r="0.6" g="0.1" b="0.5" a="1" />        
-        <emission r="0.1" g="0.1" b="0.1" a="1" />
-        <ambient r="0.0" g="0.0" b="0.0" a="1" />              
-    </MATERIAL>
-
     <!-- Lamp Material -->
     <MATERIAL id="lampMaterial">                                  
         <shininess value="100" />
@@ -237,23 +160,6 @@
         <diffuse r="0.5" g="0.5" b="0.5" a="1" />       
         <ambient r="0.0" g="0.0" b="0.0" a="1" />        
         <emission r="1" g="1" b="1" a="1" />        
-    </MATERIAL>
-
-     <MATERIAL id="sidelampMaterial">                                  
-        <shininess value="100" />
-        <specular r="0.5" g="0.5" b="0.5" a="1" />       
-        <diffuse r="0.5" g="0.2" b="0.45" a="1" />       
-        <ambient r="0.0" g="0.0" b="0.0" a="1" />        
-        <emission r=".7" g=".7" b=".7" a="1" />        
-    </MATERIAL>
-
-    <!-- Television Material -->
-    <MATERIAL id="televisionMaterial">                                  
-        <shininess value="100" />
-        <specular r="0.5" g="0.5" b="0.5" a="1" />       
-        <diffuse r="0.5" g="0.5" b="0.5" a="1" />       
-        <ambient r="0.0" g="0.0" b="0.0" a="1" />        
-        <emission r=".3" g=".3" b=".3" a="1" />        
     </MATERIAL>
 
     <!-- A default material -->
@@ -277,18 +183,6 @@
 </MATERIALS>
 
 <ANIMATIONS>
-    <!--
-    <ANIMATION id="teste" speed="0.5" type="linear">
-        <controlpoint xx="1.0" yy="1.0" zz="1.0" />
-        <controlpoint xx="2.0" yy="2.0" zz="2.0" />
-        <controlpoint xx="3.0" yy="3.0" zz="3.0" />
-    </ANIMATION> 
-    <ANIMATION id="teste1" speed="0.5" type="linear">
-        <controlpoint xx="1.0" yy="1.0" zz="1.0" />
-        <controlpoint xx="2.0" yy="2.0" zz="2.0" />
-        <controlpoint xx="3.0" yy="3.0" zz="3.0" />
-    </ANIMATION>-->
-
 </ANIMATIONS>
 
 
@@ -303,17 +197,18 @@
     <ROOT id="root" />    
 
     <!-- The root node -->
-    <NODE id="root">       
+    <NODE id="root" pickable="false">       
         <MATERIAL id="defaultMaterial" />         
         <TEXTURE id="null" />  
 
         <DESCENDANTS>    
             <NODEREF id="boards" />
+            <NODEREF id="dynamic_elements" />
             <NODEREF id="scene" />
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="boards">
+    <NODE id="boards" pickable="false">
         <MATERIAL id="null" />         
         <TEXTURE id="null" />
 
@@ -326,7 +221,7 @@
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="gameboard">
+    <NODE id="gameboard" pickable="false">
         <MATERIAL id="null"/>
         <TEXTURE id="null"/>
 
@@ -337,9 +232,9 @@
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="boardAuxWhite">
+    <NODE id="boardAuxWhite" pickable="false">
         <MATERIAL id="null"/>
-        <TEXTURE id="null"/>
+        <TEXTURE id="clear"/>
 
         <TRANSLATION x="0.5" y="0" z="5" />
         <SCALE sx="0.1" sy="0.1" sz="0.1" />
@@ -350,9 +245,9 @@
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="boardAuxRed">
+    <NODE id="boardAuxRed" pickable="false">
         <MATERIAL id="null"/>
-        <TEXTURE id="null"/>
+        <TEXTURE id="clear"/>
 
         <TRANSLATION x="0.5" y="0" z="-6" />
         <SCALE sx="0.8" sy="0.05" sz="0.4" />
@@ -362,7 +257,7 @@
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="board">
+    <NODE id="board" pickable="false">
         <MATERIAL id="null" />         
         <TEXTURE id="null" />
 
@@ -374,7 +269,7 @@
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="pawn">
+    <NODE id="pawn" pickable="false">
         <MATERIAL id="null"/>
         <TEXTURE id="null"/>
 
@@ -385,7 +280,7 @@
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="king">
+    <NODE id="king" pickable="false">
         <MATERIAL id="null"/>
         <TEXTURE id="null"/>
 
@@ -396,29 +291,110 @@
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="scene"> 
+    <NODE id="dynamic_elements" pickable="false">
         <MATERIAL id="null" />    
         <TEXTURE id="null" />
 
-        <TRANSLATION x="-7" y="-5" z="-40" /> 
+        <TRANSLATION x="-38" y="3" z="-16" />
+        <ROTATION axis="y" angle="90" />
 
         <DESCENDANTS>
-            <NODEREF id="chao_abaixo" />
-            <NODEREF id="piso_acima" />
-            <NODEREF id="escadas" />
-            <NODEREF id="paredes_lado" />
-            <NODEREF id="mesa_cozinha" />
-            <NODEREF id="barras" />
+            <NODEREF id="label" />
+            <NODEREF id="facil" />
+            <NODEREF id="dificil" />
+            <NODEREF id="humano_humano" />
+            <NODEREF id="humano_maquina" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="label" pickable="false">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="0" y="2" z="-1" />
+        <ROTATION axis="x" angle="-90" />
+        <SCALE sx="2" sy="0.1" sz="0.5" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="facil" pickable="true">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="-45" y="2" z="-16" />
+        <ROTATION axis="y" angle="90" />
+        <TRANSLATION x="-3" y="-1" z="8" />
+        <SCALE sx="0.25" sy="0.25" sz="0.25" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="dificil" pickable="true">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="-45" y="2" z="-16" />
+        <ROTATION axis="y" angle="90" />
+        <TRANSLATION x="-1" y="-1" z="8" />
+        <SCALE sx="0.25" sy="0.25" sz="0.25" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="humano_humano" pickable="true">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="-45" y="2" z="-16" />
+        <ROTATION axis="y" angle="90" />
+        <TRANSLATION x="1" y="-1" z="8" />
+        <SCALE sx="0.25" sy="0.25" sz="0.25" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="humano_maquina" pickable="true">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="-45" y="2" z="-16" />
+        <ROTATION axis="y" angle="90" />
+        <TRANSLATION x="3" y="-1" z="8" />
+        <SCALE sx="0.25" sy="0.25" sz="0.25" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="scene" pickable="false"> 
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />
+
+        <DESCENDANTS>
+            <NODEREF id="chao" />
+            <NODEREF id="mesa" />
+            <NODEREF id="bancos" />
+            <NODEREF id="arvores" />
         </DESCENDANTS>
     </NODE>
 
 
     <!-- Kitchen Table -->
-    <NODE id="mesa_cozinha">
+    <NODE id="mesa" pickable="false">
         <MATERIAL id="null" />    
         <TEXTURE id="null" />
 
-        <TRANSLATION x="7" y="5" z="40" />
+        <TRANSLATION x="0" y="0" z="0" />
         <SCALE sx="2" sy=".7" sz="3" />
 
         <DESCENDANTS>
@@ -427,19 +403,19 @@
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="mesa_baixo">
+    <NODE id="mesa_baixo" pickable="false">
         <MATERIAL id="null" />    
         <TEXTURE id="marble" />   
 
-        <TRANSLATION x="0" y="1.8" z="0" />
-        <SCALE sx=".9" sy="3.2" sz=".9" />
+        <TRANSLATION x="0" y="4.5" z="0" />
+        <SCALE sx=".9" sy="1.5" sz=".9" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />          
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="tampo">
+    <NODE id="tampo" pickable="false">
         <MATERIAL id="steelMaterial" />    
         <TEXTURE id="polished_metal" />                  
 
@@ -452,363 +428,172 @@
     </NODE>
 
     <!-- Bars -->
-    <NODE id="barras">
-        <MATERIAL id="steelMaterial" />    
-        <TEXTURE id="polished_metal" />                  
+    <NODE id="arvores" pickable="false">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />     
+
+        <SCALE sx="2" sy="2" sz="2" />   
+        <TRANSLATION x="-20" y="0" z="0" />          
 
         <DESCENDANTS>
-            <NODEREF id="barras_baixo" />           
-            <NODEREF id="barras_cima" />           
+            <NODEREF id="arvore1" />
+            <NODEREF id="arvore2" />
+            <NODEREF id="arvore3" />
+            <NODEREF id="arvore4" />
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="barras_cima">
+    <!-- One tree -->
+    <NODE id="arvore1">       
         <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
+        <TEXTURE id="null" />                   
+
+        <TRANSLATION x="-2" y="0" z="0" />
 
         <DESCENDANTS>
-            <NODEREF id="barras_cima1" />           
-            <NODEREF id="barras_cima2" />           
-            <NODEREF id="barras_cima3" />           
-            <NODEREF id="barras_cima4" />             
+            <NODEREF id="arvore" />             
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- Another tree -->
+    <NODE id="arvore2">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />                   
+
+        <TRANSLATION x="26" y="0" z="5" />
+
+        <DESCENDANTS>
+            <NODEREF id="arvore" />             
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="barras_cima1">
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
+    <!-- Another tree -->
+    <NODE id="arvore3">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />                   
 
-        <SCALE sx=".2" sy=".2" sz="1.5" />
-        <TRANSLATION x="50" y="40" z="17" />    
-        <SCALE sx="1" sy="1" sz="3.35" />
-        <TRANSLATION x="52" y="0" z=".87" />
+        <TRANSLATION x="30" y="0" z="-10" />
 
         <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 1 1" /> 
+            <NODEREF id="arvore" />             
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="barras_cima2">
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" /> 
+    <!-- Another tree -->
+    <NODE id="arvore4">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />                   
 
-        <SCALE sx=".2" sy=".2" sz="1.5" />
-        <TRANSLATION x="50" y="40" z="17" />            
-        <SCALE sx="1" sy="1" sz=".5" />
-        <TRANSLATION x="18" y="0" z="-3.4" />
+        <TRANSLATION x="-6" y="0" z="-14" />
 
         <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 1 1" /> 
+            <NODEREF id="arvore" />             
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="barras_cima3">
+    <!-- Generic tree -->
+    <NODE id="arvore">       
         <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
-
-        <SCALE sx=".2" sy=".2" sz="1.5" />
-        <TRANSLATION x="50" y="40" z="17" />       
-        <ROTATION axis="y" angle="-90" />
-        <SCALE sx=".15" sy="1" sz="16" />
-        <TRANSLATION x="-11.52" y="0" z="-1.1" />
+        <TEXTURE id="null" />                   
 
         <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 1 1" /> 
+            <NODEREF id="troncoArvore" />
+            <NODEREF id="folhasArvore" />           
         </DESCENDANTS>
+
     </NODE>
 
-    <NODE id="barras_cima4">
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
+    <!-- Tree trunk -->
+    <NODE id="troncoArvore">       
+        <MATERIAL id="trunkTreeMaterial" />     
+        <TEXTURE id="trunk" />                  
 
-        <ROTATION axis="x" angle="-7.85" />
-        <SCALE sx=".2" sy=".2" sz="6.8" />
-        <TRANSLATION x="105" y="5.5" z="3.45" />
+        <ROTATION axis="x" angle="90" />
+        <TRANSLATION x="5" y="6" z="-4" />
 
         <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 1 1" /> 
+                    <LEAF type="cylinder" args="4 1 1 20 20" /> 
         </DESCENDANTS>
+
     </NODE>
 
-    <NODE id="barras_baixo">
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
+    <!-- Tree leaves -->
+     <NODE id="folhasArvore">       
+        <MATERIAL id="leavesTreeMaterial" />     
+        <TEXTURE id="folhas" /> 
 
-        <SCALE sx=".2" sy="1.5" sz=".2" />
-        <ROTATION axis="x" angle="-90" />
-        <TRANSLATION x="80" y="-150" z="1.6" />
-
-        <DESCENDANTS>
-            <NODEREF id="barras_baixo1" />           
-            <NODEREF id="barras_baixo2" />          
-            <NODEREF id="barras_baixo3" />           
-            <NODEREF id="barras_baixo4" />           
-            <NODEREF id="barras_baixo5" />           
-            <NODEREF id="barras_baixo6" />           
-            <NODEREF id="barras_baixo7" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="barras_baixo1">
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
-
-        <TRANSLATION x="22" y="-100" z="0" />
+        <TRANSLATION x="5" y="6" z="6" />                
 
         <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 1 1" /> 
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="barras_baixo2">
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
-
-        <TRANSLATION x="22" y="0" z="0" />
-
-        <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 1 1" /> 
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="barras_baixo3">
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
-
-        <TRANSLATION x="-12" y="20" z="0" />
-
-        <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 1 1" /> 
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="barras_baixo4">
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
-
-        <TRANSLATION x="-12" y="35" z="0" />
-
-        <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 1 1" /> 
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="barras_baixo5">
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
-
-        <TRANSLATION x="-77" y="35" z="0" />
-
-        <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 1 1" /> 
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="barras_baixo6">
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
-
-        <TRANSLATION x="25" y="35" z="-2.4" />
-
-        <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 0 0" /> 
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="barras_baixo7">
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
-
-        <TRANSLATION x="25" y="-100" z="0" />
-
-        <DESCENDANTS>
-            <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20 0 0" /> 
-        </DESCENDANTS>
-    </NODE>
-
-
-    <!-- Side Walls -->
-    <NODE id="paredes_lado">
-        <MATERIAL id="null" />    
-        <TEXTURE id="clear" />                  
-
-        <DESCENDANTS>
-            <NODEREF id="parede_cozinha1" />           
-            <NODEREF id="parede_cozinha2" />                    
-            <NODEREF id="parede_frente1" />           
-            <NODEREF id="parede_frente2" />           
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="parede_cozinha1">      
-        <MATERIAL id="kitchenWallsMaterial" />    
-        <TEXTURE id="clear" />                  
-
-        <SCALE sx=".3" sy="5" sz="5" />
-        <TRANSLATION x="-35" y="2.2" z="7" />
-
-        <DESCENDANTS>
-            <NODEREF id="cubo" />           
-        </DESCENDANTS>
-    </NODE>   
-
-    <NODE id="parede_cozinha2">      
-        <MATERIAL id="kitchenWallsMaterial" />    
-        <TEXTURE id="clear" />                  
-
-        <SCALE sx="2.2" sy="5" sz=".3" />
-        <TRANSLATION x="-2" y="2.2" z="77" />
-
-        <DESCENDANTS>
-            <NODEREF id="cubo" />           
-        </DESCENDANTS>
-    </NODE>   
-
-    <NODE id="parede_frente1">      
-        <MATERIAL id="frontWallsMaterial" />    
-        <TEXTURE id="frontWallWhite" />                  
-
-        <TRANSLATION x="-.5" y="0" z=".5" />
-
-        <DESCENDANTS>
-        	<!-- Front -->
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 35 0 -3 35 5 -2" />          
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 35 8 -2 35 13 -3" />
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 35 18 -3 20 18 -2" />
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 10 18 -2 0 18 -3" />
-
-            <!-- Side -->
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 1 5 23 0 0 23 " />
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 1 12 23 0 9 23" />           
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 1 18 15 0 18 23" />
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 1 18 6 0 18 10" />          
-        </DESCENDANTS>
-    </NODE>   
-
-    <NODE id="parede_frente2">      
-        <MATERIAL id="frontWallsMaterial" />    
-        <TEXTURE id="frontWallDark" />                  
-
-        <TRANSLATION x="-.5" y="0" z=".5" />
-
-        <DESCENDANTS>
-        	<!-- Front -->
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 35 5 -2 35 8 -2" />          
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 35 13 -3 35 18 -3" />
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 20 18 -2 10 18 -2" />
-
-            <!-- Side -->      
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 0 9 23 1 5 23" />     
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 0 18 23 1 12 23" />
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 0 18 10 1 18 15" />
-            <LEAF id="triangle1" type="triangle" args="0 0 -3 0 18 -3 1 18 6" />        
-        </DESCENDANTS>
-    </NODE> 
-
-    
-    <!-- The stairs -->
-    <NODE id="escadas">      
-        <MATERIAL id="null" />    
-        <TEXTURE id="wood_white_floor" />                  
-
-        <SCALE sx="1" sy="0.5" sz="1" />
-        <TRANSLATION x="17" y="1" z="24" />
-
-        <DESCENDANTS>
-            <NODEREF id="escadas_baixo" />           
-            <NODEREF id="escadas_medio" />           
-            <NODEREF id="escadas_alto" />           
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="escadas_baixo">      
-        <MATERIAL id="null" />    
-        <TEXTURE id="wood_white_floor" />                  
-
-        <DESCENDANTS>
-            <NODEREF id="banco" />           
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="escadas_medio">      
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
-
-        <SCALE sx="1" sy="2" sz="1" />
-        <TRANSLATION x="0" y="0.5" z="1.6" />
-
-        <DESCENDANTS>
-            <NODEREF id="banco" />           
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="escadas_alto">      
-        <MATERIAL id="null" />    
-        <TEXTURE id="null" />                  
-        
-        <SCALE sx="1" sy="3" sz="1" />        
-        <TRANSLATION x="0" y=".5645" z="3.2" />
-
-        <DESCENDANTS>
-            <NODEREF id="banco" />           
-        </DESCENDANTS>
-    </NODE>
-
-    <!-- The bottom floor -->
-    <NODE id="chao_abaixo">
-        <MATERIAL id="null" />    
-        <TEXTURE id="wood_white_floor" />                   
-
-        <TRANSLATION x="17" y="-0.3" z="22" />
-        <SCALE sx="7" sy=".2" sz="10" />
-
-        <DESCENDANTS>
-            <NODEREF id="cubo"/> 
+            <NODEREF id="faceCubo1" />
+            <NODEREF id="faceCubo2" />
+            <NODEREF id="faceCubo3" />
+            <NODEREF id="faceCubo4" />
+            <NODEREF id="faceCubo5" />
+            <NODEREF id="faceCubo6" />      
         </DESCENDANTS>
     </NODE>
 
     <!-- The top floor -->
-    <NODE id="piso_acima">      
-        <MATERIAL id="null" />    
-        <TEXTURE id="wood_white_floor" />                  
+    <NODE id="chao" pickable="false">      
+        <MATERIAL id="leavesTreeMaterial" />    
+        <TEXTURE id="grass" />                  
 
-        <SCALE sx="7" sy="1" sz="10" />
-        <TRANSLATION x="0" y="0" z="4" />
+        <TRANSLATION x="-50" y="0.5" z="40" />
         <ROTATION axis="x" angle="-90" />
+        <SCALE sx="20" sy="20" sz="20" />
 
         <DESCENDANTS>
-            <NODEREF id="chao_acima" />             
-            <NODEREF id="rampa" />             
+            <LEAF  type="rectangle" args="0 4 5 0" />             
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="chao_acima">
-        <MATERIAL id="null" />    
-        <TEXTURE id="wood_floor" />     
+    <!-- Street bench -->
+    <NODE id="bancos">       
+        <MATERIAL id="lightMaterial" />     
+        <TEXTURE id="banco" />                  
 
-        <TRANSLATION x="0.71" y="-0.04" z=".722" />
-        <SCALE sx=".9" sy=".8" sz="0.7" />
+        <TRANSLATION x="-12.5" y="4" z="6" />
+        <ROTATION axis="y" angle="90" />
+        <SCALE sx="1" sy="1.2" sz="1" />
+
+        <DESCENDANTS>
+            <NODEREF id="banco1" />          
+            <NODEREF id="banco2" />         
+        </DESCENDANTS>
+
+    </NODE>
+
+    <!-- One bench -->
+    <NODE id="banco2">       
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />                   
+
+        <TRANSLATION x="7.5" y="-2" z="21" />
         
         <DESCENDANTS>
-            <NODEREF id="cubo" />
+            <NODEREF id="banco" /> 
         </DESCENDANTS>
+
     </NODE>
 
-    <NODE id="rampa">
-        <MATERIAL id="null" />    
-        <TEXTURE id="wood_white_floor" />     
+    <!-- Another bench -->
+     <NODE id="banco1">      
+        <MATERIAL id="null" />     
+        <TEXTURE id="null" />                   
 
-        <TRANSLATION x="2.96" y="0" z="2.5" />
-        <SCALE sx=".25" sy=".29" sz="0.3" /> 
-        <ROTATION axis="x" angle="-52" />
-        
+        <TRANSLATION x="7.5" y="-2" z="4" />
+
         <DESCENDANTS>
-            <LEAF type="rectangle" args="0 10 5 0" />
+            <NODEREF id="banco" />      
         </DESCENDANTS>
+
     </NODE>
+
 
     <!-- Generic bench -->
-    <NODE id="banco">       
+    <NODE id="banco" pickable="false">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />       			
 
@@ -826,7 +611,7 @@
    </NODE>
 
 <!-- Cube -->
-<NODE id="cubo">       
+<NODE id="cubo" pickable="false">       
     <MATERIAL id="null" />     
     <TEXTURE id="null" />       			
 
@@ -841,7 +626,7 @@
 </NODE>
 
 <!-- A cube face -->
-<NODE id="faceCubo1">       
+<NODE id="faceCubo1" pickable="false">       
     <MATERIAL id="null" />     
     <TEXTURE id="null" />       			
 
@@ -854,7 +639,7 @@
 </NODE>
 
 <!-- Another cube face -->
-<NODE id="faceCubo2">      
+<NODE id="faceCubo2" pickable="false">      
     <MATERIAL id="null" />     
     <TEXTURE id="null" />       			
 
@@ -868,7 +653,7 @@
 </NODE>
 
 <!-- Another cube face -->
-<NODE id="faceCubo3">       
+<NODE id="faceCubo3" pickable="false">       
     <MATERIAL id="null" />     
     <TEXTURE id="null" />       			
 
@@ -882,7 +667,7 @@
 </NODE>
 
 <!-- Another cube face -->
-<NODE id="faceCubo4">       
+<NODE id="faceCubo4" pickable="false">       
     <MATERIAL id="null" />    
     <TEXTURE id="null" />       			
 
@@ -896,7 +681,7 @@
 </NODE>
 
 <!-- Another cube face -->
-<NODE id="faceCubo5">       
+<NODE id="faceCubo5" pickable="false">       
     <MATERIAL id="null" />    
     <TEXTURE id="null" />       			
 
@@ -911,7 +696,7 @@
 </NODE>
 
 <!-- Another cube face -->
-<NODE id="faceCubo6">       
+<NODE id="faceCubo6" pickable="false">       
     <MATERIAL id="null" />     
     <TEXTURE id="null" />       			
 
@@ -925,7 +710,7 @@
 
 </NODE>
 
-<NODE id="cubo_board" >
+<NODE id="cubo_board" pickable="false">
         <MATERIAL id="null" />     
         <TEXTURE id="null" />   
         
@@ -940,7 +725,7 @@
     </NODE>
 
     <!-- A cube face -->
-    <NODE id="faceCubo1_board">       
+    <NODE id="faceCubo1_board" pickable="false">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />                   
 
@@ -953,7 +738,7 @@
     </NODE>
 
     <!-- Another cube face -->
-    <NODE id="faceCubo2_board">      
+    <NODE id="faceCubo2_board" pickable="false">      
         <MATERIAL id="null" />     
         <TEXTURE id="null" />                   
 
@@ -967,7 +752,7 @@
     </NODE>
 
     <!-- Another cube face -->
-    <NODE id="faceCubo3_board">       
+    <NODE id="faceCubo3_board" pickable="false">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />                   
 
@@ -980,7 +765,7 @@
     </NODE>
 
     <!-- Another cube face -->
-    <NODE id="faceCubo4_board">       
+    <NODE id="faceCubo4_board" pickable="false">       
         <MATERIAL id="null" />    
         <TEXTURE id="board" />                   
 
@@ -994,7 +779,7 @@
     </NODE>
 
     <!-- Another cube face -->
-    <NODE id="faceCubo5_board">       
+    <NODE id="faceCubo5_board" pickable="false">       
         <MATERIAL id="null" />    
         <TEXTURE id="null" />                   
 
@@ -1008,7 +793,7 @@
     </NODE>
 
     <!-- Another cube face -->
-    <NODE id="faceCubo6_board">       
+    <NODE id="faceCubo6_board" pickable="false">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />                   
 

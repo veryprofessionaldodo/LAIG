@@ -436,6 +436,8 @@
             <NODEREF id="label" />
             <NODEREF id="facil" />
             <NODEREF id="dificil" />
+            <NODEREF id="humano_humano" />
+            <NODEREF id="humano_maquina" />
         </DESCENDANTS>
     </NODE>
 
