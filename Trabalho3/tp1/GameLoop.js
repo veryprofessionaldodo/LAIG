@@ -155,7 +155,7 @@ GameLoop.prototype.loop = function(obj) {
             this.BEGIN_PHASE = false;
             this.GAME_LOOP = true;
             this.PICKING_PIECE = true;
-            this.scene.updateCamera(1);
+            this.scene.updateCamera(this.PLAYER);
         }
     }
     else if(this.GAME_LOOP){ //make a play
@@ -210,7 +210,7 @@ GameLoop.prototype.update = function() {
     if(this.MAKING_MOVE){
         if(this.pickedPiece.animation.endAnimation){
             this.MAKING_MOVE = false;
-            this.PLAYER = ~this.PLAYER;
+            this.PLAYER = 1 - this.PLAYER;
             this.PICKING_PIECE = true;
             this.scene.updateCamera(this.PLAYER);
         }

@@ -161,10 +161,18 @@ XMLscene.prototype.initBoardCells = function() {
 }
 
 XMLscene.prototype.updateCamera = function(cameraID){
-    if(this.currentCameraID == 'Beggining' || cameraID === 'Beggining')
-        this.cameraAnimation = new CameraAnimation(this, 0, this.camera, this.cameraPositions[cameraID]);
-    else
-        this.cameraAnimation = new CameraAnimation(this, 1, this.camera, this.cameraPositions[cameraID]);
+    if(this.currentCameraID === 'Beggining'){
+        this.cameraAnimation = new CameraAnimation(this, 0, this.camera, this.cameraPositions[cameraID+1]);
+        this.currentCameraID = cameraID + 1;
+    }
+    else if(cameraID === 'Beggining'){
+        this.cameraAnimation = new CameraAnimation(this, 0, this.camera, this.cameraPositions[0]);
+        this.currentCameraID = 'Beggining';
+    }
+    else{
+        this.cameraAnimation = new CameraAnimation(this, 1, this.camera, this.cameraPositions[cameraID+1]);
+        this.currentCameraID = cameraID + 1;
+    }
 }
 
 /* Handler called when the graph is finally loaded. 
