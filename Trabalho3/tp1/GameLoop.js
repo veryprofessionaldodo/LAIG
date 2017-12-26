@@ -1,8 +1,13 @@
 function GameLoop(scene) {
     this.scene = scene;
-	this.stackedMoves = [];
+    this.stackedMoves = [];
 
     this.board = scene.board;
+    this.auxWhiteBoard = scene.auxWhiteBoard;
+    this.auxRedBoard = scene.auxRedBoard;
+
+    this.auxRedPosition = 0;
+    this.auxWhitePosition = 0;
 
     this.currentPlayer = 2;
 
@@ -19,12 +24,6 @@ function GameLoop(scene) {
 
     this.pickedPiece = null;
     this.pickedBoardCell = null;
-
-    document.getElementById("send_button").addEventListener("click", function(event) {
-        this.makeRequest();
-    }, false);
-
-
 }
 
 GameLoop.prototype.getPrologRequest = function(requestString, onSuccess, onError, port) {
@@ -43,8 +42,8 @@ GameLoop.prototype.getPrologRequest = function(requestString, onSuccess, onError
 
     return test;
 }
-        
-GameLoop.prototype.makeRequest = function() {
+
+GameLoop.prototype.makeRequest = function(request) {
     // Get Parameter Values
     var requestString = document.querySelector("#query_field").value;               
 
@@ -54,7 +53,7 @@ GameLoop.prototype.makeRequest = function() {
 }
 
 GameLoop.prototype.attemptMove = function(moveArgs) {
-    var moveString = moveToString(moveArgs);
+    var moveString = this.moveToString(moveArgs);
     
     var requestString = "[move," + this.currentPlayer + "," + moveString + "]";
     
@@ -66,40 +65,24 @@ GameLoop.prototype.attemptMove = function(moveArgs) {
 
     if (responseString[1] == 'o' && responseString[2] == 'k') {
         this.currentPlayer = (this.currentPlayer)%2 + 1;
-        removeEliminatedPieces(responseString);
+        this.removeEliminatedPieces(responseString);
         return true;
     }
     else  {
         return false;
     }
-
-
-
-    /*
-        if (this.succeeded)
-        this.currentPlayer = (this.currentPlayer+1%2) + 1;
-
-
-    if (responseString[1] == 'o' && responseString[2] == 'k') {
-        console.log("DEU CARALHO, QUAL É A CENA");
-        this.succeeded = true;
-    }
-    else  {
-        console.log("FODASSE");
-        this.succeeded = true;
-    }*/
 }
 
-function moveToString(moveArgs) {
-    var cellBefore = IDtoPosition(moveArgs.piece.boardCell.id);
-    var cellAfter = IDtoPosition(moveArgs.cellDest.id);
+GameLoop.prototype.moveToString = function(moveArgs) {
+    var cellBefore = this.IDtoPosition(moveArgs.piece.boardCell.id);
+    var cellAfter = this.IDtoPosition(moveArgs.cellDest.id);
 
     var moveString = cellBefore[0] + cellBefore[1] + "-" + cellAfter[0] + cellAfter[1];
 
     return moveString;
 }
 
-function removeEliminatedPieces(responseString) {
+GameLoop.prototype.removeEliminatedPieces = function(responseString) {
     var eliminatedString = [];
 
     for (var i = 5; i < (responseString.length-2); i++) {
@@ -111,27 +94,46 @@ function removeEliminatedPieces(responseString) {
     if (eliminatedString.length > 1) {
         var splitEliminated = "" + eliminatedString.join("").split(",");  
 
-        for (var j = 0 ; j < splitEliminated.length; j++) {
-            removeByPosition(splitEliminated[j]);
-        }
-
-        console.log(splitEliminated);
+        this.removeByPosition(splitEliminated);
     }
 }
 
-function removeByPosition(positionString) {
+GameLoop.prototype.removeByPosition = function(positionString) {
     console.log("Position string is " + positionString);
+    console.log(""+ (8 - parseInt(positionString[1])));
+    console.log(""+ (parseInt(positionString[3]) - 1));
     for (var i = 0; i < this.board.pieces.length; i++) {
         var boardId = this.board.pieces[i].boardCell.id;
-        if (boardId[5] == positionString[1] && boardId[6] == positionString[3]){
+        console.log(boardId);
+
+        if (boardId[5] == (""+ (8 - parseInt(positionString[1]))) && boardId[6] == (""+ (parseInt(positionString[1]) - 1))){
             console.log("Piece to be removed is ");
             console.log(this.board.pieces[i]);
+            console.log("Boards are ");
+            console.log(this.auxWhiteBoard);
+            console.log(this.auxRedBoard);
+
+            // Parsing the Id to see if it's red or black, to see to which aux we need to send him.
+            var pieceNumberString = [];
+            var pieceId = this.board.pieces[i].id;
+            
+            pieceNumberString[0] = pieceId[4];
+            pieceNumberString[1] = pieceId[5];
+
+            var pieceNumber = parseInt(pieceNumberString.join(""));
+            
+            if (pieceNumber > 10) { // Aux Red
+                console.log("red");
+            }
+            else { // Aux White
+                console.log("white");
+            }
         }
 
     }
 }
 
-function IDtoPosition(cellId) {
+GameLoop.prototype.IDtoPosition = function(cellId) {
     var column = cellId[6];
     var columnLetter;
 
@@ -160,20 +162,12 @@ function IDtoPosition(cellId) {
 
     return [columnLetter,1+parseInt(line)];
 }
-            
+
 //Handle the Reply
 GameLoop.prototype.handleReply = function(data){
     var responseString = data.target.response;
 
     console.log("RESPONSE " + responseString);
-
-
-}
-
-function stringToResponse(responseString){
-	var array;
-
-	return array;
 }
 
 GameLoop.prototype.loop = function(obj) {
@@ -216,7 +210,7 @@ GameLoop.prototype.loop = function(obj) {
         else if(this.PICKING_BOARD){
             if(idIsBoard(obj.id)){
                 this.pickedBoardCell = obj;
-    
+
                 var gameMove = new GameMove(this.scene, this.pickedPiece, this.pickedBoardCell, 0);
 
                 if (this.attemptMove(gameMove)){

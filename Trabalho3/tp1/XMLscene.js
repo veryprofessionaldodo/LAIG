@@ -16,6 +16,13 @@ function XMLscene(interface) {
     this.playAnimations = false;
 
     this.cameraPositions = new Array();
+
+
+    document.getElementById("send_button").addEventListener("click", function(event) {
+        var loop = new GameLoop(this);
+        loop.makeRequest("init");
+    }, false);
+
   
 }
 
@@ -48,6 +55,7 @@ XMLscene.prototype.init = function(application) {
     this.pawnModel = null;
     this.kingModel = null;
     this.pickableElements = new Array();
+    this.gameLoop = new GameLoop(this);
 
     this.boardCellsShader = new CGFshader(this.gl, "shaders/notDisplay.vert", "shaders/notDisplay.frag");
     this.pickedElement = new CGFshader(this.gl, "shaders/picked.vert", "shaders/picked.frag");
@@ -308,7 +316,7 @@ XMLscene.prototype.display = function() {
     this.totalTime += this.deltaTime/1000;
     this.scaleFactor = (1+Math.sin(5*this.totalTime)) * 0.5;
     this.updateScaleFactor();
-    
+
     this.gameLoop.update();
     this.pushMatrix();
     
