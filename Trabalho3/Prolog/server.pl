@@ -103,20 +103,17 @@ parse_input(get_game_state, [ok, Return_Message]) :- get_game_state(Return_Messa
 
 % Handle movement and updates board-
 parse_input([move,Player,MoveCurrPlace-MoveDest], [ok, RemovedPieces]) :- 
-	write(1),
+	write('convert string to move\n'),
 	string_to_move(MoveCurrPlace-MoveDest, Move), 
-	write(2),
-	write('Move is '), write(Move), 
+	write('check if valid\n'),
 	check_if_valid(Move, Player), !,
-	write(3),
+	write('move\n'),
 	move(Move), 
-	write(4),
 	get_game_state(BeforeCaptures), 
-	write(5),
+	write('remove captured pieces\n'),
 	remove_captured_pieces(Move, Player), 
-	write(6),
 	get_game_state(AfterCaptures), !,
-	write(7),
+	write('analyse changes\n'),
 	once(analyse_changes(BeforeCaptures, AfterCaptures, RemovedPieces)).
 
 parse_input([move,Player,MoveColumn-MoveLine], [error]).

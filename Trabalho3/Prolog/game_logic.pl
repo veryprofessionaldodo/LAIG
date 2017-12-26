@@ -6,20 +6,15 @@
 *Attempt to move a piece.
 */ 
 attempt_to_move(Move) :- 
-		write('1\n'),
 		is_vertical_or_horizontal(Move), !, 
-		write('2\n'),
 		advances_move_piece(Move),!,
-		write('3\n'),
 		once(check_piece_warfare(Move)).
 
 % Check if is horizontal or vertical move. 
 is_vertical_or_horizontal(Move) :- 
-	write('Try vertical \n'),
 	vertical(Move).
 
 is_vertical_or_horizontal(Move) :- 		
-	write('Try horizontal \n'),
 	horizontal(Move).
 
 horizontal(Move) :- 
@@ -28,8 +23,7 @@ horizontal(Move) :-
 		traverse_move_horizontal(Move). 
 
 vertical(Move) :- 
-		write('Move is'), write(Move),
-		nth0(0, Move, Column), write(Column),
+		nth0(0, Move, Column), 
 		nth0(2, Move, Column), 
 		traverse_move_vertical(Move).  
 
