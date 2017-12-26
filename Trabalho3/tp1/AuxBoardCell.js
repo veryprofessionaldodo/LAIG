@@ -1,6 +1,6 @@
 var degToRad = Math.PI / 180.0;
 
-function BoardCell(scene, id, x, y, z){
+function AuxBoardCell(scene, id, x, y, z){
 	this.scene = scene;
 	this.id = id;
 
@@ -13,14 +13,14 @@ function BoardCell(scene, id, x, y, z){
 	this.z = z;
 }
 
-BoardCell.prototype = Object.create(BoardCell.prototype);
-BoardCell.prototype.constructor = BoardCell;
-
-BoardCell.prototype.display = function(deltaTime) {
+AuxBoardCell.prototype = Object.create(AuxBoardCell.prototype);
+AuxBoardCell.prototype.constructor = AuxBoardCell;
+/*
+AuxBoardCell.prototype.display = function(deltaTime) {
 	this.scene.pushMatrix();
 	this.scene.translate(this.x,this.y,this.z);
 	this.scene.rotate(-90*degToRad, 1, 0, 0);
-	this.scene.scale(0.2,0.2,0.15);
+	this.scene.scale(0.15,0.15,0.15);
 	this.quad.display();
 	this.scene.popMatrix();
-}
+}*/

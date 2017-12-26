@@ -19,9 +19,9 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js',
              'primitives/MyCircle.js', 'primitives/MyPatch.js','animations/Animation.js', 
              'animations/LinearAnimation.js', 'animations/CircularAnimation.js', 
              'animations/BezierAnimation.js','animations/ComboAnimation.js',
-             'King.js', 'Pawn.js', 'Board.js', 'Piece.js', 'Environment.js',
-             'primitives/MyPawn.js', 'primitives/MyKing.js', 'BoardCell.js',
-             'GameMove.js', 'GameLoop.js', 'CameraPosition.js', 'PickableElement.js',
+             'King.js', 'Pawn.js', 'Board.js', 'GameBoard.js', 'AuxBoard.js', 'Piece.js', 
+             'Environment.js', 'primitives/MyPawn.js', 'primitives/MyKing.js', 'BoardCell.js',
+             'AuxBoardCell.js', 'GameMove.js', 'GameLoop.js', 'CameraPosition.js', 'PickableElement.js',
              'CameraAnimation.js',
 
 main=function()
