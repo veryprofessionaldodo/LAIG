@@ -58,11 +58,14 @@ GameLoop.prototype.attemptMove = function(moveArgs) {
 
     if (responseString[1] == 'o' && responseString[2] == 'k') {
         this.currentPlayer = (this.currentPlayer)%2 + 1;
+        removeEliminatedPieces(responseString);
         return true;
     }
     else  {
         return false;
     }
+
+
 
     /*
         if (this.succeeded)
@@ -86,6 +89,26 @@ function moveToString(moveArgs) {
     var moveString = cellBefore[0] + cellBefore[1] + "-" + cellAfter[0] + cellAfter[1];
 
     return moveString;
+}
+
+function removeEliminatedPieces(responseString) {
+    var eliminatedString = [];
+
+    for (var i = 5; i < (responseString.length-2); i++) {
+        eliminatedString[i-5] = responseString[i];
+    }
+
+    console.log(eliminatedString);
+
+    if (eliminatedString.length > 1) {
+        var splitEliminated = "" + eliminatedString.join("").split(",");  
+
+        for (var j = 0 ; j < splitEliminated.length; j++) {
+            removeByPosition(splitEliminated[j]);
+        }
+
+        console.log(splitEliminated);
+    }
 }
 
 function IDtoPosition(cellId) {
@@ -173,7 +196,7 @@ GameLoop.prototype.loop = function(obj) {
         else if(this.PICKING_BOARD){
             if(idIsBoard(obj.id)){
                 this.pickedBoardCell = obj;
-
+    
                 var gameMove = new GameMove(this.scene, this.pickedPiece, this.pickedBoardCell, 0);
 
                 if (this.attemptMove(gameMove)){

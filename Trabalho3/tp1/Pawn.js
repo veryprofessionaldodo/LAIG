@@ -46,7 +46,9 @@ Pawn.prototype.display = function(deltaTime) {
 	this.scene.popMatrix();
 }
 
-Pawn.prototype.move = function(x,y,z){
+Pawn.prototype.move = function(x,y,z, newBoardCell){
+	this.boardCell = newBoardCell;
+
 	console.log('a: ' + this.x + ' ' + this.y + ' ' + this.z);
 	console.log('dest: ' + x + ' ' + y + ' ' + z);
 	var points = new Array();

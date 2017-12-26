@@ -46,7 +46,10 @@ King.prototype.display = function(deltaTime) {
 	this.scene.popMatrix();
 }
 
-King.prototype.move = function(x,y,z){
+King.prototype.move = function(x,y,z, newBoardCell){
+	
+	this.boardCell = newBoardCell;
+
 	var points = new Array();
 	points.push([this.x, this.y, this.z]);
 	points.push([this.x, this.y + 4, this.z]);

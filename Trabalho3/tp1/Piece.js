@@ -4,5 +4,8 @@ function Piece(scene){
 
 Piece.prototype.display = function(){};
 
-Piece.prototype.move = function(x,y,z){};
+Piece.prototype.move = function(x,y,z, newBoardCell){};
 
+Piece.prototype.returnBoardCell = function() {};
+
+Piece.prototype.removeFromBoard = function(position) {};

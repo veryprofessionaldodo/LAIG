@@ -6,15 +6,21 @@
 *Attempt to move a piece.
 */ 
 attempt_to_move(Move) :- 
+		write('1\n'),
 		is_vertical_or_horizontal(Move), !, 
+		write('2\n'),
 		advances_move_piece(Move),!,
+		write('3\n'),
 		once(check_piece_warfare(Move)).
-
 
 % Check if is horizontal or vertical move. 
 is_vertical_or_horizontal(Move) :- 
-		vertical(Move) ; 
-		horizontal(Move).
+	write('Try vertical \n'),
+	vertical(Move).
+
+is_vertical_or_horizontal(Move) :- 		
+	write('Try horizontal \n'),
+	horizontal(Move).
 
 horizontal(Move) :- 
 		nth0(1, Move, Row), 
@@ -22,26 +28,25 @@ horizontal(Move) :-
 		traverse_move_horizontal(Move). 
 
 vertical(Move) :- 
-		nth0(0, Move, Column), 
+		write('Move is'), write(Move),
+		nth0(0, Move, Column), write(Column),
 		nth0(2, Move, Column), 
 		traverse_move_vertical(Move).  
 
 check_next_piece(Direction, PosPiece, PosFinal):- 
-                add1_pos(Direction,PosPiece,NextPiece),
-                nth0(0,NextPiece,X),
-                nth0(1,NextPiece,Y),
-                column_to_number(X,Column),
-                get_piece(Column, Y, ' '),
-                (nth0(0,PosFinal,X1),
-                nth0(1,PosFinal,Y1),
-                column_to_number(X1,Column1),
-                Column1=Column, Y=Y1;
-                 check_next_piece(Direction, NextPiece, PosFinal)).
-
-
+  	add1_pos(Direction,PosPiece,NextPiece),
+    nth0(0,NextPiece,X),
+    nth0(1,NextPiece,Y),
+    column_to_number(X,Column),
+    get_piece(Column, Y, ' '),
+    (nth0(0,PosFinal,X1),
+    nth0(1,PosFinal,Y1),
+    column_to_number(X1,Column1),
+    Column1=Column, Y=Y1;
+    check_next_piece(Direction, NextPiece, PosFinal)).
 
 advances_move_piece(Move):-
-                checks_the_direction_of_move(Move,Direction),
+	            checks_the_direction_of_move(Move,Direction),
                 nth0(2,Move,X),
                 nth0(3,Move,Y),
                 Pos=[X,Y],
@@ -59,7 +64,9 @@ traverse_move_vertical(Move) :-
 		Row1 \= Row2,
 		((Row1 < Row2, NewRow1 is Row1 + 1) ;
 		 	(Row1 > Row2, NewRow1 is Row1 -1)),
-		check_from_X_to_Y_Row(Column, NewRow1, Row2).
+		write(NewRow1), write(' '), write(NewRow2),
+		check_from_X_to_Y_Row(Column, NewRow1, Row2),
+		write('Traverse7\n').
 
 %End Condition 
 check_from_X_to_Y_Row(Column, Row, Row) :- 
