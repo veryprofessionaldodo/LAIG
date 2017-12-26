@@ -372,8 +372,7 @@
         <TEXTURE id="clear"/>
 
         <TRANSLATION x="0.5" y="0" z="5" />
-        <SCALE sx="0.1" sy="0.1" sz="0.1" />
-        <SCALE sx="8" sy="0.5" sz="4" />
+        <SCALE sx="0.8" sy="0.05" sz="0.4" />
 
         <DESCENDANTS>
             <NODEREF id="cubo_board" />

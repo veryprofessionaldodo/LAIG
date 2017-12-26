@@ -47,7 +47,9 @@ XMLscene.prototype.init = function(application) {
     this.axis = new CGFaxis(this);
     this.lastTime = 0;
 
-    this.board = new Board(this);
+    this.board = new GameBoard(this);
+    this.auxRedBoard = new AuxBoard(this, -6);
+    this.auxWhiteBoard = new AuxBoard(this, 5);
     this.environment = new Environment(this);
     this.pawnModel = null;
     this.kingModel = null;
@@ -153,7 +155,7 @@ XMLscene.prototype.initBoardCells = function() {
     var x = -5, y = 5.15, z = -2.7;
     for(var i = 0; i < 8; i++){
         for(var j = 0; j < 10; j++){
-            this.board.boardCells.push(new BoardCell(this, i +''+ j, x, y, z));
+            this.board.boardCells.push(new BoardCell(this, 'board'+ i +''+ j, x, y, z));
             x += 1;
         }
         x = -5, z += 0.8;
@@ -342,6 +344,8 @@ XMLscene.prototype.display = function() {
 
         // Displays the scene.
         this.graph.displayScene(this.deltaTime);
+        //this.auxWhiteBoard.display(this.deltaTime/1000);
+        //this.auxRedBoard.display(this.deltaTime/1000);
 
         this.logPicking();
         this.clearPickRegistration();
