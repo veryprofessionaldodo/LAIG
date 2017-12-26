@@ -16,13 +16,7 @@ function XMLscene(interface) {
     this.playAnimations = false;
 
     this.cameraPositions = new Array();
-    this.gameLoop = new GameLoop(this);
-
-    document.getElementById("send_button").addEventListener("click", function(event) {
-        var loop = new GameLoop();
-        loop.makeRequest("init");
-    }, false);
-
+  
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);

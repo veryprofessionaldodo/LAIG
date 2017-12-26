@@ -2,6 +2,8 @@ function GameLoop(scene) {
     this.scene = scene;
 	this.stackedMoves = [];
 
+    this.board = scene.board;
+
     this.currentPlayer = 2;
 
     this.BEGIN_PHASE = true;
@@ -17,6 +19,12 @@ function GameLoop(scene) {
 
     this.pickedPiece = null;
     this.pickedBoardCell = null;
+
+    document.getElementById("send_button").addEventListener("click", function(event) {
+        this.makeRequest();
+    }, false);
+
+
 }
 
 GameLoop.prototype.getPrologRequest = function(requestString, onSuccess, onError, port) {
@@ -36,7 +44,7 @@ GameLoop.prototype.getPrologRequest = function(requestString, onSuccess, onError
     return test;
 }
         
-GameLoop.prototype.makeRequest = function(request) {
+GameLoop.prototype.makeRequest = function() {
     // Get Parameter Values
     var requestString = document.querySelector("#query_field").value;               
 
@@ -108,6 +116,18 @@ function removeEliminatedPieces(responseString) {
         }
 
         console.log(splitEliminated);
+    }
+}
+
+function removeByPosition(positionString) {
+    console.log("Position string is " + positionString);
+    for (var i = 0; i < this.board.pieces.length; i++) {
+        var boardId = this.board.pieces[i].boardCell.id;
+        if (boardId[5] == positionString[1] && boardId[6] == positionString[3]){
+            console.log("Piece to be removed is ");
+            console.log(this.board.pieces[i]);
+        }
+
     }
 }
 
