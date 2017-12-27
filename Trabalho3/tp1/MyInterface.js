@@ -89,8 +89,8 @@ MyInterface.prototype.addUndoButton = function(gameLoop) {
     this.gui.add(gameLoop, 'reverseMove').name("Undo");
 }
 
-MyInterface.prototype.addEnvironmentGroup = function(environments){
-    this.gui.add(this.scene, "environments", environments).onChange(function(v) { 
+MyInterface.prototype.addEnvironmentGroup = function(environments, scene){
+    this.gui.add(scene, "environments", environments).onChange(function(v) { 
             for (var i = 0; i < environments.length; i++) {
                 if (environments[i] == v) {
                     scene.changeEnvironment(environments[i]); 

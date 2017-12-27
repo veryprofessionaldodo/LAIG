@@ -218,6 +218,7 @@
             <NODEREF id="gameboard"/>
             <NODEREF id="boardAuxWhite"/>
             <NODEREF id="boardAuxRed"/>
+            <NODEREF id="scoreBoard" />
         </DESCENDANTS>
     </NODE>
 
@@ -254,6 +255,19 @@
 
         <DESCENDANTS>
             <NODEREF id="cubo_board" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="scoreBoard" pickable="false">
+        <MATERIAL id="null"/>
+        <TEXTURE id="clear"/>
+
+        <TRANSLATION x="-6" y="2" z="-1" />
+        <ROTATION axis="z" angle="90" />
+        <SCALE sx="0.8" sy="0.05" sz="1.5" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />
         </DESCENDANTS>
     </NODE>
 
@@ -304,6 +318,7 @@
             <NODEREF id="dificil" />
             <NODEREF id="humano_humano" />
             <NODEREF id="humano_maquina" />
+            <NODEREF id="maquina_maquina" />
         </DESCENDANTS>
     </NODE>
 
@@ -354,8 +369,8 @@
 
         <TRANSLATION x="-45" y="2" z="-16" />
         <ROTATION axis="y" angle="90" />
-        <TRANSLATION x="1" y="-1" z="8" />
-        <SCALE sx="0.25" sy="0.25" sz="0.25" />
+        <TRANSLATION x="1" y="-0.5" z="8" />
+        <SCALE sx="0.15" sy="0.5" sz="0.15" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
@@ -368,8 +383,22 @@
 
         <TRANSLATION x="-45" y="2" z="-16" />
         <ROTATION axis="y" angle="90" />
-        <TRANSLATION x="3" y="-1" z="8" />
-        <SCALE sx="0.25" sy="0.25" sz="0.25" />
+        <TRANSLATION x="2" y="-0.5" z="8" />
+        <SCALE sx="0.15" sy="0.5" sz="0.15" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="maquina_maquina" pickable="true">
+        <MATERIAL id="null" />    
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="-45" y="2" z="-16" />
+        <ROTATION axis="y" angle="90" />
+        <TRANSLATION x="3" y="-0.5" z="8" />
+        <SCALE sx="0.15" sy="0.5" sz="0.15" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />

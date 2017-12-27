@@ -49,6 +49,9 @@ XMLscene.prototype.init = function(application) {
     this.pickableElements = new Array();
     this.gameLoop = new GameLoop(this);
 
+    this.scoreWhite = new ScoreTile(this, 0, -5.8, 6, 2.5);
+    this.scoreRed = new ScoreTile(this, 1, -5.8, 6, -1);
+
     this.gameLoop.makeRequest("reset");
 
     document.getElementById("send_button").addEventListener("click", function(event) {
@@ -58,7 +61,6 @@ XMLscene.prototype.init = function(application) {
     }, false);
 
   
-
     this.boardCellsShader = new CGFshader(this.gl, "shaders/notDisplay.vert", "shaders/notDisplay.frag");
     this.pickedElement = new CGFshader(this.gl, "shaders/picked.vert", "shaders/picked.frag");
     this.totalTime = 0;
@@ -201,7 +203,7 @@ XMLscene.prototype.onGraphLoaded = function()
 
     // Adds lights group.
     //this.interface.addLightsGroup(this.graph.lights);
-    this.interface.addEnvironmentGroup(this.environments);
+    this.interface.addEnvironmentGroup(this.environments, this);
     this.interface.addUndoButton(this.gameLoop);
 
     this.setUpdatePeriod(1/60);
@@ -348,6 +350,8 @@ XMLscene.prototype.display = function() {
 
         // Displays the scene.
         this.graph.displayScene(this.deltaTime);
+        this.scoreWhite.display();
+        this.scoreRed.display();
         //this.auxWhiteBoard.display(this.deltaTime/1000);
         //this.auxRedBoard.display(this.deltaTime/1000);
 
