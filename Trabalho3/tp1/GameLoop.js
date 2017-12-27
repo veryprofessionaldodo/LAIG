@@ -316,23 +316,26 @@ GameLoop.prototype.update = function(deltaTime) {
             this.scene.updateCamera(this.PLAYER);
         }
     }
-    else if(this.PICKING_PIECE && this.counter === null && this.scene.cameraAnimation === null){
+   /* else if(this.PICKING_PIECE && this.counter === null && this.scene.cameraAnimation === null){
         this.counter = 10;
-        //this.scene.interface.updateCounter(this.counter, this.scene);
         this.scene.interface.addCounter(this.counter, this);
     }
-    else if(!this.BEGIN_PHASE && !this.END_GAME && !this.MAKING_MOVE && this.counter !== null){
+    else if(this.counter !== null){
         this.counter -= deltaTime;
+
         if(this.counter <= 0){
-            this.scene.interface.updateCounter(this.counter, this.scene);
-            this.counter = null;
             this.scene.interface.removeCounter();
+            this.counter = null;
             this.PLAYER = 1 - this.PLAYER;
             this.PICKING_PIECE = true;
             this.scene.updateCamera(this.PLAYER);
         }
         else {
-            this.scene.interface.updateCounter(this.counter, this);
+            this.scene.interface.updateCounter();
         }
-    }
+    }*/
+}
+
+GameLoop.prototype.reverseMove = function() {
+    console.log('halo');
 }

@@ -353,6 +353,7 @@
             <NODEREF id="gameboard"/>
             <NODEREF id="boardAuxWhite"/>
             <NODEREF id="boardAuxRed"/>
+            <NODEREF id="scoreBoard" />
         </DESCENDANTS>
     </NODE>
 
@@ -375,7 +376,7 @@
         <SCALE sx="0.8" sy="0.05" sz="0.4" />
 
         <DESCENDANTS>
-            <NODEREF id="cubo_board" />
+            <NODEREF id="cubo" />
         </DESCENDANTS>
     </NODE>
 
@@ -387,7 +388,20 @@
         <SCALE sx="0.8" sy="0.05" sz="0.4" />
 
         <DESCENDANTS>
-            <NODEREF id="cubo_board" />
+            <NODEREF id="cubo" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="scoreBoard" pickable="false">
+        <MATERIAL id="frontWallsMaterial"/>
+        <TEXTURE id="frontWallDark"/>
+
+        <TRANSLATION x="-6" y="2" z="-1" />
+        <ROTATION axis="z" angle="90" />
+        <SCALE sx="0.8" sy="0.05" sz="1.5" />
+
+        <DESCENDANTS>
+            <NODEREF id="cubo" />
         </DESCENDANTS>
     </NODE>
 
