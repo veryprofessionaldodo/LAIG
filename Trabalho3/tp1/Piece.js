@@ -7,5 +7,3 @@ Piece.prototype.display = function(){};
 Piece.prototype.move = function(x,y,z, newBoardCell){};
 
 Piece.prototype.returnBoardCell = function() {};
-
-Piece.prototype.reverseMove = function(Move) {}
