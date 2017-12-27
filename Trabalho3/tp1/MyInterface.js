@@ -26,6 +26,7 @@ MyInterface.prototype.init = function(application) {
 
 
     this.gui = new dat.GUI();
+    this.playTimeController = null;
 
     // add a group of controls (and open/expand by defult)
     
@@ -51,22 +52,44 @@ MyInterface.prototype.addLightsGroup = function(lights) {
     }
 }
 
-/**
- * Adds a folder containing the IDs of the lights passed as parameter.
- */
+ /*
 MyInterface.prototype.addSelectablesGroup = function(selectables, graph) {
-    /*this.gui.add(this.scene, "selectables", selectables).onChange(function(v) { 
+    this.gui.add(this.scene, "selectables", selectables).onChange(function(v) { 
             for (var i = 0; i < selectables.length; i++) {
                 if (selectables[i] == v) {
                     graph.activeSelectable = i; 
                 }
             }
-     });*/
+     });
 
+}*/
+
+MyInterface.prototype.addCounter = function(count, gameLoop){
+    this.playTimeController = this.gui.add(gameLoop, "counter", 0, count).name("Time to Play");
+}
+
+MyInterface.prototype.updateCounter = function(elapsedTime, gameLoop){
+    var update = function(elapsedTime, scene, interface){
+        requestAnimationFrame(update);
+        //gameLoop.playTime -= elapsedTime;
+
+        // Iterate over all controllers
+        for (var i in interface.gui.__controllers) {
+            interface.gui.__controllers[i].updateDisplay();
+        }
+    };
+    update(elapsedTime, gameLoop, this);
+}
+
+MyInterface.prototype.removeCounter = function() {
+    if(this.playTimeController !== null){
+        console.log('here');
+        this.gui.remove(this.playTimeController);
+    }
 }
 
 MyInterface.prototype.addEnvironmentGroup = function(environments, scene){
-    this.gui.add(scene, "environments", environments).onChange(function(v) { 
+    this.gui.add(this.scene, "environments", environments).onChange(function(v) { 
             for (var i = 0; i < environments.length; i++) {
                 if (environments[i] == v) {
                     scene.changeEnvironment(environments[i]); 

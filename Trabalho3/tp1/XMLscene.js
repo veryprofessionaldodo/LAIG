@@ -199,7 +199,6 @@ XMLscene.prototype.onGraphLoaded = function()
 
     // Adds lights group.
     //this.interface.addLightsGroup(this.graph.lights);
-    this.interface.addSelectablesGroup(this.graph.selectables, this.graph);
     this.interface.addEnvironmentGroup(this.environments, this);
 
     this.setUpdatePeriod(1/60);
@@ -317,7 +316,7 @@ XMLscene.prototype.display = function() {
     this.scaleFactor = (1+Math.sin(5*this.totalTime)) * 0.5;
     this.updateScaleFactor();
 
-    this.gameLoop.update();
+    this.gameLoop.update(this.deltaTime/1000);
     this.pushMatrix();
     
     if (this.graph.loadedOk) 

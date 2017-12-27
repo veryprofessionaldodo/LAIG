@@ -24,6 +24,8 @@ function GameLoop(scene) {
 
     this.pickedPiece = null;
     this.pickedBoardCell = null;
+
+    this.counter = null;
 }
 
 GameLoop.prototype.getPrologRequest = function(requestString, onSuccess, onError, port) {
@@ -243,13 +245,32 @@ GameLoop.prototype.loop = function(obj) {
     }
 }
 
-GameLoop.prototype.update = function() {
+GameLoop.prototype.update = function(deltaTime) {
     if(this.MAKING_MOVE){
         if(this.pickedPiece.animation.endAnimation){
             this.MAKING_MOVE = false;
             this.PLAYER = 1 - this.PLAYER;
             this.PICKING_PIECE = true;
             this.scene.updateCamera(this.PLAYER);
+        }
+    }
+    else if(this.PICKING_PIECE && this.counter === null && this.scene.cameraAnimation === null){
+        this.counter = 10;
+        //this.scene.interface.updateCounter(this.counter, this.scene);
+        this.scene.interface.addCounter(this.counter, this);
+    }
+    else if(!this.BEGIN_PHASE && !this.END_GAME && !this.MAKING_MOVE && this.counter !== null){
+        this.counter -= deltaTime;
+        if(this.counter <= 0){
+            this.scene.interface.updateCounter(this.counter, this.scene);
+            this.counter = null;
+            this.scene.interface.removeCounter();
+            this.PLAYER = 1 - this.PLAYER;
+            this.PICKING_PIECE = true;
+            this.scene.updateCamera(this.PLAYER);
+        }
+        else {
+            this.scene.interface.updateCounter(this.counter, this);
         }
     }
 }
