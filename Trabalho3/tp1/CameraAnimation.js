@@ -33,7 +33,7 @@ function CameraAnimation(scene, type, ori, dest){
 		this.travelledDisTar = vec3.create(0, 0, 0);
 	}	
 	else if(this.type === 1){
-		this.timeTotal = 5;
+		this.timeTotal = 1;
 		this.radius = Math.abs(this.originPos[2] - this.destPos[2])/2;
 		this.totalDistance = Math.PI * this.radius;
 		this.w = (this.totalDistance / this.timeTotal)/this.radius;
