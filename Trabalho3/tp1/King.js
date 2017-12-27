@@ -59,6 +59,10 @@ King.prototype.move = function(x,y,z, newBoardCell){
 	this.animation = new BezierAnimation(this.scene, 5, points);
 }
 
+King.prototype.reverseMove = function(Move) {
+	
+}
+
 King.prototype.returnBoardCell = function() {
 	return this.boardCell;
 }

@@ -118,6 +118,11 @@ parse_input([move,Player,MoveCurrPlace-MoveDest], [ok, RemovedPieces]) :-
 
 parse_input([move,Player,MoveColumn-MoveLine], [error]).
 
+% Handle undo
+parse_input([undo,NewBoard], [ok]) :-
+    retractall(board(_)), 
+    assert(board(NewBoard)).
+
 % Get new move by AI
 parse_input([get_ai_move, AIPlayer, AILevel], [ok, Move, RemovedPieces]) :-
 	aI_move(AIPlayer, AILevel, Move),

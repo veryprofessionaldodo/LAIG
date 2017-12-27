@@ -23,7 +23,10 @@ function XMLscene(interface) {
         loop.makeRequest("init");
     }, false);
 
-  
+    document.onkeypress = function (e) {
+        console.log(e);
+        // use e.keyCode
+    };
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -56,6 +59,9 @@ XMLscene.prototype.init = function(application) {
     this.kingModel = null;
     this.pickableElements = new Array();
     this.gameLoop = new GameLoop(this);
+
+
+  
 
     this.boardCellsShader = new CGFshader(this.gl, "shaders/notDisplay.vert", "shaders/notDisplay.frag");
     this.pickedElement = new CGFshader(this.gl, "shaders/picked.vert", "shaders/picked.frag");
