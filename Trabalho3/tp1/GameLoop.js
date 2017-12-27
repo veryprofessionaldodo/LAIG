@@ -89,6 +89,8 @@ GameLoop.prototype.reverseMove = function() {
             i++;
         }
         this.PLAYER = 1- this.PLAYER;
+        this.scene.updateCamera(this.PLAYER);
+
     }
     
 }
