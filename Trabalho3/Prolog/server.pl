@@ -128,9 +128,17 @@ parse_input(reset, [ok]) :-
     assert(board(StartBoard)).
 
 % Handle undo
-parse_input([undo,NewBoard], [ok]) :-
-    retractall(board(_)), 
-    assert(board(NewBoard)).
+parse_input([undo,Player,ColumnNumberBefore,LineNumberBefore-ColumnNumberAfter,LineNumberAfter], [ok]) :-
+    player_piece(Player, Piece),
+	column_to_number(ColumnLetterBefore, ColumnNumberBefore),
+	set_piece(ColumnLetterBefore,LineNumberBefore,' '),
+	column_to_number(ColumnLetterAfter, ColumnNumberAfter),
+	set_piece(ColumnLetterAfter,LineNumberAfter,Piece).
+
+parse_input([revive,Player,ColumnNumber,LineNumber], [ok]) :-
+	player_piece(Player, Piece),
+	column_to_number(ColumnLetter, ColumnNumber),
+	set_piece(ColumnLetter,LineNumber,Piece).
 
 % Get new move by AI
 parse_input([get_ai_move, AIPlayer, AILevel], [ok, Move, RemovedPieces]) :-

@@ -55,11 +55,15 @@ GameLoop.prototype.reverseMove = function() {
     console.log("Stacked Moves");
     console.log(this.stackedMoves)
     if (this.stackedMoves.length > 0) {
-        this.stackedMoves.splice(this.stackedMoves.length-1, 1);
         var moveToBeReversed = this.stackedMoves[this.stackedMoves.length-1];
-
-
         moveToBeReversed.reverse();
+
+        console.log("Antes da chamada");
+        console.log(moveToBeReversed);
+        this.reverseMoveOnProlog(moveToBeReversed);
+        
+        // Remove from stacked Moves
+        this.stackedMoves.splice(this.stackedMoves.length-1, 1);
 
         console.log(moveToBeReversed);
 
@@ -74,7 +78,7 @@ GameLoop.prototype.reverseMove = function() {
                 }
                 else {
                     this.stackedMoves[this.stackedMoves.length-i].reverse();
-                    this.reverseMoveOnProlog(this.stackedMoves[this.stackedMoves.length-i]);
+                    this.revivePieceProlog(this.stackedMoves[this.stackedMoves.length-i]);
                     this.stackedMoves.splice(this.stackedMoves.length-i, 1);
                     i--;
                 }
@@ -89,14 +93,52 @@ GameLoop.prototype.reverseMove = function() {
     
 }
 
-GameLoop.prototype.updateBoardOnProlog = function() {
+GameLoop.prototype.reverseMoveOnProlog = function(gameMove) {
+    console.log("GameMove to Be Reversed");
+    console.log(gameMove);
 
+    var previousPositionString = gameMove.previousCell.id;
+    var currentPositionString = gameMove.previousCell.id;
+
+    var columnBefore = "" + (8-parseInt(previousPositionString[5]));
+    var lineBefore =  ""+ (parseInt(previousPositionString[6])+1);
+
+    var columnAfter = "" + (8-parseInt(currentPositionString[5]));
+    var lineAfter =  ""+ (parseInt(currentPositionString[6])+1);
+
+    var requestString = "[undo," + this.currentPlayer + "," + lineBefore + "," + columnBefore + "-" + lineAfter+"," + columnAfter+ "]";
+
+    console.log("Sent" + requestString);
+
+    var responseString = this.getPrologRequest(requestString, this.handleReply);  
+
+    console.log("response from server");
+    console.log(responseString);
 };
+
+GameLoop.prototype.revivePieceProlog = function(eliminationMove) {
+    console.log("Elimination Move to Be Reversed");
+    console.log(eliminationMove);
+
+    var positionString = eliminationMove.previousCell.id;
+
+    var column = "" + (8-parseInt(positionString[5]));
+    var line =  ""+ (parseInt(positionString[6])+1);
+
+    var requestString = "[revive," + this.currentPlayer + "," + line + "," + column +"]";
+
+    console.log("Sent" + requestString);
+
+    var responseString = this.getPrologRequest(requestString, this.handleReply);  
+
+    console.log("response from server");
+    console.log(responseString);
+}
 
 GameLoop.prototype.attemptMove = function(moveArgs) {
     var moveString = this.moveToString(moveArgs);
     var requestString = "[move," + this.currentPlayer + "," + moveString + "]";
-    
+
     console.log("Sent " + requestString);
 
     var responseString = this.getPrologRequest(requestString, this.handleReply);  

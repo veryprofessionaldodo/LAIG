@@ -254,7 +254,7 @@ set_piece(ColumnLetter,Line,Piece):-
         NewColumn is Column,
         line_to_position(Line, LineNumber),                                   
         board(Board), 
-        replace(Board,LineNumber,NewColumn,Piece,NewBoard),
+        replace(Board,LineNumber,NewColumn,Piece,NewBoard), write(' Piece is '), write(Piece), write(' NewBoard '), write(NewBoard),
         retract(board(Board)), 
         assert(board(NewBoard)).
 
