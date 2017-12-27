@@ -60,6 +60,10 @@ Pawn.prototype.move = function(x,y,z, newBoardCell){
 	this.animation = new BezierAnimation(this.scene, 5, points);
 }
 
+Pawn.prototype.reverseMove = function(Move) {
+	
+}
+
 Pawn.prototype.returnBoardCell = function() {
 	return this.boardCell;
 }

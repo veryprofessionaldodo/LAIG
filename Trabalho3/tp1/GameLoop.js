@@ -54,9 +54,15 @@ GameLoop.prototype.makeRequest = function(request) {
     this.getPrologRequest(requestString, this.handleReply);
 }
 
+
+GameLoop.prototype.reverseMove = function() {
+    var moveToBeReversed = this.stackedMoves[this.stackedMoves.length-1];
+
+    console.log(moveToBeReversed);
+}
+
 GameLoop.prototype.attemptMove = function(moveArgs) {
     var moveString = this.moveToString(moveArgs);
-    
     var requestString = "[move," + this.currentPlayer + "," + moveString + "]";
     
     console.log("Sent " + requestString);
@@ -191,11 +197,9 @@ GameLoop.prototype.removeByPosition = function(positionString) {
 
             break;
         }
-
-
-
     }
 }
+
 
 GameLoop.prototype.IDtoPosition = function(cellId) {
     var column = cellId[6];

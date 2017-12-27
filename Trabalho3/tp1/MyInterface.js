@@ -88,6 +88,7 @@ MyInterface.prototype.removeCounter = function() {
     }
 }
 
+
 MyInterface.prototype.addEnvironmentGroup = function(environments, scene){
     this.gui.add(this.scene, "environments", environments).onChange(function(v) { 
             for (var i = 0; i < environments.length; i++) {
