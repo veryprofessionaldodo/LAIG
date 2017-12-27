@@ -13,7 +13,7 @@ function GameLoop(scene) {
 
     this.BEGIN_PHASE = true;
     this.GAME_LOOP = false;
-    this.PLAYER = 0;
+    this.PLAYER = 0; // 0 - White, 1 - Red
     this.PICKING_PIECE = false;
     this.PICKING_BOARD = false;
     this.MAKING_MOVE = false;
@@ -151,10 +151,9 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                             destinationCell = this.auxWhiteBoard.boardCells[k];
                             this.auxWhitePosition++;
                         }   
-                    }
-
-                    
+                    }   
                 }
+                this.scene.scoreWhite.update();
             }
             else { // Aux Red
                 var numberString = this.auxRedPosition.toString();
@@ -181,11 +180,9 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                             destinationCell = this.auxRedBoard.boardCells[k];
                             this.auxRedPosition++;
                         }   
-                    }
-
-                    
+                    }  
                 }
-
+                this.scene.scoreRed.update();
             }
 
             var eliminationMove = new GameMove(this.scene, this.board.pieces[i], destinationCell, 1);
@@ -261,15 +258,18 @@ GameLoop.prototype.loop = function(obj) {
             this.GAME_LOOP = true;
             this.PICKING_PIECE = true;
             this.scene.updateCamera(this.PLAYER);
+            this.scene.clearPickRegistration();
         }
     }
     else if(this.GAME_LOOP){ //make a play
         if(this.PICKING_PIECE){
+            this.scene.clearPickRegistration();
             if(idIsPawnOrKing(obj.id)){
                 //check if obj corresponds to the correct player
                 this.pickedPiece = obj;
                 this.PICKING_PIECE = false;
                 this.PICKING_BOARD = true;
+                this.scene.clearPickRegistration();
             }
             else {
                 console.log('Pick a Valid Piece');
@@ -291,13 +291,16 @@ GameLoop.prototype.loop = function(obj) {
                     this.stackedMoves.push(gameMove);
                     this.MAKING_MOVE = true;
                     this.PICKING_BOARD = false;
+
+                    this.scene.interface.removeCounter();
+                    this.counter = null;
                 }
                 else {
                     console.log("Invalid move!");
                     this.PICKING_BOARD = false;
                     this.PICKING_PIECE = true;
+                    this.scene.clearPickRegistration();
                 }
-
             }
         }
     }
@@ -320,13 +323,12 @@ GameLoop.prototype.update = function(deltaTime) {
             this.scene.updateCamera(this.PLAYER);
         }
     }
-   /* else if(this.PICKING_PIECE && this.counter === null && this.scene.cameraAnimation === null){
+    /*else if(this.PICKING_PIECE && this.counter === null && this.scene.cameraAnimation === null){
         this.counter = 10;
         this.scene.interface.addCounter(this.counter, this);
     }
     else if(this.counter !== null){
         this.counter -= deltaTime;
-
         if(this.counter <= 0){
             this.scene.interface.removeCounter();
             this.counter = null;
