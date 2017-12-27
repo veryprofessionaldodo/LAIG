@@ -21,6 +21,9 @@ BoardCell.prototype.display = function(deltaTime) {
 	this.scene.translate(this.x,this.y,this.z);
 	this.scene.rotate(-90*degToRad, 1, 0, 0);
 	this.scene.scale(0.2,0.2,0.15);
+	if(this.picked)
+		this.scene.setActiveShader(this.scene.pickedElement);
 	this.quad.display();
+	this.scene.setActiveShader(this.scene.defaultShader);
 	this.scene.popMatrix();
 }

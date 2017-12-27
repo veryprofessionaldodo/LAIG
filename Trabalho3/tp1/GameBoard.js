@@ -8,3 +8,8 @@ function GameBoard(scene){
 
 GameBoard.prototype = Object.create(Board.prototype);
 GameBoard.prototype.constructor = GameBoard;
+
+GameBoard.prototype.resetElements = function(){
+	this.pieces = [];
+	this.boardCells = [];
+}

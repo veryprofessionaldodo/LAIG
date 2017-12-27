@@ -4,7 +4,6 @@ function PickableElement(scene, node){
 	this.scene = scene;
 	this.node = node;
 	this.id = this.node.nodeID;
-	console.log(this.node);
 	this.picked = false;
 }
 

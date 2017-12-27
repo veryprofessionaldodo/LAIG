@@ -28,6 +28,7 @@ XMLscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
     
     this.initCameras();
+    this.initScoreTextures();
 
     this.enableTextures(true);
     this.setPickEnabled(true);
@@ -65,11 +66,6 @@ XMLscene.prototype.init = function(application) {
     this.pickedElement = new CGFshader(this.gl, "shaders/picked.vert", "shaders/picked.frag");
     this.totalTime = 0;
     this.scaleFactor = 0;
-
-    /*this.hasPickedPiece = false;
-    this.pickedPiece = null;
-    this.pickedBoardCell = null;
-    this.makingMove = false;*/
 }
 
 /**
@@ -168,6 +164,34 @@ XMLscene.prototype.initBoardCells = function() {
     }
 }
 
+XMLscene.prototype.initScoreTextures = function() {
+    this.materialDefault = new CGFappearance(this);
+    this.number0 = new CGFappearance(this);
+    this.number0.loadTexture("scenes/images/0.jpg");
+    this.number1 = new CGFappearance(this);
+    this.number1.loadTexture("scenes/images/1.jpg");
+    this.number2 = new CGFappearance(this);
+    this.number2.loadTexture("scenes/images/2.jpg");
+    this.number3 = new CGFappearance(this);
+    this.number3.loadTexture("scenes/images/3.jpg");
+    this.number4 = new CGFappearance(this);
+    this.number4.loadTexture("scenes/images/4.jpg");
+    this.number5 = new CGFappearance(this);
+    this.number5.loadTexture("scenes/images/5.jpg");
+    this.number6 = new CGFappearance(this);
+    this.number6.loadTexture("scenes/images/6.jpg");
+    this.number7 = new CGFappearance(this);
+    this.number7.loadTexture("scenes/images/7.jpg");
+    this.number8 = new CGFappearance(this);
+    this.number8.loadTexture("scenes/images/8.jpg");
+    this.number9 = new CGFappearance(this);
+    this.number9.loadTexture("scenes/images/9.jpg");
+    this.number10 = new CGFappearance(this);
+    this.number10.loadTexture("scenes/images/10.jpg");
+    this.number11 = new CGFappearance(this);
+    this.number11.loadTexture("scenes/images/11.png");
+}
+
 XMLscene.prototype.updateCamera = function(cameraID){
     if(this.currentCameraID === 'Beggining'){
         this.cameraAnimation = new CameraAnimation(this, 0, this.camera, this.cameraPositions[cameraID+1]);
@@ -204,6 +228,7 @@ XMLscene.prototype.onGraphLoaded = function()
     // Adds lights group.
     //this.interface.addLightsGroup(this.graph.lights);
     this.interface.addEnvironmentGroup(this.environments, this);
+    this.interface.addGameOptions();
     this.interface.addUndoButton(this.gameLoop);
 
     this.setUpdatePeriod(1/60);
@@ -277,7 +302,8 @@ XMLscene.prototype.displayPickableItems = function(deltaTime) {
     for(var i = 0; i < this.board.boardCells.length; i++){
         this.registerForPick(n, this.board.boardCells[i]);
         n++;
-        this.setActiveShader(this.boardCellsShader);
+        if(!this.board.boardCells[i].picked)
+            this.setActiveShader(this.boardCellsShader);
         this.board.boardCells[i].display(deltaTime);
         this.setActiveShader(this.defaultShader);
     } 
@@ -395,3 +421,28 @@ XMLscene.prototype.animateCamera = function(deltaTime){
         this.cameraAnimation.update(deltaTime);
 }
 
+XMLscene.prototype.resetGame = function(){
+    this.gameLoop.resetGame();
+    this.board.resetElements();
+    this.gameLoop.makeRequest("reset");
+    this.initBoardCells();
+    this.initPieces();
+    this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[1].position,this.cameraPositions[1].target);
+    this.currentCameraID = this.cameraPositions[1].name;
+    this.cameraAnimation = null;
+}
+
+XMLscene.prototype.resetGameOptions = function(){
+    this.board.resetElements();
+    this.gameLoop.makeRequest("reset");
+    this.gameLoop.resetGameWithOptions();
+    this.initBoardCells();
+    this.initPieces();
+    this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[0].position,this.cameraPositions[0].target);
+    this.currentCameraID = this.cameraPositions[0].name;
+    this.cameraAnimation = null;
+}
+
+XMLscene.prototype.replayGame = function(){
+    console.log('Replay');
+}

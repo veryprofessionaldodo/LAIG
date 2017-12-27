@@ -64,6 +64,12 @@ MyInterface.prototype.addSelectablesGroup = function(selectables, graph) {
 
 }*/
 
+MyInterface.prototype.addGameOptions = function(){
+    this.gui.add(this.scene,'resetGame').name("Reset Game");
+    this.gui.add(this.scene,'resetGameOptions').name("Reset Options");
+    this.gui.add(this.scene,'replayGame').name("Replay Game");
+}
+
 MyInterface.prototype.addCounter = function(count, gameLoop){
     this.playTimeController = this.gui.add(gameLoop, "counter", 0, count).name("Time to Play");
 }

@@ -14,13 +14,11 @@ function GameLoop(scene) {
     this.BEGIN_PHASE = true;
     this.GAME_LOOP = false;
     this.PLAYER = 0; // 0 - White, 1 - Red
-    this.PICKING_PIECE = false;
-    this.PICKING_BOARD = false;
     this.MAKING_MOVE = false;
     this.END_GAME = false;
 
     this.gameDifficulty = null; // 0 - facil, 1 - dificil
-    this.gameType = null; // 0 - humano/humano, 1 - humano/maquina
+    this.gameType = null; // 0 - humano/humano, 1 - humano/maquina, 2 - maquina/maquina
 
     this.pickedPiece = null;
     this.pickedBoardCell = null;
@@ -280,7 +278,11 @@ GameLoop.prototype.loop = function(obj) {
             obj.picked = false;
         }
         else if(obj.id === 'humano_maquina'){
-            this.gameType = 0;
+            this.gameType = 1;
+            obj.picked = false;
+        }
+        else if(obj.id === 'maquina_maquina'){
+            this.gameType = 2;
             obj.picked = false;
         }
         if(this.gameDifficulty !== null && this.gameType !== null){
@@ -288,29 +290,37 @@ GameLoop.prototype.loop = function(obj) {
             this.GAME_LOOP = true;
             this.PICKING_PIECE = true;
             this.scene.updateCamera(this.PLAYER);
-            this.scene.clearPickRegistration();
         }
     }
     else if(this.GAME_LOOP){ //make a play
-        if(this.PICKING_PIECE){
-            this.scene.clearPickRegistration();
-            if(idIsPawnOrKing(obj.id)){
-                //check if obj corresponds to the correct player
+        if(idIsPawnOrKing(obj.id)){
+            //check if obj corresponds to the correct player
+            if(this.pickedPiece !== null){
+                this.pickedPiece.picked = false;
+                if(this.pickedPiece.id === obj.id){ //picking the same element is the same as unchoosing it
+                    this.pickedPiece = null;
+                }
+                else
+                    this.pickedPiece = obj;
+            }
+            else
                 this.pickedPiece = obj;
-                this.PICKING_PIECE = false;
-                this.PICKING_BOARD = true;
-                this.scene.clearPickRegistration();
-            }
-            else {
-                console.log('Pick a Valid Piece');
-            }
         }
-        else if(this.PICKING_BOARD){
-            if(idIsBoard(obj.id)){
+        else if(idIsBoard(obj.id)){
+            if(this.pickedBoardCell !== null){
+                this.pickedBoardCell.picked = false;
+                if(this.pickedBoardCell === obj){//picking the same element is the same as unchoosing it
+                    this.pickedBoardCell = null;
+                }
+                else
+                    this.pickedBoardCell = obj;
+            }
+            else
                 this.pickedBoardCell = obj;
 
-                var gameMove = new GameMove(this.scene, this.pickedPiece, this.pickedPiece.boardCell, this.pickedBoardCell, 0);
 
+            if(this.pickedBoardCell !== null && this.pickedPiece !== null){
+                var gameMove = new GameMove(this.scene, this.pickedPiece, this.pickedPiece.boardCell, this.pickedBoardCell, 0);
                 if (this.attemptMove(gameMove)){
                     console.log('Move is valid!');
                     gameMove.execute();
@@ -320,16 +330,19 @@ GameLoop.prototype.loop = function(obj) {
 
                     this.stackedMoves.push(gameMove);
                     this.MAKING_MOVE = true;
-                    this.PICKING_BOARD = false;
+                    //this.PICKING_BOARD = false;
 
                     this.scene.interface.removeCounter();
                     this.counter = null;
                 }
                 else {
                     console.log("Invalid move!");
-                    this.PICKING_BOARD = false;
-                    this.PICKING_PIECE = true;
-                    this.scene.clearPickRegistration();
+                    //this.PICKING_BOARD = false;
+                    //this.PICKING_PIECE = true;
+                    this.pickedPiece.picked = false;
+                    this.pickedBoardCell.picked = false;
+                    this.pickedPiece = null;
+                    this.pickedBoardCell = null;
                 }
             }
         }
@@ -349,11 +362,14 @@ GameLoop.prototype.update = function(deltaTime) {
         if(this.pickedPiece.animation.endAnimation){
             this.MAKING_MOVE = false;
             this.PLAYER = 1 - this.PLAYER;
-            this.PICKING_PIECE = true;
+
+            this.pickedPiece = null;
+            this.pickedBoardCell = null;
+            this.GAME_LOOP = true;
             this.scene.updateCamera(this.PLAYER);
         }
     }
-    /*else if(this.PICKING_PIECE && this.counter === null && this.scene.cameraAnimation === null){
+    /*else if(this.GAME_LOOP && this.counter === null && this.scene.cameraAnimation === null){
         this.counter = 10;
         this.scene.interface.addCounter(this.counter, this);
     }
@@ -363,7 +379,8 @@ GameLoop.prototype.update = function(deltaTime) {
             this.scene.interface.removeCounter();
             this.counter = null;
             this.PLAYER = 1 - this.PLAYER;
-            this.PICKING_PIECE = true;
+            this.GAME_LOOP = true;
+            //this.PICKING_PIECE = true;
             this.scene.updateCamera(this.PLAYER);
         }
         else {
@@ -372,3 +389,45 @@ GameLoop.prototype.update = function(deltaTime) {
     }*/
 }
 
+GameLoop.prototype.resetGame = function() {
+    this.stackedMoves = [];
+
+    this.auxRedPosition = 0;
+    this.auxWhitePosition = 0;
+
+    this.currentPlayer = 2;
+
+    this.BEGIN_PHASE = false;
+    this.GAME_LOOP = true;
+    this.PLAYER = 0;
+    this.MAKING_MOVE = false;
+    this.END_GAME = false;
+
+    this.pickedPiece = null;
+    this.pickedBoardCell = null;
+
+    this.counter = null;
+}
+
+GameLoop.prototype.resetGameWithOptions = function() {
+    this.stackedMoves = [];
+
+    this.auxRedPosition = 0;
+    this.auxWhitePosition = 0;
+
+    this.currentPlayer = 2;
+
+    this.BEGIN_PHASE = true;
+    this.GAME_LOOP = false;
+    this.PLAYER = 0;
+    this.MAKING_MOVE = false;
+    this.END_GAME = false;
+
+    this.gameDifficulty = null; // 0 - facil, 1 - dificil
+    this.gameType = null; // 0 - humano/humano, 1 - humano/maquina, 2 - maquina/maquina
+
+    this.pickedPiece = null;
+    this.pickedBoardCell = null;
+
+    this.counter = null;
+}
