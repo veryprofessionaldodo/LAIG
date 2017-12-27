@@ -94,10 +94,7 @@ GameLoop.prototype.reverseMove = function() {
 }
 
 GameLoop.prototype.reverseMoveOnProlog = function(gameMove) {
-    console.log("GameMove to Be Reversed");
-    console.log(gameMove);
-
-    var previousPositionString = gameMove.previousCell.id;
+    var previousPositionString = gameMove.cellDest.id;
     var currentPositionString = gameMove.previousCell.id;
 
     var columnBefore = "" + (8-parseInt(previousPositionString[5]));
@@ -106,20 +103,16 @@ GameLoop.prototype.reverseMoveOnProlog = function(gameMove) {
     var columnAfter = "" + (8-parseInt(currentPositionString[5]));
     var lineAfter =  ""+ (parseInt(currentPositionString[6])+1);
 
+    this.currentPlayer = (this.currentPlayer)%2 + 1;
+
     var requestString = "[undo," + this.currentPlayer + "," + lineBefore + "," + columnBefore + "-" + lineAfter+"," + columnAfter+ "]";
 
     console.log("Sent" + requestString);
 
     var responseString = this.getPrologRequest(requestString, this.handleReply);  
-
-    console.log("response from server");
-    console.log(responseString);
 };
 
 GameLoop.prototype.revivePieceProlog = function(eliminationMove) {
-    console.log("Elimination Move to Be Reversed");
-    console.log(eliminationMove);
-
     var positionString = eliminationMove.previousCell.id;
 
     var column = "" + (8-parseInt(positionString[5]));
@@ -201,9 +194,7 @@ GameLoop.prototype.removeByPosition = function(positionString) {
             
             if (pieceNumber > 10) { // Aux White
                 var numberString = this.auxWhitePosition.toString();
-                console.log("white ");
-                console.log(numberString);
-
+    
                 for (var k = 0; k < this.auxWhiteBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxWhiteBoard.boardCells[k];
 
@@ -211,8 +202,6 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                     // Has not reached 10th capture
                     if (numberString.length == 1){
                         if (tmpAuxCell.id[9] == numberString[0]) {
-                            copnsole.log("entrou em ");
-                            console.log(tmpAuxCell);
                             destinationCell = this.auxWhiteBoard.boardCells[k];
                             this.auxWhitePosition++;
                         }
@@ -228,9 +217,7 @@ GameLoop.prototype.removeByPosition = function(positionString) {
             }
             else { // Aux Red
                 var numberString = this.auxRedPosition.toString();
-                console.log("red ");
-                console.log(numberString);
-
+    
                 for (var k = 0; k < this.auxRedBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxRedBoard.boardCells[k];
 
@@ -239,8 +226,6 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                     // Has not reached 10th capture
                     if (numberString.length == 1){
                         if (tmpAuxCell.id[9] == numberString[0]) {
-                            console.log("entrou em ");
-                            console.log(tmpAuxCell);
                             destinationCell = this.auxRedBoard.boardCells[k];
                             this.auxRedPosition++;
                         }
@@ -255,10 +240,10 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                 this.scene.scoreRed.update();
             }
 
-            var eliminationMove = new GameMove(this.scene, this.board.pieces[i], this.board.pieces[i].boardCell, destinationCell, 1);
-            console.log("ELIMINATION ");
-            console.log(eliminationMove);
+            var previousBoardCell = this.pieces[i].boardCell;
 
+            var eliminationMove = new GameMove(this.scene, this.board.pieces[i], previousBoardCell, destinationCell, 1);
+            
             this.stackedMoves.push(eliminationMove);
             eliminationMove.execute();
 
@@ -362,7 +347,8 @@ GameLoop.prototype.loop = function(obj) {
 
 
             if(this.pickedBoardCell !== null && this.pickedPiece !== null){
-                var gameMove = new GameMove(this.scene, this.pickedPiece, this.pickedPiece.boardCell, this.pickedBoardCell, 0);
+                var previousBoardCell = this.pickedPiece.boardCell;
+                var gameMove = new GameMove(this.scene, this.pickedPiece, previousBoardCell, this.pickedBoardCell, 0);
                 if (this.attemptMove(gameMove)){
                     console.log('Move is valid!');
                     gameMove.execute();

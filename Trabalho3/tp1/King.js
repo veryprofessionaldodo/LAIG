@@ -47,14 +47,17 @@ King.prototype.display = function(deltaTime) {
 }
 
 King.prototype.move = function(x,y,z, newBoardCell){
-	
 	this.boardCell = newBoardCell;
 
 	var points = new Array();
 	points.push([this.x, this.y, this.z]);
 	points.push([this.x, this.y + 4, this.z]);
-	points.push([x, this.y + 4, z]);
+	points.push([x, y + 4, z]);
 	points.push([x, y, z]);
+
+	this.x = x;
+	this.z = z;
+	this.y = y;
 
 	this.animation = new BezierAnimation(this.scene, 5, points);
 }

@@ -57,6 +57,9 @@ Pawn.prototype.move = function(x,y,z, newBoardCell){
 	points.push([x, this.y + 4, z]);
 	points.push([x, y, z]);
 
+	this.x = x;
+	this.z = z;
+
 	this.animation = new BezierAnimation(this.scene, 5, points);
 }
 
