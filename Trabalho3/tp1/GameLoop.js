@@ -47,19 +47,15 @@ GameLoop.prototype.getPrologRequest = function(requestString, onSuccess, onError
 
 GameLoop.prototype.makeRequest = function(request) {
     // Get Parameter Values
-    var requestString = document.querySelector("#query_field").value;               
-
-    if (requestString == "reverse")
-        this.reverseMove();
-
-    // Make Request
-    this.getPrologRequest(requestString, this.handleReply);
+    console.log("MADE REQUEST");
+    console.log(request);
+    this.getPrologRequest(request, this.handleReply);
 }
 
 
 GameLoop.prototype.reverseMove = function() {
     console.log("Stacked Moves");
-    consoel.log(this.stackedMoves)
+    console.log(this.stackedMoves)
     var moveToBeReversed = this.stackedMoves[this.stackedMoves.length-1];
 
     console.log(moveToBeReversed);

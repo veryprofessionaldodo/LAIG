@@ -16,17 +16,6 @@ function XMLscene(interface) {
     this.playAnimations = false;
 
     this.cameraPositions = new Array();
-
-
-    document.getElementById("send_button").addEventListener("click", function(event) {
-        var loop = new GameLoop(this);
-        loop.makeRequest("init");
-    }, false);
-
-    document.onkeypress = function (e) {
-        console.log(e);
-        // use e.keyCode
-    };
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -60,6 +49,13 @@ XMLscene.prototype.init = function(application) {
     this.pickableElements = new Array();
     this.gameLoop = new GameLoop(this);
 
+    this.gameLoop.makeRequest("reset");
+
+    document.getElementById("send_button").addEventListener("click", function(event) {
+        var loop = new GameLoop(this);
+        var requestString = document.querySelector("#query_field").value;               
+        loop.makeRequest(requestString);
+    }, false);
 
   
 

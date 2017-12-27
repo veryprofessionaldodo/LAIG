@@ -118,6 +118,15 @@ parse_input([move,Player,MoveCurrPlace-MoveDest], [ok, RemovedPieces]) :-
 
 parse_input([move,Player,MoveColumn-MoveLine], [error]).
 
+% Reset Board
+parse_input(reset, [ok]) :-
+	write('1\n'),
+    retractall(board(_)), 
+    write('2\n'),
+    initial_board(StartBoard), 
+    write('3\n'),
+    assert(board(StartBoard)).
+
 % Handle undo
 parse_input([undo,NewBoard], [ok]) :-
     retractall(board(_)), 
