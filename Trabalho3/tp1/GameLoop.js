@@ -56,11 +56,39 @@ GameLoop.prototype.makeRequest = function(request) {
 GameLoop.prototype.reverseMove = function() {
     console.log("Stacked Moves");
     console.log(this.stackedMoves)
-    var moveToBeReversed = this.stackedMoves[this.stackedMoves.length-1];
+    if (this.stackedMoves.length > 0) {
+        this.stackedMoves.splice(this.stackedMoves.length-1, 1);
+        var moveToBeReversed = this.stackedMoves[this.stackedMoves.length-1];
 
-    console.log(moveToBeReversed);
 
-    this.updateBoardOnProlog();
+        moveToBeReversed.reverse();
+    
+        console.log(moveToBeReversed);
+
+        // in case it has eliminated some piece(s)
+        var check = true;
+        var i = 1;
+        while (check) {
+            if (this.stackedMoves.length > i) {
+                if (this.stackedMoves[this.stackedMoves.length-i].outofBoard == 0) {
+                    check = false;
+                    break;
+                }
+                else {
+                    this.stackedMoves[this.stackedMoves.length-i].reverse();
+                    this.reverseMoveOnProlog(this.stackedMoves[this.stackedMoves.length-i]);
+                    this.stackedMoves.splice(this.stackedMoves.length-i, 1);
+                    i--;
+                }
+            }
+            else {
+                check = false;
+            }
+            i++;
+        }
+
+    }
+    
 }
 
 GameLoop.prototype.updateBoardOnProlog = function() {
@@ -119,10 +147,7 @@ GameLoop.prototype.removeByPosition = function(positionString) {
         if (boardId[5] == (""+ (8 - parseInt(positionString[1]))) && boardId[6] == (""+ (parseInt(positionString[3]) - 1))){
             console.log("Piece to be removed is ");
             console.log(this.board.pieces[i]);
-            console.log("Boards are ");
-            console.log(this.auxWhiteBoard);
-            console.log(this.auxRedBoard);
-
+   
             // Parsing the Id to see if it's red or black, to see to which aux we need to send him.
             var pieceNumberString = [];
             var pieceId = this.board.pieces[i].id;
@@ -158,8 +183,6 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                             this.auxWhitePosition++;
                         }   
                     }
-
-                    
                 }
             }
             else { // Aux Red
@@ -170,7 +193,6 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                 for (var k = 0; k < this.auxRedBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxRedBoard.boardCells[k];
 
-                    
                     console.log(tmpAuxCell.id[9]);
 
                     // Has not reached 10th capture
@@ -188,13 +210,11 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                             this.auxRedPosition++;
                         }   
                     }
-
-                    
                 }
 
             }
 
-            var eliminationMove = new GameMove(this.scene, this.board.pieces[i], destinationCell, 1);
+            var eliminationMove = new GameMove(this.scene, this.board.pieces[i], this.board.pieces[i].boardCell, destinationCell, 1);
             console.log("ELIMINATION ");
             console.log(eliminationMove);
 
@@ -285,7 +305,7 @@ GameLoop.prototype.loop = function(obj) {
             if(idIsBoard(obj.id)){
                 this.pickedBoardCell = obj;
 
-                var gameMove = new GameMove(this.scene, this.pickedPiece, this.pickedBoardCell, 0);
+                var gameMove = new GameMove(this.scene, this.pickedPiece, this.pickedPiece.boardCell, this.pickedBoardCell, 0);
 
                 if (this.attemptMove(gameMove)){
                     console.log('Move is valid!');
