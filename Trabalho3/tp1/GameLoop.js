@@ -101,14 +101,10 @@ GameLoop.prototype.removeEliminatedPieces = function(responseString) {
 }
 
 GameLoop.prototype.removeByPosition = function(positionString) {
-    console.log("Position string is " + positionString);
-    console.log(""+ (8 - parseInt(positionString[1])));
-    console.log(""+ (parseInt(positionString[3]) - 1));
     for (var i = 0; i < this.board.pieces.length; i++) {
         var boardId = this.board.pieces[i].boardCell.id;
-        console.log(boardId);
-
-        if (boardId[5] == (""+ (8 - parseInt(positionString[1]))) && boardId[6] == (""+ (parseInt(positionString[1]) - 1))){
+    
+        if (boardId[5] == (""+ (8 - parseInt(positionString[1]))) && boardId[6] == (""+ (parseInt(positionString[3]) - 1))){
             console.log("Piece to be removed is ");
             console.log(this.board.pieces[i]);
             console.log("Boards are ");
@@ -123,14 +119,80 @@ GameLoop.prototype.removeByPosition = function(positionString) {
             pieceNumberString[1] = pieceId[5];
 
             var pieceNumber = parseInt(pieceNumberString.join(""));
+
+            var destinationCell;
             
-            if (pieceNumber > 10) { // Aux Red
-                console.log("red");
+            if (pieceNumber > 10) { // Aux White
+                var numberString = this.auxWhitePosition.toString();
+                console.log("white ");
+                console.log(numberString);
+
+                for (var k = 0; k < this.auxWhiteBoard.boardCells.length; k++) {
+                    var tmpAuxCell = this.auxWhiteBoard.boardCells[k];
+
+                    console.log(tmpAuxCell.id[9]);
+                    // Has not reached 10th capture
+                    if (numberString.length == 1){
+                        if (tmpAuxCell.id[9] == numberString[0]) {
+                            copnsole.log("entrou em ");
+                            console.log(tmpAuxCell);
+                            destinationCell = this.auxWhiteBoard.boardCells[k];
+                            this.auxWhitePosition++;
+                        }
+                    }
+                    else {
+                        if (tmpAuxCell.id[8] == '1') {
+                            destinationCell = this.auxWhiteBoard.boardCells[k];
+                            this.auxWhitePosition++;
+                        }   
+                    }
+
+                    
+                }
             }
-            else { // Aux White
-                console.log("white");
+            else { // Aux Red
+                var numberString = this.auxRedPosition.toString();
+                console.log("red ");
+                console.log(numberString);
+
+                for (var k = 0; k < this.auxRedBoard.boardCells.length; k++) {
+                    var tmpAuxCell = this.auxRedBoard.boardCells[k];
+
+                    
+                    console.log(tmpAuxCell.id[9]);
+
+                    // Has not reached 10th capture
+                    if (numberString.length == 1){
+                        if (tmpAuxCell.id[9] == numberString[0]) {
+                            console.log("entrou em ");
+                            console.log(tmpAuxCell);
+                            destinationCell = this.auxRedBoard.boardCells[k];
+                            this.auxRedPosition++;
+                        }
+                    }
+                    else {
+                        if (tmpAuxCell.id[8] == '1') {
+                            destinationCell = this.auxRedBoard.boardCells[k];
+                            this.auxRedPosition++;
+                        }   
+                    }
+
+                    
+                }
+
             }
+
+            var eliminationMove = new GameMove(this.scene, this.board.pieces[i], destinationCell, 1);
+            console.log("ELIMINATION ");
+            console.log(eliminationMove);
+
+            this.stackedMoves.push(eliminationMove);
+            eliminationMove.execute();
+
+            break;
         }
+
+
 
     }
 }
