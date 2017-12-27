@@ -199,7 +199,8 @@ XMLscene.prototype.onGraphLoaded = function()
 
     // Adds lights group.
     //this.interface.addLightsGroup(this.graph.lights);
-    this.interface.addEnvironmentGroup(this.environments, this);
+    this.interface.addEnvironmentGroup(this.environments);
+    this.interface.addUndoButton(this.gameLoop);
 
     this.setUpdatePeriod(1/60);
 }
