@@ -34,28 +34,28 @@
     this.counter = null;
 }
 
-GameLoop.prototype.getPrologRequest = function(requestString, onSuccess, onError, port) {
-    var requestPort = port || 8081
+GameLoop.prototype.getPrologRequest = function(requestString, onSuccess, gameLoop) {
+    var requestPort = 8081
     var request = new XMLHttpRequest();
-    request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, false);
+    request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
 
-    request.onload = onSuccess ||  function(data){console.log("Request successful. Reply: " + data.target.response);};
 
-    request.onerror = onError || function(){console.log("Error waiting for response");};
+    request.onload = function(data){
+        console.log("Request successful. Reply: " + data.target.response);
+        onSuccess(data, gameLoop);
+    }; 
 
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.send();
 
-    var test = request.response;
-
-    return test;
+    return request.response;
 }
 
 GameLoop.prototype.makeRequest = function(request) {
     // Get Parameter Values
     console.log("MADE REQUEST");
     console.log(request);
-    this.getPrologRequest(request, this.handleReply);
+    this.getPrologRequest(request, this.handleReply, this);
 }
 
 GameLoop.prototype.reverseMove = function() {
@@ -69,9 +69,9 @@ GameLoop.prototype.reverseMove = function() {
         this.stackedMoves.splice(this.stackedMoves.length-1, 1);
 
          // in case it has eliminated some piece(s)
-        var check = true;
-        var i = 1;
-        while (check) {
+         var check = true;
+         var i = 1;
+         while (check) {
             if (this.stackedMoves.length > i) {
                 if (this.stackedMoves[this.stackedMoves.length-i].outofBoard == 0) {
                     check = false;
@@ -101,8 +101,13 @@ GameLoop.prototype.checkGameOver = function() {
 
     console.log("Sent " + requestString);
 
-    var responseString = this.getPrologRequest(requestString, this.handleReply);
+    return this.getPrologRequest(requestString, this.handleReplyGameOver,this);
+}
 
+GameLoop.prototype.handleReplyGameOver = function(data,gameLoop){
+    var responseString = data.target.response;
+
+    console.log("Response ");
     console.log(responseString);
     if (responseString[1] == 'y')
         return true;
@@ -126,8 +131,17 @@ GameLoop.prototype.reverseMoveOnProlog = function(gameMove) {
 
     console.log("Sent" + requestString);
 
-    var responseString = this.getPrologRequest(requestString, this.handleReply);  
+    var responseString = this.getPrologRequest(requestString, this.handleReplyReverse, this);  
 };
+
+GameLoop.prototype.handleReplyReverse = function(data, gameLoop){
+    var responseString = data.target.response;
+
+    console.log("Response ");
+    console.log(responseString);
+
+    return responseString;
+}
 
 GameLoop.prototype.revivePieceProlog = function(eliminationMove) {
     var positionString = eliminationMove.previousCell.id;
@@ -139,33 +153,79 @@ GameLoop.prototype.revivePieceProlog = function(eliminationMove) {
 
     console.log("Sent" + requestString);
 
-    var responseString = this.getPrologRequest(requestString, this.handleReply);  
-
-    console.log("response from server");
-    console.log(responseString);
+    var responseString = this.getPrologRequest(requestString, this.handleReplyRevive, this); 
 }
 
-GameLoop.prototype.attemptMove = function(moveArgs) {
-    var moveString = this.moveToString(moveArgs);
+GameLoop.prototype.handleReplyRevive = function(data, gameLoop){
+    var responseString = data.target.response;
+
+    console.log("Response ");
+    console.log(responseString);
+
+    return responseString;
+}
+
+GameLoop.prototype.attemptMove = function() {
+    var gameMove = new GameMove(this.scene.board, this.pickedPiece.id, this.pickedPiece.boardCell.id, this.pickedBoardCell.id,
+        this.pickedPiece, this.pickedPiece.boardCell, this.pickedBoardCell, 0);
+        
+    var moveString = this.moveToString(gameMove);
     var requestString = "[move," + (this.PLAYER + 1) + "," + moveString + "]";
 
     console.log("Sent " + requestString);
 
-    var responseString = this.getPrologRequest(requestString, this.handleReply);  
+    return this.getPrologRequest(requestString, this.handleReplyAttemptToMove, this);  
+}
 
-    console.log("Received " + responseString);
+GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
+    
+    var responseString = data.target.response;
+
+    console.log("Response ");
+    console.log(responseString);
+
 
     if (responseString[1] == 'o' && responseString[2] == 'k') {
         //this.PLAYER = (this.PLAYER + 1)%2 + 1;
-        this.removeEliminatedPieces(responseString,5);
+        gameLoop.removeEliminatedPieces(responseString,5);
+        var gameMove = new GameMove(gameLoop.scene.board, gameLoop.pickedPiece.id, gameLoop.pickedPiece.boardCell.id, gameLoop.pickedBoardCell.id,
+            gameLoop.pickedPiece, gameLoop.pickedPiece.boardCell, gameLoop.pickedBoardCell, 0);
+        
+          
+        console.log('Move is valid!');
+        gameMove.execute();
+
+        gameLoop.pickedPiece.picked = false;
+        gameLoop.pickedBoardCell.picked = false;
+
+        gameLoop.stackedMoves.push(gameMove);
+        gameLoop.MAKING_MOVE = true;
+        //this.PICKING_BOARD = false;
+        gameLoop.scene.interface.removeCounter();
+        gameLoop.counter = null;
+
+        //this.END_GAME = (this.checkGameOver() || this.END_GAME);
+                
+        if (gameLoop.END_GAME) {
+            console.log("End game");
+            gameLoop.resetGameWithOptions();
+        }
         return true;
     }
-    else  {
+    else {
+        console.log("Invalid move!");
+        //this.PICKING_BOARD = false;
+        //this.PICKING_PIECE = true;
+        gameLoop.pickedPiece.picked = false;
+        gameLoop.pickedBoardCell.picked = false;
+        gameLoop.pickedPiece = null;
+        gameLoop.pickedBoardCell = null;
         return false;
     }
 }
 
 GameLoop.prototype.AIStringToMove = function(responseString) {
+
     if (responseString[1] == 'o' && responseString[2] == 'k') {
         this.removeEliminatedPieces(responseString,15);
 
@@ -198,8 +258,8 @@ GameLoop.prototype.AIStringToMove = function(responseString) {
         console.log(this.board.boardCells[cellDestPos]);
 
         var gameMove = new GameMove(this.scene.board, this.board.pieces[piecePosInArray].id, this.board.pieces[piecePosInArray].boardCell.id,
-                 this.board.boardCells[cellDestPos].id, this.board.pieces[piecePosInArray], this.board.pieces[piecePosInArray].boardCell,
-                 this.board.boardCells[cellDestPos], 0);
+           this.board.boardCells[cellDestPos].id, this.board.pieces[piecePosInArray], this.board.pieces[piecePosInArray].boardCell,
+           this.board.boardCells[cellDestPos], 0);
 
         console.log(gameMove);
 
@@ -231,7 +291,7 @@ GameLoop.prototype.removeEliminatedPieces = function(responseString, position) {
     if (eliminatedString.length > 1) {
         var splitEliminated = "" + eliminatedString.join("").split(",");  
 
-        this.removeByPosition(splitEliminated);
+        return splitEliminated;
     }
 }
 
@@ -287,7 +347,7 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                 for (var k = 0; k < this.auxRedBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxRedBoard.boardCells[k];
 
-            
+
                     // Has not reached 10th capture
                     if (numberString.length == 1){
                         if (tmpAuxCell.id[9] == numberString[0]) {
@@ -308,8 +368,8 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                 var previousBoardCell = this.board.pieces[i].boardCell;
 
                 var eliminationMove = new GameMove(this.scene.board, this.board.pieces[i].id, previousBoardCell.id, destinationCell.id,
-                this.board.pieces[i], previousBoardCell, destinationCell, 1);
-            
+                    this.board.pieces[i], previousBoardCell, destinationCell, 1);
+
                 this.stackedMoves.push(eliminationMove);
                 eliminationMove.execute();
 
@@ -359,8 +419,8 @@ GameLoop.prototype.loop = function(obj) {
 
         if(idIsPawnOrKing(obj.id)){
         //check if obj corresponds to the correct player
-            if(this.pickedPiece !== null){
-                this.pickedPiece.picked = false;
+        if(this.pickedPiece !== null){
+            this.pickedPiece.picked = false;
                 if(this.pickedPiece.id === obj.id){ //picking the same element is the same as unchoosing it
                     this.pickedPiece = null;
                 }
@@ -383,41 +443,16 @@ GameLoop.prototype.loop = function(obj) {
                 this.pickedBoardCell = obj;
         }
         if(this.pickedBoardCell !== null && this.pickedPiece !== null){
-            var gameMove = new GameMove(this.scene.board, this.pickedPiece.id, this.pickedPiece.boardCell.id, this.pickedBoardCell.id,
-                                        this.pickedPiece, this.pickedPiece.boardCell, this.pickedBoardCell, 0);
-            if (this.attemptMove(gameMove)){
-                console.log('Move is valid!');
-                gameMove.execute();
-
-                this.pickedPiece.picked = false;
-                this.pickedBoardCell.picked = false;
-
-                this.stackedMoves.push(gameMove);
-                this.MAKING_MOVE = true;
-                //this.PICKING_BOARD = false;
-                this.scene.interface.removeCounter();
-                this.counter = null;
-
-                this.END_GAME = (this.checkGameOver() || this.END_GAME);
-                
-                if (this.END_GAME) {
-                    console.log("End game");
-                    this.resetGameWithOptions();
-                }
-            }
-            else {
-                console.log("Invalid move!");
-                //this.PICKING_BOARD = false;
-                //this.PICKING_PIECE = true;
-                this.pickedPiece.picked = false;
-                this.pickedBoardCell.picked = false;
-                this.pickedPiece = null;
-                this.pickedBoardCell = null;
-            }
+            this.WAITING = true;
+            console.log('Waiting for Response');
+            this.attemptMove();
+            
         }
     }
+    else if(this.WAITING) {
+
+    }
     else if(this.MAKING_MOVE){
-        console.log('A move is still being made, please wait.');
     }
     else if(this.END_GAME){
         console.log('End game');
@@ -455,26 +490,7 @@ GameLoop.prototype.update = function(deltaTime) {
 GameLoop.prototype.updateAIMove = function(deltaTime) {
     if(this.currentMoveAI === null){
         var requestString = "[get_ai_move," + (this.PLAYER + 1) + "," + (this.gameDifficulty+1) +"]";
-        var responseString = this.getPrologRequest(requestString, this.handleReply);
-
-        this.currentMoveAI = this.AIStringToMove(responseString);
-
-        if (this.currentMoveAI !== null) {
-            if(this.attemptMove(this.currentMoveAI)){
-                this.pickedPiece = this.currentMoveAI.piece;
-                this.pickedBoardCell = this.currentMoveAI.cellDest;
-                this.pickedPiece.picked = true;
-                this.pickedBoardCell.picked = true; 
-            }   
-            else {
-                this.currentMoveAI = null;
-            }
-        }
-        else {
-            // GAME OVER HERE
-            this.END_GAME = true;
-            return;
-        }   
+        var responseString = this.getPrologRequest(requestString, this.handleReplyUpdateAIMove, this);
     }
     else if(this.waitTimeAI <= 0){
         this.currentMoveAI.execute();
@@ -491,6 +507,31 @@ GameLoop.prototype.updateAIMove = function(deltaTime) {
     else {
         this.waitTimeAI -= deltaTime;
     }
+}
+
+GameLoop.prototype.handleReplyUpdateAIMove = function(data, gameLoop){
+    var responseString = data.target.response;
+
+    console.log("Response ");
+    console.log(responseString);
+
+    gameLoop.currentMoveAI = this.AIStringToMove(responseString);
+
+    if (gameLoop.currentMoveAI !== null) {
+        if(gameLoop.attemptMove(gameLoop.currentMoveAI)){
+            gameLoop.pickedPiece = gameLoop.currentMoveAI.piece;
+            gameLoop.pickedBoardCell = gameLoop.currentMoveAI.cellDest;
+            gameLoop.pickedPiece.picked = true;
+            gameLoop.pickedBoardCell.picked = true; 
+        }   
+        else {
+            gameLoop.currentMoveAI = null;
+        }
+    }
+    else  // GAME OVER HERE
+        gameLoop.END_GAME = true;
+    
+    return responseString;
 }
 
 GameLoop.prototype.enableAndDisablePick = function() {
@@ -651,12 +692,3 @@ GameLoop.prototype.IDtoPosition = function(cellId) {
     return [columnLetter,1+parseInt(line)];
 }
 
-GameLoop.prototype.handleReply = function(data){
-    var responseString = data.target.response;
-
-    console.log("RESPONSE " + responseString);
-}
-
- /*
-
- */

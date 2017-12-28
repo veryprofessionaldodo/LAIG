@@ -27,6 +27,11 @@
 
 				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 				request.send();
+
+				for (var i = 0; i < 20; i++) {
+					console.log(i);
+				}
+				console.log(request.response);
 			}
 		
 			function makeRequest()
@@ -40,6 +45,7 @@
 			
 			//Handle the Reply
 			function handleReply(data){
+				console.log("reply");
 				document.querySelector("#query_result").innerHTML=data.target.response;
 			}
 		
