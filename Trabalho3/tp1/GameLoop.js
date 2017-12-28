@@ -1,6 +1,9 @@
 function GameLoop(scene) {
     this.scene = scene;
     this.stackedMoves = [];
+    this.replayCurrentMove = 0;
+    this.startedReplay = false;
+    this.waitTime = 1;
 
     this.board = scene.board;
     this.auxWhiteBoard = scene.auxWhiteBoard;
@@ -346,34 +349,30 @@ GameLoop.prototype.loop = function(obj) {
             }
             else
                 this.pickedBoardCell = obj;
+        }
+        if(this.pickedBoardCell !== null && this.pickedPiece !== null){
+            var gameMove = new GameMove(this.scene.board, this.pickedPiece.id, this.pickedPiece.boardCell.id, this.pickedBoardCell.id, 0);
+            if (this.attemptMove(gameMove)){
+                console.log('Move is valid!');
+                gameMove.execute();
 
+                this.pickedPiece.picked = false;
+                this.pickedBoardCell.picked = false;
 
-            if(this.pickedBoardCell !== null && this.pickedPiece !== null){
-                var previousBoardCell = this.pickedPiece.boardCell;
-                var gameMove = new GameMove(this.scene, this.pickedPiece, previousBoardCell, this.pickedBoardCell, 0);
-                if (this.attemptMove(gameMove)){
-                    console.log('Move is valid!');
-                    gameMove.execute();
-
-                    this.pickedPiece.picked = false;
-                    this.pickedBoardCell.picked = false;
-
-                    this.stackedMoves.push(gameMove);
-                    this.MAKING_MOVE = true;
-                    //this.PICKING_BOARD = false;
-
-                    this.scene.interface.removeCounter();
-                    this.counter = null;
-                }
-                else {
-                    console.log("Invalid move!");
-                    //this.PICKING_BOARD = false;
-                    //this.PICKING_PIECE = true;
-                    this.pickedPiece.picked = false;
-                    this.pickedBoardCell.picked = false;
-                    this.pickedPiece = null;
-                    this.pickedBoardCell = null;
-                }
+                this.stackedMoves.push(gameMove);
+                this.MAKING_MOVE = true;
+                //this.PICKING_BOARD = false;
+                this.scene.interface.removeCounter();
+                this.counter = null;
+            }
+            else {
+                console.log("Invalid move!");
+                //this.PICKING_BOARD = false;
+                //this.PICKING_PIECE = true;
+                this.pickedPiece.picked = false;
+                this.pickedBoardCell.picked = false;
+                this.pickedPiece = null;
+                this.pickedBoardCell = null;
             }
         }
     }
@@ -421,6 +420,9 @@ GameLoop.prototype.update = function(deltaTime) {
 
 GameLoop.prototype.resetGame = function() {
     this.stackedMoves = [];
+    this.replayCurrentMove = 0;
+    this.startedReplay = false;
+    this.waitTime = 1;
 
     this.auxRedPosition = 0;
     this.auxWhitePosition = 0;
@@ -441,6 +443,9 @@ GameLoop.prototype.resetGame = function() {
 
 GameLoop.prototype.resetGameWithOptions = function() {
     this.stackedMoves = [];
+    this.replayCurrentMove = 0;
+    this.startedReplay = false;
+    this.waitTime = 1;
 
     this.auxRedPosition = 0;
     this.auxWhitePosition = 0;
@@ -460,4 +465,43 @@ GameLoop.prototype.resetGameWithOptions = function() {
     this.pickedBoardCell = null;
 
     this.counter = null;
+}
+
+GameLoop.prototype.replay = function(deltaTime) {
+    if(!this.startedReplay){
+        this.PLAYER = 0;
+        this.startedReplay = true;
+        this.stackedMoves[this.replayCurrentMove].executeReplay();
+        this.MAKING_MOVE = true;
+    }
+    else {
+        if(this.replayCurrentMove >= this.stackedMoves.length){
+            console.log('Replay is Over');
+            this.startedReplay = false;
+            this.scene.replay = false;
+            this.scene.setPickEnabled(true);
+            //this.END_GAME = true;
+            return;
+        }
+        if(this.MAKING_MOVE){
+            if(this.stackedMoves[this.replayCurrentMove].isAnimationOver()){
+                this.MAKING_MOVE = false;
+                this.PLAYER = 1 - this.PLAYER;
+                this.scene.updateCamera(this.PLAYER);
+                this.waitTime = 1;
+            }
+        }
+        if(this.scene.cameraAnimation === null && !this.MAKING_MOVE){
+            if(this.waitTime <= 0){
+                this.replayCurrentMove += 1;
+                if(this.replayCurrentMove < this.stackedMoves.length){
+                    this.stackedMoves[this.replayCurrentMove].executeReplay();
+                    this.MAKING_MOVE = true;
+                }
+            }
+            else {
+                this.waitTime -= deltaTime;
+            }
+        }
+    }
 }

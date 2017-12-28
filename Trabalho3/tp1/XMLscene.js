@@ -40,6 +40,7 @@ XMLscene.prototype.init = function(application) {
     
     this.axis = new CGFaxis(this);
     this.lastTime = 0;
+    this.replay = false;
 
     this.board = new GameBoard(this);
     this.auxRedBoard = new AuxBoard(this, -6);
@@ -248,27 +249,6 @@ XMLscene.prototype.logPicking = function ()
                     obj.picked = ~obj.picked;
                     
                     this.gameLoop.loop(obj);
-                    /*if(!this.hasPickedPiece && (idIsPawnOrKing(obj.id))) {
-                        this.pickedPiece = obj;
-                        this.pickingPiecePhase = false;
-                        this.pickingBoardCellPhase = true;
-                    } 
-                    else if (idIsBoard(obj.id)){
-                        this.pickedBoardCell = obj;
-                        this.pickingPiecePhase = false;
-                        this.pickingBoardCellPhase = false;
-                        this.makingMove = true;
-
-                        var gameMove = new GameMove(this, this.pickedPiece, this.pickedBoardCell, 0);
-                        this.board.gameMoves.push(gameMove);
-
-                        if (this.gameLoop.attemptMove(gameMove))
-                            gameMove.execute();
-                        else  
-                            console.log("Invalid move!");
-
-                        this.hasPickedPiece = false;
-                    }*/
                 }
             }
             this.pickResults.splice(0,this.pickResults.length);
@@ -347,7 +327,10 @@ XMLscene.prototype.display = function() {
     this.scaleFactor = (1+Math.sin(5*this.totalTime)) * 0.5;
     this.updateScaleFactor();
 
-    this.gameLoop.update(this.deltaTime/1000);
+    if(!this.replay)
+        this.gameLoop.update(this.deltaTime/1000);
+    else
+        this.gameLoop.replay(this.deltaTime/1000);
     this.pushMatrix();
     
     if (this.graph.loadedOk) 
@@ -380,11 +363,15 @@ XMLscene.prototype.display = function() {
         this.scoreRed.display();
         //this.auxWhiteBoard.display(this.deltaTime/1000);
         //this.auxRedBoard.display(this.deltaTime/1000);
-
-        this.logPicking();
-        this.clearPickRegistration();
-        this.displayPickableItems(this.deltaTime/1000);
-        this.clearPickRegistration();
+        if(!this.replay){
+            this.logPicking();
+            this.clearPickRegistration();
+            this.displayPickableItems(this.deltaTime/1000);
+            this.clearPickRegistration();
+        }
+        else {
+            this.displayPickableItems(this.deltaTime/1000);
+        }
     }
 	else
 	{
@@ -422,6 +409,7 @@ XMLscene.prototype.animateCamera = function(deltaTime){
 }
 
 XMLscene.prototype.resetGame = function(){
+    this.setPickEnabled(true);
     this.gameLoop.resetGame();
     this.board.resetElements();
     this.gameLoop.makeRequest("reset");
@@ -433,6 +421,7 @@ XMLscene.prototype.resetGame = function(){
 }
 
 XMLscene.prototype.resetGameOptions = function(){
+    this.setPickEnabled(true);
     this.board.resetElements();
     this.gameLoop.makeRequest("reset");
     this.gameLoop.resetGameWithOptions();
@@ -445,4 +434,10 @@ XMLscene.prototype.resetGameOptions = function(){
 
 XMLscene.prototype.replayGame = function(){
     console.log('Replay');
+    this.setPickEnabled(false);
+    this.board.pieces = [];
+    this.initPieces();
+    //this.board.moveToInitPieces();
+    this.replay = true;
+    this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[1].position,this.cameraPositions[1].target);
 }
