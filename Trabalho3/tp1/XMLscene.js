@@ -113,8 +113,8 @@ XMLscene.prototype.initCameras = function() {
         this.cameraPositions[0] = new CameraPosition('Beggining', vec3.fromValues(-1, 1, 17), vec3.fromValues(-1, -2, 0));
     else if (this.currentEnvironment === 'scene2.xml')
         this.cameraPositions[0] = new CameraPosition('Beggining', vec3.fromValues(-5, 3, -11), vec3.fromValues(-35, 1, -12));
-    this.cameraPositions[1] = new CameraPosition('Player 1', vec3.fromValues(-1, 15, 15), vec3.fromValues(-1, 0, 0));
-    this.cameraPositions[2] = new CameraPosition('Player 2', vec3.fromValues(-1, 15, -15), vec3.fromValues(-1, 0, 0));
+    this.cameraPositions[1] = new CameraPosition('Player 1', vec3.fromValues(-1, 15, -15), vec3.fromValues(-1, 0, 0));
+    this.cameraPositions[2] = new CameraPosition('Player 2', vec3.fromValues(-1, 15, 15), vec3.fromValues(-1, 0, 0));
 
     //this.camera = new CGFcamera(0.4,0.1,500,vec3.fromValues(15, 15, 15),vec3.fromValues(0, 0, 0));
     this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[0].position,this.cameraPositions[0].target);
