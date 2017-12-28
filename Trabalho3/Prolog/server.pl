@@ -149,8 +149,13 @@ parse_input([get_ai_move, AIPlayer, AILevel], [ok, Move, RemovedPieces]) :-
 	once(analyse_changes(BeforeCaptures, AfterCaptures, RemovedPieces)).
 
 % Check if game is over
-parse_input([is_game_over,Player], [game_is_over]).	
+parse_input([is_game_over,Player], [yes]) :-
+	is_game_over(Player).	
 
+parse_input([is_game_over,Player], [no]).
+
+
+% Gets piece
 parse_input([get_piece,Column-Line], Piece) :-
 	get_piece(Column,Line, Piece).
 

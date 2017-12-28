@@ -160,8 +160,7 @@ read_move(Player):-
         string_to_move(MoveString, Move), 
         check_if_valid(Move, Player), !,
 	move(Move),
-        remove_captured_pieces(Move,Player),
-        is_game_over(Player).
+        remove_captured_pieces(Move,Player).
 
 /**
 * if the move is invalid, error message and trys to read it again

@@ -195,6 +195,20 @@ GameLoop.prototype.AIStringToMove = function(responseString) {
         return null;
 }
 
+GameLoop.prototype.checkGameOver = function() {
+    var requestString = "[is_game_over," + this.currentPlayer + "]";
+
+    console.log("Sent " + requestString);
+
+    var responseString = this.getPrologRequest(requestString, this.handleReply);
+
+    console.log(responseString);
+    if (responseString[1] == 'y')
+        return true;
+    else
+        return false;
+}
+
 GameLoop.prototype.moveToString = function(moveArgs) {
     var cellBefore = this.IDtoPosition(moveArgs.piece.boardCell.id);
     var cellAfter = this.IDtoPosition(moveArgs.cellDest.id);
@@ -230,73 +244,79 @@ GameLoop.prototype.removeByPosition = function(positionString) {
             console.log("Piece to be removed is ");
             console.log(this.board.pieces[i]);
 
+            if (this.board.pieces[i].id[0] == 'k') { // Is King
+                console.log("END GAME");
+                this.END_GAME = true;
+            }   
+
             // Parsing the Id to see if it's red or black, to see to which aux we need to send him.
-            var pieceNumberString = [];
-            var pieceId = this.board.pieces[i].id;
-            
-            pieceNumberString[0] = pieceId[4];
-            pieceNumberString[1] = pieceId[5];
+            else {
+                var pieceNumberString = [];
+                var pieceId = this.board.pieces[i].id;
+                
+                pieceNumberString[0] = pieceId[4];
+                pieceNumberString[1] = pieceId[5];
 
-            var pieceNumber = parseInt(pieceNumberString.join(""));
+                var pieceNumber = parseInt(pieceNumberString.join(""));
 
-            
-            if (pieceNumber > 10) { // Aux White
-                var numberString = this.auxWhitePosition.toString();
+                
+                if (pieceNumber > 10) { // Aux White
+                    var numberString = this.auxWhitePosition.toString();
 
-                for (var k = 0; k < this.auxWhiteBoard.boardCells.length; k++) {
-                    var tmpAuxCell = this.auxWhiteBoard.boardCells[k];
+                    for (var k = 0; k < this.auxWhiteBoard.boardCells.length; k++) {
+                        var tmpAuxCell = this.auxWhiteBoard.boardCells[k];
 
-                    // Has not reached 10th capture
-                    if (numberString.length == 1){
-                        if (tmpAuxCell.id[9] == numberString[0]) {
-                            destinationCell = this.auxWhiteBoard.boardCells[k];
-                            this.auxWhitePosition++;
+                        // Has not reached 10th capture
+                        if (numberString.length == 1){
+                            if (tmpAuxCell.id[9] == numberString[0]) {
+                                destinationCell = this.auxWhiteBoard.boardCells[k];
+                                this.auxWhitePosition++;
+                            }
                         }
-                    }
-                    else {
-                        if (tmpAuxCell.id[8] == '1') {
-                            destinationCell = this.auxWhiteBoard.boardCells[k];
-                            this.auxWhitePosition++;
+                        else {
+                            if (tmpAuxCell.id[8] == '1') {
+                                destinationCell = this.auxWhiteBoard.boardCells[k];
+                                this.auxWhitePosition++;
+                            }   
                         }   
-                    }   
+                    }
+                    this.scene.scoreWhite.update();
                 }
-                this.scene.scoreWhite.update();
-            }
-            else { // Aux Red
-                var numberString = this.auxRedPosition.toString();
+                else { // Aux Red
+                    var numberString = this.auxRedPosition.toString();
 
-                for (var k = 0; k < this.auxRedBoard.boardCells.length; k++) {
-                    var tmpAuxCell = this.auxRedBoard.boardCells[k];
+                    for (var k = 0; k < this.auxRedBoard.boardCells.length; k++) {
+                        var tmpAuxCell = this.auxRedBoard.boardCells[k];
 
-            
-                    // Has not reached 10th capture
-                    if (numberString.length == 1){
-                        if (tmpAuxCell.id[9] == numberString[0]) {
-                            destinationCell = this.auxRedBoard.boardCells[k];
-                            this.auxRedPosition++;
+                
+                        // Has not reached 10th capture
+                        if (numberString.length == 1){
+                            if (tmpAuxCell.id[9] == numberString[0]) {
+                                destinationCell = this.auxRedBoard.boardCells[k];
+                                this.auxRedPosition++;
+                            }
                         }
+                        else {
+                            if (tmpAuxCell.id[8] == '1') {
+                                destinationCell = this.auxRedBoard.boardCells[k];
+                                this.auxRedPosition++;
+                            }   
+                        }  
                     }
-                    else {
-                        if (tmpAuxCell.id[8] == '1') {
-                            destinationCell = this.auxRedBoard.boardCells[k];
-                            this.auxRedPosition++;
-                        }   
-                    }  
+                    this.scene.scoreRed.update();
+
+
+                    var previousBoardCell = this.board.pieces[i].boardCell;
+
+                    var eliminationMove = new GameMove(this.scene.board, this.board.pieces[i].id, previousBoardCell.id, destinationCell.id,
+                    this.board.pieces[i], previousBoardCell, destinationCell, 1);
+                
+                    this.stackedMoves.push(eliminationMove);
+                    eliminationMove.execute();
+
+                    break;
                 }
-                this.scene.scoreRed.update();
-
-
-                var previousBoardCell = this.board.pieces[i].boardCell;
-
-                var eliminationMove = new GameMove(this.scene.board, this.board.pieces[i].id, previousBoardCell.id, destinationCell.id,
-                this.board.pieces[i], previousBoardCell, destinationCell, 1);
-            
-                this.stackedMoves.push(eliminationMove);
-                eliminationMove.execute();
-
-                break;
             }
-
         }
     }
 }
@@ -388,6 +408,14 @@ GameLoop.prototype.loop = function(obj) {
                     //this.PICKING_BOARD = false;
                     this.scene.interface.removeCounter();
                     this.counter = null;
+
+                    // Checks game over
+
+                    this.END_GAME = (this.checkGameOver() || this.END_GAME);
+                    if (this.END_GAME) {
+                        console.log("End game");
+                        this.resetGameWithOptions();
+                    }
                 }
                 else {
                     console.log("Invalid move!");
@@ -423,7 +451,7 @@ GameLoop.prototype.loop = function(obj) {
     else if(this.MAKING_MOVE){
         console.log('A move is still being made, please wait.');
     }
-    else if(this.END_GAME){
+    if(this.END_GAME){
         console.log('End game');
         //make a scene to restart or not
         this.scene.updateCamera('Beggining');
@@ -552,8 +580,6 @@ GameLoop.prototype.replay = function(deltaTime) {
 
 // Necessary for 
 GameLoop.prototype.positionToCell = function(ColumnLetter, LineNumber) {
-    console.log("FUUUUUUUUUUUUUDGe");
-    console.log(ColumnLetter + " " + LineNumber);
     var column;
     var line = 8-parseInt(LineNumber);
 

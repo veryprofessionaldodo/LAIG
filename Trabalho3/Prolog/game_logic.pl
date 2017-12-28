@@ -58,9 +58,7 @@ traverse_move_vertical(Move) :-
 		Row1 \= Row2,
 		((Row1 < Row2, NewRow1 is Row1 + 1) ;
 		 	(Row1 > Row2, NewRow1 is Row1 -1)),
-		write(NewRow1), write(' '), write(NewRow2),
-		check_from_X_to_Y_Row(Column, NewRow1, Row2),
-		write('Traverse7\n').
+		check_from_X_to_Y_Row(Column, NewRow1, Row2).
 
 %End Condition 
 check_from_X_to_Y_Row(Column, Row, Row) :- 
@@ -254,7 +252,7 @@ set_piece(ColumnLetter,Line,Piece):-
         NewColumn is Column,
         line_to_position(Line, LineNumber),                                   
         board(Board), 
-        replace(Board,LineNumber,NewColumn,Piece,NewBoard), write(' Piece is '), write(Piece), write(' NewBoard '), write(NewBoard),
+        replace(Board,LineNumber,NewColumn,Piece,NewBoard), 
         retract(board(Board)), 
         assert(board(NewBoard)).
 
@@ -639,20 +637,7 @@ check_mate(_).
 */
 
 %Checks if the game ended
-is_game_over(Player):-board(Board), check_soldiers_and_Dux(Board,0,0,0,0),
-        playcounter(X), X>0 , 
-        Y is X-1, 
-        retract(playcounter(X)), 
-        assert(playcounter(Y)),
-        check_possible_moves(Player). 
-
-
-is_game_over(_):-playcounter(X), X<1, break.
-
-is_game_over(Player):- 
-             opposing_player(Player,OppPlayer),
-             cls, print_board,
-             format('\n Player ~w Lost, there is possible move \n',[OppPlayer]), break.
+is_game_over(_):- write(8),playcounter(X), write(9),X<1.
 
 check_possible_moves(Player):-
 	opposing_player(Player,OppPlayer),	
@@ -665,15 +650,15 @@ check_possible_moves(Player):-
 
 check_soldiers_and_Dux(_,1,1,1,1).   % tudo normal continuar normalmente
 
-check_soldiers_and_Dux(T,Pb,PB,Pw,PW):- 
+check_soldiers_and_Dux(T,Pb,PB,Pw,PW,FinalCheck):- 
         length(T, 1), 
-        Pb=0, break;
+        Pb=0, FinalCheck is 1;
         length(T, 1), 
-        PB=0, break;
+        PB=0, FinalCheck is 1;
         length(T, 1), 
-        Pw=0, break;
+        Pw=0, FinalCheck is 1;
         length(T, 1), 
-        PW=0, break.
+        PW=0, FinalCheck is 1.
 
 check_soldiers_and_Dux([H|T],Pb,PB,Pw,PW):-
         check_soldiers_and_Dux_Row(H,Pb,PB,Pw,PW,T).
