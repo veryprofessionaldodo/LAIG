@@ -373,7 +373,8 @@ GameLoop.prototype.loop = function(obj) {
                     this.pickedBoardCell = obj;
             }
             if(this.pickedBoardCell !== null && this.pickedPiece !== null){
-                var gameMove = new GameMove(this.scene.board, this.pickedPiece.id, this.pickedPiece.boardCell.id, this.pickedBoardCell.id, 0);
+                var gameMove = new GameMove(this.scene.board, this.pickedPiece.id, this.pickedPiece.boardCell.id, this.pickedBoardCell.id,
+                                            this.pickedPiece, this.pickedPiece.boardCell, this.pickedBoardCell, 0);
                 if (this.attemptMove(gameMove)){
                     console.log('Move is valid!');
                     gameMove.execute();

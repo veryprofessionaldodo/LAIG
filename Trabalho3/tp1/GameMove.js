@@ -1,11 +1,11 @@
-function GameMove(board, piece, previousCell, cellDest, outofBoard){
+function GameMove(board, pieceID, previousCellID, cellDestID, piece, previousCell, cellDest, outofBoard){
 	this.board = board;
-	this.pieceID = piece;
-	this.cellDestID = cellDest;
-	this.previousCellID = previousCell; 
-	this.piece = this.board.findPiece(piece);
-	this.cellDest = this.board.findCell(cellDest);
-	this.previousCell = this.board.findCell(previousCell);
+	this.pieceID = pieceID;
+	this.cellDestID = cellDestID;
+	this.previousCellID = previousCellID; 
+	this.piece = piece;
+	this.cellDest = cellDest;
+	this.previousCell = previousCell;
 	this.outofBoard = outofBoard;
 }
 
