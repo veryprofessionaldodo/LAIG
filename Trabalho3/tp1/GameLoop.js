@@ -4,7 +4,7 @@
     this.replayCurrentMove = 0;
     this.startedReplay = false;
     this.waitTime = 1;
-    this.waitTimeAI = 5;
+    this.waitTimeAI = 3;
 
     this.board = scene.board;
     this.auxWhiteBoard = scene.auxWhiteBoard;
@@ -56,6 +56,10 @@ GameLoop.prototype.makeRequest = function(request) {
     console.log("MADE REQUEST");
     console.log(request);
     this.getPrologRequest(request, this.handleReply, this);
+}
+
+GameLoop.prototype.handleReply = function() {
+
 }
 
 GameLoop.prototype.reverseMove = function() {
@@ -200,7 +204,7 @@ GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
 
         gameLoop.stackedMoves.push(gameMove);
         gameLoop.MAKING_MOVE = true;
-        //this.PICKING_BOARD = false;
+        gameLoop.WAITING = false;
         gameLoop.scene.interface.removeCounter();
         gameLoop.counter = null;
 
@@ -214,8 +218,6 @@ GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
     }
     else {
         console.log("Invalid move!");
-        //this.PICKING_BOARD = false;
-        //this.PICKING_PIECE = true;
         gameLoop.pickedPiece.picked = false;
         gameLoop.pickedBoardCell.picked = false;
         gameLoop.pickedPiece = null;
@@ -254,8 +256,8 @@ GameLoop.prototype.AIStringToMove = function(responseString) {
             }
         }
 
-        console.log("cellDest");
-        console.log(this.board.boardCells[cellDestPos]);
+        /*console.log("cellDest");
+        console.log(this.board.boardCells[cellDestPos]);*/
 
         var gameMove = new GameMove(this.scene.board, this.board.pieces[piecePosInArray].id, this.board.pieces[piecePosInArray].boardCell.id,
            this.board.boardCells[cellDestPos].id, this.board.pieces[piecePosInArray], this.board.pieces[piecePosInArray].boardCell,
@@ -444,6 +446,7 @@ GameLoop.prototype.loop = function(obj) {
         }
         if(this.pickedBoardCell !== null && this.pickedPiece !== null){
             this.WAITING = true;
+            this.GAME_LOOP = false;
             console.log('Waiting for Response');
             this.attemptMove();
             
@@ -452,8 +455,6 @@ GameLoop.prototype.loop = function(obj) {
     else if(this.WAITING) {
 
     }
-    else if(this.MAKING_MOVE){
-    }
     else if(this.END_GAME){
         console.log('End game');
         //make a scene to restart or not
@@ -461,27 +462,28 @@ GameLoop.prototype.loop = function(obj) {
     }
 }
 
-GameLoop.prototype.update = function(deltaTime) {
-    var type;
-    if(this.PLAYER === 0)
-        type = this.player1Type;
-    else
-        type = this.player2Type;
+GameLoop.prototype.update = function(deltaTime) {  
     if(this.MAKING_MOVE){
         if(this.pickedPiece.animation.endAnimation){
             this.MAKING_MOVE = false;
+            this.GAME_LOOP = true;
             this.PLAYER = 1 - this.PLAYER;
 
+            this.currentMoveAI = null;
             this.pickedPiece = null;
             this.pickedBoardCell = null;
-            this.GAME_LOOP = true;
             this.scene.updateCamera(this.PLAYER);
         }
     }
     this.enableAndDisablePick();
     
+    var type;
+    if(this.PLAYER === 0)
+        type = this.player1Type;
+    else
+        type = this.player2Type;
     if(this.GAME_LOOP && (this.scene.cameraAnimation === null)){
-        if((this.gameType === 1 || this.gameType === 2) && type === 1){
+        if(type === 1){
             this.updateAIMove(deltaTime);
         }
     }
@@ -492,17 +494,17 @@ GameLoop.prototype.updateAIMove = function(deltaTime) {
         var requestString = "[get_ai_move," + (this.PLAYER + 1) + "," + (this.gameDifficulty+1) +"]";
         var responseString = this.getPrologRequest(requestString, this.handleReplyUpdateAIMove, this);
     }
-    else if(this.waitTimeAI <= 0){
+    if(this.waitTimeAI <= 0 && this.currentMoveAI !== null){
         this.currentMoveAI.execute();
         this.stackedMoves.push(this.currentMoveAI);
-        this.currentMoveAI = null;
 
         this.pickedPiece.picked = false;
         this.pickedBoardCell.picked = false;    
 
+        this.GAME_LOOP = false;
         this.MAKING_MOVE = true;
         this.scene.interface.removeCounter();
-        this.waitTimeAI = 5;
+        this.waitTimeAI = 3;
     }
     else {
         this.waitTimeAI -= deltaTime;
@@ -515,7 +517,7 @@ GameLoop.prototype.handleReplyUpdateAIMove = function(data, gameLoop){
     console.log("Response ");
     console.log(responseString);
 
-    gameLoop.currentMoveAI = this.AIStringToMove(responseString);
+    gameLoop.currentMoveAI = gameLoop.AIStringToMove(responseString);
 
     if (gameLoop.currentMoveAI !== null) {
         if(gameLoop.attemptMove(gameLoop.currentMoveAI)){
@@ -557,8 +559,9 @@ GameLoop.prototype.resetGame = function() {
 
     this.BEGIN_PHASE = false;
     this.GAME_LOOP = true;
-    this.PLAYER = 0;
+    this.PLAYER = 1;
     this.MAKING_MOVE = false;
+    this.WAITING = false;
     this.END_GAME = false;
 
     this.pickedPiece = null;
@@ -580,8 +583,9 @@ GameLoop.prototype.resetGameWithOptions = function() {
 
     this.BEGIN_PHASE = true;
     this.GAME_LOOP = false;
-    this.PLAYER = 0;
+    this.PLAYER = 1;
     this.MAKING_MOVE = false;
+    this.WAITING = false;
     this.END_GAME = false;
 
     this.gameDifficulty = null; // 0 - facil, 1 - dificil
