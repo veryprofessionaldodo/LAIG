@@ -26,6 +26,10 @@ function GameLoop(scene) {
     this.pickedPiece = null;
     this.pickedBoardCell = null;
 
+    // Made to see whether it's AI (1) or human (0);
+    this.player1Type;
+    this.player2Type;
+
     this.counter = null;
 }
 
@@ -53,24 +57,17 @@ GameLoop.prototype.makeRequest = function(request) {
     this.getPrologRequest(request, this.handleReply);
 }
 
-
 GameLoop.prototype.reverseMove = function() {
-    console.log("Stacked Moves");
-    console.log(this.stackedMoves)
     if (this.stackedMoves.length > 0) {
         var moveToBeReversed = this.stackedMoves[this.stackedMoves.length-1];
         moveToBeReversed.reverse();
 
-        console.log("Antes da chamada");
-        console.log(moveToBeReversed);
         this.reverseMoveOnProlog(moveToBeReversed);
         
         // Remove from stacked Moves
         this.stackedMoves.splice(this.stackedMoves.length-1, 1);
 
-        console.log(moveToBeReversed);
-
-        // in case it has eliminated some piece(s)
+         // in case it has eliminated some piece(s)
         var check = true;
         var i = 1;
         while (check) {
@@ -145,12 +142,56 @@ GameLoop.prototype.attemptMove = function(moveArgs) {
 
     if (responseString[1] == 'o' && responseString[2] == 'k') {
         this.currentPlayer = (this.currentPlayer)%2 + 1;
-        this.removeEliminatedPieces(responseString);
+        this.removeEliminatedPieces(responseString,5);
         return true;
     }
     else  {
         return false;
     }
+}
+
+GameLoop.prototype.AIStringToMove = function(responseString) {
+    if (responseString[1] == 'o' && responseString[2] == 'k') {
+        this.removeEliminatedPieces(responseString,15);
+
+        var piecePosition = this.positionToCell(responseString[5],responseString[7]);
+        var boardPosition = this.positionToCell(responseString[9],responseString[11]);   
+
+        var piecePosInArray; 
+        for (var i = 0; i < this.board.pieces.length; i++) {
+            var cell = this.board.pieces[i].boardCell;
+            if (parseInt(cell.id[5]) == piecePosition[1] && parseInt(cell.id[6]) == piecePosition[0]) {
+                piecePosInArray = i;
+                break;
+            }
+        }
+
+        console.log("piece");
+        console.log(this.board.pieces[piecePosInArray]);
+
+        var cellDestPos;
+        for (var i = 0; i < this.board.boardCells.length; i++) {
+            var boardCell = this.board.boardCells[i];
+
+            if(parseInt(boardCell.id[5]) == boardPosition[1] && parseInt(boardCell.id[6]) == boardPosition[0]) {
+                cellDestPos = i;
+                break;
+            }
+        }
+
+        console.log("cellDest");
+        console.log(this.board.boardCells[cellDestPos]);
+
+        var gameMove = new GameMove(this.scene.board, this.board.pieces[piecePosInArray].id, this.board.pieces[piecePosInArray].boardCell.id,
+                 this.board.boardCells[cellDestPos].id,0);
+
+        console.log(gameMove);
+
+        return gameMove;
+
+    }
+    else // No valid moves, lost
+        return null;
 }
 
 GameLoop.prototype.moveToString = function(moveArgs) {
@@ -162,11 +203,11 @@ GameLoop.prototype.moveToString = function(moveArgs) {
     return moveString;
 }
 
-GameLoop.prototype.removeEliminatedPieces = function(responseString) {
+GameLoop.prototype.removeEliminatedPieces = function(responseString, position) {
     var eliminatedString = [];
 
-    for (var i = 5; i < (responseString.length-2); i++) {
-        eliminatedString[i-5] = responseString[i];
+    for (var i = position; i < (responseString.length-2); i++) {
+        eliminatedString[i-position] = responseString[i];
     }
 
     console.log(eliminatedString);
@@ -182,6 +223,8 @@ GameLoop.prototype.removeByPosition = function(positionString) {
     for (var i = 0; i < this.board.pieces.length; i++) {
         var boardId = this.board.pieces[i].boardCell.id;
 
+        var destinationCell;
+
         if (boardId[5] == (""+ (8 - parseInt(positionString[1]))) && boardId[6] == (""+ (parseInt(positionString[3]) - 1))){
             console.log("Piece to be removed is ");
             console.log(this.board.pieces[i]);
@@ -195,15 +238,13 @@ GameLoop.prototype.removeByPosition = function(positionString) {
 
             var pieceNumber = parseInt(pieceNumberString.join(""));
 
-            var destinationCell;
             
             if (pieceNumber > 10) { // Aux White
                 var numberString = this.auxWhitePosition.toString();
-    
+
                 for (var k = 0; k < this.auxWhiteBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxWhiteBoard.boardCells[k];
 
-                    console.log(tmpAuxCell.id[9]);
                     // Has not reached 10th capture
                     if (numberString.length == 1){
                         if (tmpAuxCell.id[9] == numberString[0]) {
@@ -222,7 +263,7 @@ GameLoop.prototype.removeByPosition = function(positionString) {
             }
             else { // Aux Red
                 var numberString = this.auxRedPosition.toString();
-    
+
                 for (var k = 0; k < this.auxRedBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxRedBoard.boardCells[k];
 
@@ -243,56 +284,20 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                     }  
                 }
                 this.scene.scoreRed.update();
+
+
+                var previousBoardCell = this.board.pieces[i].boardCell;
+
+                var eliminationMove = new GameMove(this.scene.board, this.board.pieces[i].id, previousBoardCell.id, destinationCell.id, 1);
+            
+                this.stackedMoves.push(eliminationMove);
+                eliminationMove.execute();
+
+                break;
             }
 
-            var previousBoardCell = this.pieces[i].boardCell;
-
-            var eliminationMove = new GameMove(this.scene, this.board.pieces[i], previousBoardCell, destinationCell, 1);
-            
-            this.stackedMoves.push(eliminationMove);
-            eliminationMove.execute();
-
-            break;
         }
     }
-}
-
-
-GameLoop.prototype.IDtoPosition = function(cellId) {
-    var column = cellId[6];
-    var columnLetter;
-
-    if (parseInt(column)+1 == 1)
-        columnLetter = 'a';
-    if (parseInt(column)+1 == 2)
-        columnLetter = 'b';
-    if (parseInt(column)+1 == 3)
-        columnLetter = 'c';
-    if (parseInt(column)+1 == 4)
-        columnLetter = 'd';
-    if (parseInt(column)+1 == 5)
-        columnLetter = 'e';
-    if (parseInt(column)+1 == 6)
-        columnLetter = 'f';
-    if (parseInt(column)+1 == 7)
-        columnLetter = 'g';
-    if (parseInt(column)+1 == 8)
-        columnLetter = 'h';
-    if (parseInt(column)+1 == 9)
-        columnLetter = 'i';
-    if (parseInt(column)+1 == 10)
-        columnLetter = 'j';
-
-    var line = 7 - parseInt(cellId[5]);
-
-    return [columnLetter,1+parseInt(line)];
-}
-
-//Handle the Reply
-GameLoop.prototype.handleReply = function(data){
-    var responseString = data.target.response;
-
-    console.log("RESPONSE " + responseString);
 }
 
 GameLoop.prototype.loop = function(obj) {
@@ -306,14 +311,20 @@ GameLoop.prototype.loop = function(obj) {
             obj.picked = false;        
         }
         else if(obj.id === 'humano_humano'){
+            this.player1Type = 0;
+            this.player2Type = 0;
             this.gameType = 0;
             obj.picked = false;
         }
         else if(obj.id === 'humano_maquina'){
+            this.player1Type = 1;
+            this.player2Type = 0;
             this.gameType = 1;
             obj.picked = false;
         }
         else if(obj.id === 'maquina_maquina'){
+            this.player1Type = 1;
+            this.player2Type = 1;
             this.gameType = 2;
             obj.picked = false;
         }
@@ -325,54 +336,85 @@ GameLoop.prototype.loop = function(obj) {
         }
     }
     else if(this.GAME_LOOP){ //make a play
-        if(idIsPawnOrKing(obj.id)){
+
+        // Check to see what type of play is involved
+        var type;
+
+        if(this.player == 0) 
+            type = this.player1Type;
+        else 
+            type = this.player2Type;
+
+         // Is Human
+        if (type == 0) {
+            if(idIsPawnOrKing(obj.id)){
             //check if obj corresponds to the correct player
-            if(this.pickedPiece !== null){
-                this.pickedPiece.picked = false;
-                if(this.pickedPiece.id === obj.id){ //picking the same element is the same as unchoosing it
-                    this.pickedPiece = null;
+                if(this.pickedPiece !== null){
+                    this.pickedPiece.picked = false;
+                    if(this.pickedPiece.id === obj.id){ //picking the same element is the same as unchoosing it
+                        this.pickedPiece = null;
+                    }
+                    else
+                        this.pickedPiece = obj;
                 }
                 else
                     this.pickedPiece = obj;
             }
-            else
-                this.pickedPiece = obj;
-        }
-        else if(idIsBoard(obj.id)){
-            if(this.pickedBoardCell !== null){
-                this.pickedBoardCell.picked = false;
-                if(this.pickedBoardCell === obj){//picking the same element is the same as unchoosing it
-                    this.pickedBoardCell = null;
+            else if(idIsBoard(obj.id)){
+                if(this.pickedBoardCell !== null){
+                    this.pickedBoardCell.picked = false;
+                    if(this.pickedBoardCell === obj){//picking the same element is the same as unchoosing it
+                        this.pickedBoardCell = null;
+                    }
+                    else
+                        this.pickedBoardCell = obj;
                 }
                 else
                     this.pickedBoardCell = obj;
             }
-            else
-                this.pickedBoardCell = obj;
+            if(this.pickedBoardCell !== null && this.pickedPiece !== null){
+                var gameMove = new GameMove(this.scene.board, this.pickedPiece.id, this.pickedPiece.boardCell.id, this.pickedBoardCell.id, 0);
+                if (this.attemptMove(gameMove)){
+                    console.log('Move is valid!');
+                    gameMove.execute();
+
+                    this.pickedPiece.picked = false;
+                    this.pickedBoardCell.picked = false;
+
+                    this.stackedMoves.push(gameMove);
+                    this.MAKING_MOVE = true;
+                    //this.PICKING_BOARD = false;
+                    this.scene.interface.removeCounter();
+                    this.counter = null;
+                }
+                else {
+                    console.log("Invalid move!");
+                    //this.PICKING_BOARD = false;
+                    //this.PICKING_PIECE = true;
+                    this.pickedPiece.picked = false;
+                    this.pickedBoardCell.picked = false;
+                    this.pickedPiece = null;
+                    this.pickedBoardCell = null;
+                }
+            }
         }
-        if(this.pickedBoardCell !== null && this.pickedPiece !== null){
-            var gameMove = new GameMove(this.scene.board, this.pickedPiece.id, this.pickedPiece.boardCell.id, this.pickedBoardCell.id, 0);
-            if (this.attemptMove(gameMove)){
-                console.log('Move is valid!');
+        // Is AI
+        else {
+            var requestString = "[get_ai_move," + this.currentPlayer + "," + (this.gameDifficulty+1) +"]";
+            var responseString = this.getPrologRequest(requestString, this.handleReply);
+
+            var gameMove = this.AIStringToMove(responseString);
+
+            if (gameMove != null) {
+                this.attemptMove(gameMove);
                 gameMove.execute();
-
-                this.pickedPiece.picked = false;
-                this.pickedBoardCell.picked = false;
-
                 this.stackedMoves.push(gameMove);
                 this.MAKING_MOVE = true;
-                //this.PICKING_BOARD = false;
                 this.scene.interface.removeCounter();
                 this.counter = null;
             }
             else {
-                console.log("Invalid move!");
-                //this.PICKING_BOARD = false;
-                //this.PICKING_PIECE = true;
-                this.pickedPiece.picked = false;
-                this.pickedBoardCell.picked = false;
-                this.pickedPiece = null;
-                this.pickedBoardCell = null;
+                // GAME OVER HERE
             }
         }
     }
@@ -504,4 +546,72 @@ GameLoop.prototype.replay = function(deltaTime) {
             }
         }
     }
+}
+
+// Necessary for 
+GameLoop.prototype.positionToCell = function(ColumnLetter, LineNumber) {
+    console.log("FUUUUUUUUUUUUUDGe");
+    console.log(ColumnLetter + " " + LineNumber);
+    var column;
+    var line = 8-parseInt(LineNumber);
+
+    if (ColumnLetter == 'a') 
+        column = 0;
+    else if (ColumnLetter == 'b') 
+        column = 1;
+    else if (ColumnLetter == 'c') 
+        column = 2;
+    else if (ColumnLetter == 'd') 
+        column = 3;
+    else if (ColumnLetter == 'e') 
+        column = 4;
+    else if (ColumnLetter == 'f') 
+        column = 5;
+    else if (ColumnLetter == 'g') 
+        column = 6;
+    else if (ColumnLetter == 'h') 
+        column = 7;
+    else if (ColumnLetter == 'i') 
+        column = 8;
+    else if (ColumnLetter == 'j') 
+        column = 9;
+
+    return [column,line];
+}
+
+GameLoop.prototype.IDtoPosition = function(cellId) {
+    var column = cellId[6];
+    var columnLetter;
+
+    if (parseInt(column)+1 == 1)
+        columnLetter = 'a';
+    else if (parseInt(column)+1 == 2)
+        columnLetter = 'b';
+    else if (parseInt(column)+1 == 3)
+        columnLetter = 'c';
+    else if (parseInt(column)+1 == 4)
+        columnLetter = 'd';
+    else if (parseInt(column)+1 == 5)
+        columnLetter = 'e';
+    else if (parseInt(column)+1 == 6)
+        columnLetter = 'f';
+    else if (parseInt(column)+1 == 7)
+        columnLetter = 'g';
+    else if (parseInt(column)+1 == 8)
+        columnLetter = 'h';
+    else if (parseInt(column)+1 == 9)
+        columnLetter = 'i';
+    else if (parseInt(column)+1 == 10)
+        columnLetter = 'j';
+
+    var line = 7 - parseInt(cellId[5]);
+
+    return [columnLetter,1+parseInt(line)];
+}
+
+//Handle the Reply
+GameLoop.prototype.handleReply = function(data){
+    var responseString = data.target.response;
+
+    console.log("RESPONSE " + responseString);
 }

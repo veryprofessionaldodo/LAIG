@@ -2,7 +2,7 @@ function GameMove(board, piece, previousCell, cellDest, outofBoard){
 	this.board = board;
 	this.pieceID = piece;
 	this.cellDestID = cellDest;
-	this.previousCellID = previousCell;
+	this.previousCellID = previousCell; 
 	this.piece = this.board.findPiece(piece);
 	this.cellDest = this.board.findCell(cellDest);
 	this.previousCell = this.board.findCell(previousCell);
