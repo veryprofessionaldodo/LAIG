@@ -183,7 +183,8 @@ GameLoop.prototype.AIStringToMove = function(responseString) {
         console.log(this.board.boardCells[cellDestPos]);
 
         var gameMove = new GameMove(this.scene.board, this.board.pieces[piecePosInArray].id, this.board.pieces[piecePosInArray].boardCell.id,
-                 this.board.boardCells[cellDestPos].id,0);
+                 this.board.boardCells[cellDestPos].id, this.board.pieces[piecePosInArray], this.board.pieces[piecePosInArray].boardCell,
+                 this.board.boardCells[cellDestPos], 0);
 
         console.log(gameMove);
 
@@ -267,8 +268,7 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                 for (var k = 0; k < this.auxRedBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxRedBoard.boardCells[k];
 
-                    console.log(tmpAuxCell.id[9]);
-
+            
                     // Has not reached 10th capture
                     if (numberString.length == 1){
                         if (tmpAuxCell.id[9] == numberString[0]) {
@@ -288,7 +288,8 @@ GameLoop.prototype.removeByPosition = function(positionString) {
 
                 var previousBoardCell = this.board.pieces[i].boardCell;
 
-                var eliminationMove = new GameMove(this.scene.board, this.board.pieces[i].id, previousBoardCell.id, destinationCell.id, 1);
+                var eliminationMove = new GameMove(this.scene.board, this.board.pieces[i].id, previousBoardCell.id, destinationCell.id,
+                this.board.pieces[i], previousBoardCell, destinationCell, 1);
             
                 this.stackedMoves.push(eliminationMove);
                 eliminationMove.execute();
