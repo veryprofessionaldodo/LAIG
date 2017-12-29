@@ -378,12 +378,22 @@ GameLoop.prototype.loop = function(obj) {
             this.player2Type = 1;
             this.gameType = 2;
             obj.picked = false;
-            this.scene.setPickEnabled(false);
+            
         }
-        if((this.gameDifficulty !== null && this.gameType !== null) || this.gameType == 0){
+        if (this.gameType != null) {
+            if (this.gameType == 0) {
+                this.BEGIN_PHASE = false;
+                this.GAME_LOOP = true;
+                this.scene.updateCamera(this.PLAYER);    
+            }
+        }
+        if(this.gameDifficulty !== null && this.gameType !== null){
             this.BEGIN_PHASE = false;
             this.GAME_LOOP = true;
             this.scene.updateCamera(this.PLAYER);
+            if (this.gameType == 2) 
+                this.scene.setPickEnabled(false);
+           
         }
     }
     else if(this.GAME_LOOP){ //make a play
@@ -568,8 +578,10 @@ GameLoop.prototype.enableAndDisablePick = function() {
     else
         type = this.player2Type;
 
-    if(type === 1)
-        this.scene.setPickEnabled(false);
+    if(type === 1){
+        if (this.gameDifficulty != null)
+            this.scene.setPickEnabled(false);
+    }
     else 
         this.scene.setPickEnabled(true);
 }
