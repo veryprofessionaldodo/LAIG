@@ -170,7 +170,7 @@ GameLoop.prototype.handleReplyRevive = function(data, gameLoop){
 GameLoop.prototype.attemptMove = function() {
     var gameMove = new GameMove(this.scene.board, this.pickedPiece.id, this.pickedPiece.boardCell.id, this.pickedBoardCell.id,
         this.pickedPiece, this.pickedPiece.boardCell, this.pickedBoardCell, 0);
-        
+
     var moveString = this.moveToString(gameMove);
     var requestString = "[move," + (this.PLAYER + 1) + "," + moveString + "]";
 
@@ -189,12 +189,15 @@ GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
 
     if (responseString[1] == 'o' && responseString[2] == 'k') {
         //this.PLAYER = (this.PLAYER + 1)%2 + 1;
-        gameLoop.removeEliminatedPieces(responseString,5);
+        var eliminationString = gameLoop.removeEliminatedPieces(responseString,5);
+        
+        if (eliminationString!= null) {
+            console.log("Eliminated piece" + eliminationString);
+            gameLoop.removeByPosition(eliminationString);
+        }
         var gameMove = new GameMove(gameLoop.scene.board, gameLoop.pickedPiece.id, gameLoop.pickedPiece.boardCell.id, gameLoop.pickedBoardCell.id,
             gameLoop.pickedPiece, gameLoop.pickedPiece.boardCell, gameLoop.pickedBoardCell, 0);
-        
           
-        console.log('Move is valid!');
         gameMove.execute();
 
         gameLoop.pickedPiece.picked = false;
@@ -215,7 +218,6 @@ GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
         return true;
     }
     else {
-        console.log("Invalid move!");
         gameLoop.pickedPiece.picked = false;
         gameLoop.pickedBoardCell.picked = false;
         gameLoop.pickedPiece = null;
@@ -242,13 +244,12 @@ GameLoop.prototype.removeEliminatedPieces = function(responseString, position) {
         eliminatedString[i-position] = responseString[i];
     }
 
-    console.log(eliminatedString);
-
     if (eliminatedString.length > 1) {
         var splitEliminated = "" + eliminatedString.join("").split(",");  
 
         return splitEliminated;
     }
+    return null;
 }
 
 GameLoop.prototype.removeByPosition = function(positionString) {
@@ -256,6 +257,8 @@ GameLoop.prototype.removeByPosition = function(positionString) {
         var boardId = this.board.pieces[i].boardCell.id;
 
         var destinationCell;
+
+        console.log("PositionString is " + positionString + " boardId to be analyzed " + boardId)
 
         if (boardId[5] == (""+ (8 - parseInt(positionString[1]))) && boardId[6] == (""+ (parseInt(positionString[3]) - 1))){
             console.log("Piece to be removed is ");
@@ -280,22 +283,33 @@ GameLoop.prototype.removeByPosition = function(positionString) {
 
                 for (var k = 0; k < this.auxWhiteBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxWhiteBoard.boardCells[k];
-
+            
                     // Has not reached 10th capture
                     if (numberString.length == 1){
                         if (tmpAuxCell.id[9] == numberString[0]) {
                             destinationCell = this.auxWhiteBoard.boardCells[k];
                             this.auxWhitePosition++;
+                            k = this.auxWhiteBoard.boardCells.length;
                         }
                     }
                     else {
                         if (tmpAuxCell.id[8] == '1') {
                             destinationCell = this.auxWhiteBoard.boardCells[k];
                             this.auxWhitePosition++;
+                            k = this.auxWhiteBoard.boardCells.length;
                         }   
                     }   
                 }
                 this.scene.scoreWhite.update();
+
+                var previousBoardCell = this.board.pieces[i].boardCell;
+
+                var eliminationMove = new GameMove(this.scene.board, this.board.pieces[i].id, previousBoardCell.id, destinationCell.id,
+                    this.board.pieces[i], previousBoardCell, destinationCell, 1);
+
+                this.stackedMoves.push(eliminationMove);
+                eliminationMove.execute();
+
             }
             else { // Aux Red
                 var numberString = this.auxRedPosition.toString();
@@ -309,12 +323,14 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                         if (tmpAuxCell.id[9] == numberString[0]) {
                             destinationCell = this.auxRedBoard.boardCells[k];
                             this.auxRedPosition++;
+                            k = this.auxRedBoard.boardCells.length;
                         }
                     }
                     else {
                         if (tmpAuxCell.id[8] == '1') {
                             destinationCell = this.auxRedBoard.boardCells[k];
                             this.auxRedPosition++;
+                            k = this.auxRedBoard.boardCells.length;
                         }   
                     }  
                 }
@@ -458,15 +474,8 @@ GameLoop.prototype.update = function(deltaTime) {
     }
 }
 
-GameLoop.prototype.updateAIMove = function(deltaTime) {
-    if(this.GAME_LOOP){
-        var requestString = "[get_ai_move," + (this.PLAYER + 1) + "," + (this.gameDifficulty+1) +"]";
-        console.log("Request sent " + requestString);
-        var responseString = this.getPrologRequest(requestString, this.handleReplyUpdateAIMove, this);
-        this.GAME_LOOP = false;
-        this.WAITING = true;
-    }
-    else if(this.waitTimeAI <= 0 && this.WAITING){
+GameLoop.prototype.updateAIMove = function(deltaTime) {    
+    if(this.waitTimeAI <= 0 && this.WAITING && this.currentMoveAI != null){
         this.currentMoveAI.execute();
         this.stackedMoves.push(this.currentMoveAI);
 
@@ -476,6 +485,13 @@ GameLoop.prototype.updateAIMove = function(deltaTime) {
         this.WAITING = false;
         this.MAKING_MOVE = true;
         this.waitTimeAI = 3;
+    }
+    else if(this.GAME_LOOP){
+        var requestString = "[get_ai_move," + (this.PLAYER + 1) + "," + (this.gameDifficulty+1) +"]";
+        console.log("Request sent " + requestString);
+        var responseString = this.getPrologRequest(requestString, this.handleReplyUpdateAIMove, this);
+        this.GAME_LOOP = false;
+        this.WAITING = true;
     }
     else {
         this.waitTimeAI -= deltaTime;
@@ -506,7 +522,11 @@ GameLoop.prototype.handleReplyUpdateAIMove = function(data, gameLoop){
 GameLoop.prototype.AIStringToMove = function(responseString) {
 
     if (responseString[1] == 'o' && responseString[2] == 'k') {
-        this.removeEliminatedPieces(responseString,15);
+        var eliminationString = this.removeEliminatedPieces(responseString,15);
+        if (eliminationString != null) {
+            console.log("Elimination");
+            this.removeByPosition(eliminationString);
+        }
 
         var piecePosition = this.positionToCell(responseString[5],responseString[7]);
         var boardPosition = this.positionToCell(responseString[9],responseString[11]);   
@@ -520,9 +540,6 @@ GameLoop.prototype.AIStringToMove = function(responseString) {
             }
         }
 
-        console.log("piece");
-        console.log(this.board.pieces[piecePosInArray]);
-
         var cellDestPos;
         for (var i = 0; i < this.board.boardCells.length; i++) {
             var boardCell = this.board.boardCells[i];
@@ -533,14 +550,9 @@ GameLoop.prototype.AIStringToMove = function(responseString) {
             }
         }
 
-        /*console.log("cellDest");
-        console.log(this.board.boardCells[cellDestPos]);*/
-
         var gameMove = new GameMove(this.scene.board, this.board.pieces[piecePosInArray].id, this.board.pieces[piecePosInArray].boardCell.id,
            this.board.boardCells[cellDestPos].id, this.board.pieces[piecePosInArray], this.board.pieces[piecePosInArray].boardCell,
            this.board.boardCells[cellDestPos], 0);
-
-        console.log(gameMove);
 
         return gameMove;
 

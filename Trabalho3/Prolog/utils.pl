@@ -21,9 +21,7 @@ player_letter(1,'W').
 player_letter(2,'b').
 player_letter(2,'B').
 player_piece(1,'w').
-player_piece(1,'W').
 player_piece(2,'b').
-player_piece(2,'B').
 player_dux(1,'W').
 player_dux(2,'B').
 opposing_player(1,2).

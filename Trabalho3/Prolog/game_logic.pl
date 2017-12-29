@@ -637,6 +637,16 @@ check_mate(_).
 */
 
 %Checks if the game ended
+
+%Checks if the game ended
+is_game_over(Player):-board(Board), check_soldiers_and_Dux(Board,0,0,0,0),
+		write('\n FinalCheck is '), write(FinalCheck),
+        playcounter(X), X>0 , 
+        Y is X-1, 
+        retract(playcounter(X)), 
+        assert(playcounter(Y)),
+		check_possible_moves(Player). 
+
 is_game_over(_):- write(8),playcounter(X), write(9),X<1.
 
 check_possible_moves(Player):-
