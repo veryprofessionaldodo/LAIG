@@ -55,8 +55,8 @@ King.prototype.move = function(x,y,z, newBoardCell){
 	points.push([x, this.y + 4, z]);
 	points.push([x, this.y, z]);
 
-	this.x = x;
-	this.z = z;
+	this.x = this.boardCell.x;
+	this.z = this.boardCell.z;
 	this.y = y;
 
 	this.animation = new BezierAnimation(this.scene, 5, points);
