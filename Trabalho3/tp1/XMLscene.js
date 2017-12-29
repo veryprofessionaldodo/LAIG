@@ -383,10 +383,11 @@ XMLscene.prototype.display = function() {
         this.winTile.display();
         //this.auxWhiteBoard.display(this.deltaTime/1000);
         //this.auxRedBoard.display(this.deltaTime/1000);
+
         if(!this.replay){
             this.logPicking();
             this.clearPickRegistration();
-            this.displayPickableItems(this.deltaTime/1000);
+            this.displayPickableItems(this, this.deltaTime/1000);
             this.clearPickRegistration();
         }
         else {

@@ -16,44 +16,27 @@ PickableElement.prototype.constructor = PickableElement;
 PickableElement.prototype.display = function(deltaTime) {
 	if(this.picked){
 		this.scene.setActiveShader(this.scene.pickedElement);
-		this.displayNode(deltaTime, this.node.nodeID, this.node.textureID, this.node.materialID);
+		this.newMaterial = this.scene.graph.materials[this.node.materialID];
+		this.newTexture = this.scene.graph.textures[this.node.textureID];
+		this.newMaterial.setTexture(this.newTexture[0]);
+		this.newMaterial.apply();
+		this.displayNode(deltaTime, this.node.nodeID);
 		this.scene.setActiveShader(this.scene.defaultShader);
 	}
 	else {
-		this.displayNode(deltaTime, this.node.nodeID, this.node.textureID, this.node.materialID);
+		this.newMaterial = this.scene.graph.materials[this.node.materialID];
+		this.newTexture = this.scene.graph.textures[this.node.textureID];
+		this.newMaterial.setTexture(this.newTexture[0]);
+		this.newMaterial.apply();
+		this.displayNode(deltaTime, this.node.nodeID);
 	}
 }
 
-PickableElement.prototype.displayNode = function(deltaTime, nodeID, textureID, materialID) {
+PickableElement.prototype.displayNode = function(deltaTime, nodeID) {
 	this.scene.pushMatrix();
 	var node = this.scene.graph.nodes[nodeID];
-	if(node.materialID !== "null"){
-        materialID = node.materialID;
-    }
-    this.newMaterial = this.scene.graph.materials[materialID];
-    //updates the texture
-    if(node.textureID !== "null"){
-        textureID = node.textureID;
-    }
-    if(textureID === "clear"){ //removes texture
-        this.newTexture = null;
-    } else if(textureID !== "null"){
-        this.newTexture = this.scene.graph.textures[textureID];
-    }
-    //applies the materials and textures
-    if(this.newMaterial != null){
-        if(this.newTexture != null)
-            this.newMaterial.setTexture(this.newTexture[0]);
-        }
-        else {
-            this.newMaterial.setTexture(null);
-        
-        this.newMaterial.apply();
-    }
     //multiplies the matrixes
     this.scene.multMatrix(node.transformMatrix);
-
-    node.display();
 
     if(node.leaves.length > 0){
         for(var i = 0; i < node.leaves.length; i++){
@@ -63,10 +46,8 @@ PickableElement.prototype.displayNode = function(deltaTime, nodeID, textureID, m
     if(node.children.length > 0){
         for(var i = 0; i < node.children.length; i++){
             this.scene.pushMatrix();
-            this.newMaterial = null;
-            this.newTexture = null;
             //recursive call
-            this.displayNode(deltaTime, node.children[i], textureID, materialID);
+            this.displayNode(deltaTime, node.children[i]);
             this.scene.popMatrix();
         }
     }
