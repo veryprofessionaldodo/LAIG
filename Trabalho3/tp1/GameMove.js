@@ -23,12 +23,7 @@ GameMove.prototype.executeReplay = function() {
 }
 
 GameMove.prototype.reverse = function() {
-	console.log("A peça que quer ser reversed é ");
-	console.log(this.piece);
-	console.log("A posição é ");
-	console.log(this.previousCell);
-
-
+	
 	this.piece.move(this.previousCell.x+0.5, this.previousCell.y, this.previousCell.z-0.35, this.previousCell);
 }
 

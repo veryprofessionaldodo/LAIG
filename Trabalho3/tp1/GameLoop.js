@@ -193,10 +193,9 @@ GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
         //this.PLAYER = (this.PLAYER + 1)%2 + 1;
         var eliminationString = gameLoop.removeEliminatedPieces(responseString,5);
         
-        if (eliminationString!= null) {
-            console.log("Eliminated piece" + eliminationString);
+        if (eliminationString!= null) 
             gameLoop.removeByPosition(eliminationString);
-        }
+
         var gameMove = new GameMove(gameLoop.scene.board, gameLoop.pickedPiece.id, gameLoop.pickedPiece.boardCell.id, gameLoop.pickedBoardCell.id,
             gameLoop.pickedPiece, gameLoop.pickedPiece.boardCell, gameLoop.pickedBoardCell, 0);
           
@@ -260,12 +259,7 @@ GameLoop.prototype.removeByPosition = function(positionString) {
 
         var destinationCell;
 
-        console.log("PositionString is " + positionString + " boardId to be analyzed " + boardId)
-
         if (boardId[5] == (""+ (8 - parseInt(positionString[1]))) && boardId[6] == (""+ (parseInt(positionString[3]) - 1))){
-            console.log("Piece to be removed is ");
-            console.log(this.board.pieces[i]);
-
             // Parsing the Id to see if it's red or black, to see to which aux we need to send him.
             var pieceNumberString = [];
             var pieceId = this.board.pieces[i].id;
@@ -286,22 +280,18 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                 for (var k = 0; k < this.auxWhiteBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxWhiteBoard.boardCells[k];
 
-                    console.log("AuxCellWhite " + tmpAuxCell.id);
-            
+                    
                     // Has not reached 10th capture
-                    if (numberString.length == 1){
-                        if (tmpAuxCell.id[9] == numberString[0]) {
-                            destinationCell = this.auxWhiteBoard.boardCells[k];
-                            this.auxWhitePosition++;
-                            k = this.auxWhiteBoard.boardCells.length;
-                        }
+                    if (tmpAuxCell.id[8] == '0' && parseInt(tmpAuxCell.id[9]) == (parseInt(numberString[0]))) {
+                        destinationCell = this.auxWhiteBoard.boardCells[k];
+                        this.auxWhitePosition++;
+                        k = this.auxWhiteBoard.boardCells.length;
                     }
-                    else {
-                        if (tmpAuxCell.id[8] == '1') {
+                    else if (tmpAuxCell.id[8] == '1' && parseInt(tmpAuxCell.id[9]) == (parseInt(numberString[0])%5)) {
                             destinationCell = this.auxWhiteBoard.boardCells[k];
                             this.auxWhitePosition++;
                             k = this.auxWhiteBoard.boardCells.length;
-                        }   
+                        
                     }   
                 }
                 this.scene.scoreWhite.update();
@@ -321,24 +311,19 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                 for (var k = 0; k < this.auxRedBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxRedBoard.boardCells[k];
 
-                    console.log("AuxCellRed " + tmpAuxCell.id);
-
                     // Has not reached 10th capture
-                    if (numberString.length == 1){
-                        if (tmpAuxCell.id[9] == numberString[0]) {
-                            destinationCell = this.auxRedBoard.boardCells[k];
-                            this.auxRedPosition++;
-                            k = this.auxRedBoard.boardCells.length;
-                        }
+                    if (tmpAuxCell.id[8] == '0' && parseInt(tmpAuxCell.id[9]) == (parseInt(numberString[0]))) {
+                        destinationCell = this.auxRedBoard.boardCells[k];
+                        this.auxRedPosition++;
+                        k = this.auxRedBoard.boardCells.length;
                     }
-                    else {
-                        if (tmpAuxCell.id[8] == '1') {
-                            destinationCell = this.auxRedBoard.boardCells[k];
-                            this.auxRedPosition++;
-                            k = this.auxRedBoard.boardCells.length;
-                        }   
-                    }  
-                }
+                    else if (tmpAuxCell.id[8] == '1' && parseInt(tmpAuxCell.id[9]) == (parseInt(numberString[0])%5)) {
+                        destinationCell = this.auxRedBoard.boardCells[k];
+                        this.auxRedPosition++;
+                        k = this.auxRedBoard.boardCells.length;
+                    }   
+                }  
+                
                 this.scene.scoreRed.update();
 
 
