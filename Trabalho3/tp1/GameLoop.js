@@ -221,10 +221,6 @@ GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
 
         //this.END_GAME = (this.checkGameOver() || this.END_GAME);
                 
-        if (gameLoop.END_GAME) {
-            console.log("End game");
-            gameLoop.resetGameWithOptions();
-        }
         return true;
     }
     else {
@@ -279,8 +275,15 @@ GameLoop.prototype.removeByPosition = function(positionString) {
             var pieceNumber = parseInt(pieceNumberString.join(""));
             
             if (this.board.pieces[i].id[0] == 'k') { // Is King
-                console.log("END GAME");
+                console.log("END GAME, King is ");
+                console.log(this.board.pieces[i].id);
                 this.END_GAME = true;
+                this.GAME_LOOP = false;
+                this.BEGIN_PHASE = false;
+
+                this.scene.winTile.update(parseInt(this.board.pieces[i].id[5]));
+                //this.scene.updateCamera('Beggining');
+                this.resetGame();
             }   
             
             if (pieceNumber > 10) { // Aux White
@@ -430,11 +433,6 @@ GameLoop.prototype.loop = function(obj) {
             this.attemptMove();
             
         }
-    }
-    else if(this.END_GAME){
-        console.log('End game');
-        //make a scene to restart or not
-        this.scene.updateCamera('Beggining');
     }
 }
 

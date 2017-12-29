@@ -29,6 +29,7 @@ XMLscene.prototype.init = function(application) {
     
     this.initCameras();
     this.initScoreTextures();
+    this.initWinTextures();
 
     this.enableTextures(true);
     this.setPickEnabled(true);
@@ -54,6 +55,7 @@ XMLscene.prototype.init = function(application) {
 
     this.scoreWhite = new ScoreTile(this, 0, -5.8, 6, 2.5);
     this.scoreRed = new ScoreTile(this, 1, -5.8, 6, -1);
+    this.winTile = new WinTile(this, 0, -5.5, 5.7, 2.8);
 
     this.gameLoop.makeRequest("reset");
 
@@ -63,7 +65,6 @@ XMLscene.prototype.init = function(application) {
         loop.makeRequest(requestString);
     }, false);
 
-  
     this.boardCellsShader = new CGFshader(this.gl, "shaders/notDisplay.vert", "shaders/notDisplay.frag");
     this.pickedElement = new CGFshader(this.gl, "shaders/picked.vert", "shaders/picked.frag");
     this.totalTime = 0;
@@ -192,6 +193,13 @@ XMLscene.prototype.initScoreTextures = function() {
     this.number10.loadTexture("scenes/images/10.jpg");
     this.number11 = new CGFappearance(this);
     this.number11.loadTexture("scenes/images/11.png");
+}
+
+XMLscene.prototype.initWinTextures = function() {
+    this.winPlayer1 = new CGFappearance(this);
+    this.winPlayer1.loadTexture("scenes/images/win_player1.jpg");
+    this.winPlayer2 = new CGFappearance(this);
+    this.winPlayer2.loadTexture("scenes/images/win_player2.jpg");
 }
 
 XMLscene.prototype.updateCamera = function(cameraID){
@@ -372,6 +380,7 @@ XMLscene.prototype.display = function() {
         this.graph.displayScene(this.deltaTime);
         this.scoreWhite.display();
         this.scoreRed.display();
+        this.winTile.display();
         //this.auxWhiteBoard.display(this.deltaTime/1000);
         //this.auxRedBoard.display(this.deltaTime/1000);
         if(!this.replay){

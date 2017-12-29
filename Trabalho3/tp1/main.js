@@ -22,7 +22,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js',
              'King.js', 'Pawn.js', 'Board.js', 'GameBoard.js', 'AuxBoard.js', 'Piece.js', 
              'Environment.js', 'primitives/MyPawn.js', 'primitives/MyKing.js', 'BoardCell.js',
              'AuxBoardCell.js', 'GameMove.js', 'GameLoop.js', 'CameraPosition.js', 'PickableElement.js',
-             'CameraAnimation.js', 'ScoreTile.js',
+             'CameraAnimation.js', 'ScoreTile.js', 'WinTile.js',
 
 main=function()
 {
