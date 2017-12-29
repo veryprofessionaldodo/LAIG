@@ -19,6 +19,10 @@ ScoreTile.prototype.update = function(){
 	this.currentScore -= 1;
 }
 
+ScoreTile.prototype.revive = function(){
+	this.currentScore += 1;
+}
+
 ScoreTile.prototype.display = function(deltaTime) {
 	this.scene.pushMatrix();
 

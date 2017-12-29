@@ -153,6 +153,15 @@ GameLoop.prototype.revivePieceProlog = function(eliminationMove) {
     var column = "" + (8-parseInt(positionString[5]));
     var line =  ""+ (parseInt(positionString[6])+1);
 
+    if ((this.PLAYER + 1) == 2) {
+        this.auxWhitePosition--;
+        this.scene.scoreWhite.revive();
+    }
+    else  {
+        this.auxRedPosition--;
+        this.scene.scoreRed.revive();
+    }
+
     var requestString = "[revive," + (this.PLAYER+1) + "," + line + "," + column +"]";
 
     console.log("Sent" + requestString);
