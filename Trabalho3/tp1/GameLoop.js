@@ -58,7 +58,9 @@ GameLoop.prototype.makeRequest = function(request) {
     this.getPrologRequest(request, this.handleReply, this);
 }
 
-GameLoop.prototype.handleReply = function() {
+GameLoop.prototype.handleReply = function(data, gameLoop) {
+    console.log("Response");
+    console.log(data.target.response);
 }
 
 GameLoop.prototype.reverseMove = function() {
@@ -127,9 +129,9 @@ GameLoop.prototype.reverseMoveOnProlog = function(gameMove) {
     var columnAfter = "" + (8-parseInt(currentPositionString[5]));
     var lineAfter =  ""+ (parseInt(currentPositionString[6])+1);
 
-    //this.currentPlayer = (this.PLAYER + 1)%2 + 1;
+    var currentPlayer = (this.PLAYER + 1)%2 + 1;
 
-    var requestString = "[undo," + (this.PLAYER + 1) + "," + lineBefore + "," + columnBefore + "-" + lineAfter+"," + columnAfter+ "]";
+    var requestString = "[undo," + currentPlayer + "," + lineBefore + "," + columnBefore + "-" + lineAfter+"," + columnAfter+ "]";
 
     console.log("Sent" + requestString);
 
@@ -151,7 +153,7 @@ GameLoop.prototype.revivePieceProlog = function(eliminationMove) {
     var column = "" + (8-parseInt(positionString[5]));
     var line =  ""+ (parseInt(positionString[6])+1);
 
-    var requestString = "[revive," + (this.PLAYER + 1) + "," + line + "," + column +"]";
+    var requestString = "[revive," + (this.PLAYER+1) + "," + line + "," + column +"]";
 
     console.log("Sent" + requestString);
 
@@ -283,6 +285,8 @@ GameLoop.prototype.removeByPosition = function(positionString) {
 
                 for (var k = 0; k < this.auxWhiteBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxWhiteBoard.boardCells[k];
+
+                    console.log("AuxCellWhite " + tmpAuxCell.id);
             
                     // Has not reached 10th capture
                     if (numberString.length == 1){
@@ -317,6 +321,7 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                 for (var k = 0; k < this.auxRedBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxRedBoard.boardCells[k];
 
+                    console.log("AuxCellRed " + tmpAuxCell.id);
 
                     // Has not reached 10th capture
                     if (numberString.length == 1){
