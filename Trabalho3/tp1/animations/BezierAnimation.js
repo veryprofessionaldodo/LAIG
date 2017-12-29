@@ -97,14 +97,6 @@ BezierAnimation.prototype.update = function(deltaTime) {
 	if(this.endAnimation === true){
 		return this.finalMatrix;
 	}
-	/*if((1-this.s) <= 0.05){
-		this.endAnimation = true;
-		var matrix = mat4.create();
-		mat4.identity(matrix);
-		mat4.translate(matrix, matrix, [this.points[3][0], this.points[3][1], this.points[3][2]]);
-		this.finalMatrix = matrix.slice();
-		return this.finalMatrix;
-	}*/
 	if(this.s >= 1){
 		this.endAnimation = true;
 		return this.finalMatrix;
