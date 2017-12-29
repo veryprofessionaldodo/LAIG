@@ -42,13 +42,12 @@ PickableElement.prototype.displayNode = function(deltaTime, nodeID, textureID, m
     }
     //applies the materials and textures
     if(this.newMaterial != null){
-        if(this.newTexture != null){
+        if(this.newTexture != null)
             this.newMaterial.setTexture(this.newTexture[0]);
-            console.log(this.newTexture[0]);
         }
         else {
             this.newMaterial.setTexture(null);
-        }
+        
         this.newMaterial.apply();
     }
     //multiplies the matrixes

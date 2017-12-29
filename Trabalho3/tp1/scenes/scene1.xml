@@ -504,8 +504,8 @@
         <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="facil" />
 
-        <TRANSLATION x="-3" y="-1" z="8" />
-        <SCALE sx="0.25" sy="0.25" sz="0.25" />
+        <TRANSLATION x="-1" y="-2" z="6.5" />
+        <SCALE sx="0.35" sy="0.1" sz="0.15" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
@@ -516,8 +516,8 @@
         <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="dificil" />
 
-        <TRANSLATION x="-1" y="-1" z="8" />
-        <SCALE sx="0.25" sy="0.25" sz="0.25" />
+        <TRANSLATION x="1" y="-2" z="6.5" />
+        <SCALE sx="0.35" sy="0.1" sz="0.15" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
@@ -528,8 +528,8 @@
         <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="humVhum" />
 
-        <TRANSLATION x="1" y="-0.5" z="8" />
-        <SCALE sx="0.15" sy="0.5" sz="0.15" />
+        <TRANSLATION x="0" y="0.3" z="6.5" />
+        <SCALE sx="0.5" sy="0.15" sz="0.15" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
@@ -540,8 +540,8 @@
         <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="humVcom" />
 
-        <TRANSLATION x="2" y="-0.5" z="8" />
-        <SCALE sx="0.15" sy="0.5" sz="0.15" />
+        <TRANSLATION x="0" y="-0.45" z="6.5" />
+        <SCALE sx="0.5" sy="0.15" sz="0.15" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
@@ -552,8 +552,8 @@
         <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="comVcom" />
 
-        <TRANSLATION x="3" y="-0.5" z="8" />
-        <SCALE sx="0.15" sy="0.5" sz="0.15" />
+        <TRANSLATION x="0" y="-1.2" z="6.5" />
+        <SCALE sx="0.5" sy="0.15" sz="0.17" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
