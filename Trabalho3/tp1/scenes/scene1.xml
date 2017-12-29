@@ -473,7 +473,7 @@
 
     <NODE id="dynamic_elements" pickable="false">
         <MATERIAL id="null" />    
-        <TEXTURE id="null" />
+        <TEXTURE id="clear" />
 
         <TRANSLATION x="0" y="0" z="8" />
 
