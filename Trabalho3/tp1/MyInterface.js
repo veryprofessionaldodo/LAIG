@@ -5,8 +5,7 @@
 function MyInterface() {
     //call CGFinterface constructor 
     CGFinterface.call(this);
-}
-;
+};
 
 MyInterface.prototype = Object.create(CGFinterface.prototype);
 MyInterface.prototype.constructor = MyInterface;
@@ -23,7 +22,7 @@ MyInterface.prototype.init = function(application) {
     //  http://workshop.chromeexperiments.com/examples/gui
     
     this.message = 'dat.gui';
-
+    console.log('HEre');
 
     this.gui = new dat.GUI();
     this.playTimeController = null;
@@ -65,6 +64,7 @@ MyInterface.prototype.addSelectablesGroup = function(selectables, graph) {
 }*/
 
 MyInterface.prototype.addGameOptions = function(){
+    console.log('FACK');
     this.gui.add(this.scene,'resetGame').name("Reset Game");
     this.gui.add(this.scene,'resetGameOptions').name("Reset Options");
     this.gui.add(this.scene,'replayGame').name("Replay Game");
@@ -97,11 +97,7 @@ MyInterface.prototype.addUndoButton = function(gameLoop) {
 
 MyInterface.prototype.addEnvironmentGroup = function(environments, scene){
     this.gui.add(scene, "environments", environments).onChange(function(v) { 
-            for (var i = 0; i < environments.length; i++) {
-                if (environments[i] == v) {
-                    scene.changeEnvironment(environments[i]); 
-                }
-            }
+        scene.changeEnvironment(v); 
     });
 }
 

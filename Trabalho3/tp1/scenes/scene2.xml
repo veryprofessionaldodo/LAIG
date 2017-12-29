@@ -473,7 +473,7 @@
     </NODE>
 
     <!-- One tree -->
-    <NODE id="arvore1">       
+    <NODE id="arvore1" pickable="false">       
         <MATERIAL id="null" />    
         <TEXTURE id="null" />                   
 
@@ -486,7 +486,7 @@
     </NODE>
 
     <!-- Another tree -->
-    <NODE id="arvore2">       
+    <NODE id="arvore2" pickable="false">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />                   
 
@@ -498,7 +498,7 @@
     </NODE>
 
     <!-- Another tree -->
-    <NODE id="arvore3">       
+    <NODE id="arvore3" pickable="false">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />                   
 
@@ -510,7 +510,7 @@
     </NODE>
 
     <!-- Another tree -->
-    <NODE id="arvore4">       
+    <NODE id="arvore4" pickable="false">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />                   
 
@@ -522,7 +522,7 @@
     </NODE>
 
     <!-- Generic tree -->
-    <NODE id="arvore">       
+    <NODE id="arvore" pickable="false">       
         <MATERIAL id="null" />    
         <TEXTURE id="null" />                   
 
@@ -534,7 +534,7 @@
     </NODE>
 
     <!-- Tree trunk -->
-    <NODE id="troncoArvore">       
+    <NODE id="troncoArvore" pickable="false">       
         <MATERIAL id="trunkTreeMaterial" />     
         <TEXTURE id="trunk" />                  
 
@@ -548,7 +548,7 @@
     </NODE>
 
     <!-- Tree leaves -->
-     <NODE id="folhasArvore">       
+     <NODE id="folhasArvore" pickable="false">       
         <MATERIAL id="leavesTreeMaterial" />     
         <TEXTURE id="folhas" /> 
 
@@ -579,7 +579,7 @@
     </NODE>
 
     <!-- Street bench -->
-    <NODE id="bancos">       
+    <NODE id="bancos" pickable="false">       
         <MATERIAL id="lightMaterial" />     
         <TEXTURE id="banco" />                  
 
@@ -595,7 +595,7 @@
     </NODE>
 
     <!-- One bench -->
-    <NODE id="banco2">       
+    <NODE id="banco2" pickable="false">       
         <MATERIAL id="null" />     
         <TEXTURE id="null" />                   
 
@@ -608,7 +608,7 @@
     </NODE>
 
     <!-- Another bench -->
-     <NODE id="banco1">      
+     <NODE id="banco1" pickable="false">      
         <MATERIAL id="null" />     
         <TEXTURE id="null" />                   
 

@@ -36,11 +36,12 @@ XMLscene.prototype.init = function(application) {
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
-    this.gl.depthFunc(this.gl.LEQUAL);
+    this.gl.depthFunc(this.gl.LEQUAL)
     
     this.axis = new CGFaxis(this);
     this.lastTime = 0;
     this.replay = false;
+    this.loadedInterface = false;
 
     this.board = new GameBoard(this);
     this.auxRedBoard = new AuxBoard(this, -6);
@@ -223,15 +224,18 @@ XMLscene.prototype.onGraphLoaded = function()
     this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
     
     this.initLights();
-    this.initBoardCells();
-    this.initPieces();
 
     // Adds lights group.
-    //this.interface.addLightsGroup(this.graph.lights);
-    this.interface.addEnvironmentGroup(this.environments, this);
-    this.interface.addGameOptions();
-    this.interface.addUndoButton(this.gameLoop);
-
+    if(!this.loadedInterface){
+        this.interface.addLightsGroup(this.graph.lights);
+        this.interface.addEnvironmentGroup(this.environments, this);
+        this.interface.addGameOptions();
+        this.interface.addUndoButton(this.gameLoop);
+        this.loadedInterface = true;
+    }
+    this.initBoardCells();
+    this.initPieces();
+     
     this.setUpdatePeriod(1/60);
 }
 
@@ -259,8 +263,9 @@ XMLscene.prototype.logPicking = function ()
 function idIsPawnOrKing(id) {
     if (id[0] == 'p' && id[1] == 'a' && id[2] == 'w' && id[3] == 'n')
         return true;
-    if (id[0] == 'k' && id[1] == 'i' && id[2] == 'n' && id[3] == 'g')
+    if (id[0] == 'k' && id[1] == 'i' && id[2] == 'n' && id[3] == 'g'){
         return true;
+    }
 
     return false;
 }
@@ -297,9 +302,15 @@ XMLscene.prototype.displayPickableItems = function(deltaTime) {
 }
 
 XMLscene.prototype.changeEnvironment = function(filename) {
-    this.currentEnvironment = filename;
-    this.initCameras();
-    new MySceneGraph(filename, this);
+    if(filename !== this.currentEnvironment){
+        this.currentEnvironment = filename;
+        this.setPickEnabled(true);
+        this.board.resetElements();
+        this.gameLoop.makeRequest("reset");
+        this.gameLoop.resetGameWithOptions();
+        new MySceneGraph(filename, this);
+        this.initCameras();
+    }
 }
 
 XMLscene.prototype.updateScaleFactor=function(v) {
@@ -331,8 +342,8 @@ XMLscene.prototype.display = function() {
         this.gameLoop.update(this.deltaTime/1000);
     else
         this.gameLoop.replay(this.deltaTime/1000);
+
     this.pushMatrix();
-    
     if (this.graph.loadedOk) 
     {        
         // Applies initial transformations.

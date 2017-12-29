@@ -16,6 +16,7 @@
     this.BEGIN_PHASE = true;
     this.GAME_LOOP = false;
     this.PLAYER = 1; // 1 - White, 0 - Red
+    this.WAITING = false;
     this.MAKING_MOVE = false;
     this.END_GAME = false;
 
@@ -219,6 +220,8 @@ GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
         gameLoop.pickedBoardCell.picked = false;
         gameLoop.pickedPiece = null;
         gameLoop.pickedBoardCell = null;
+        gameLoop.WAITING = false;
+        gameLoop.GAME_LOOP = true;
         return false;
     }
 }
@@ -372,8 +375,8 @@ GameLoop.prototype.loop = function(obj) {
 
         if(idIsPawnOrKing(obj.id)){
         //check if obj corresponds to the correct player
-        if(this.pickedPiece !== null){
-            this.pickedPiece.picked = false;
+            if(this.pickedPiece !== null){
+                this.pickedPiece.picked = false;
                 if(this.pickedPiece.id === obj.id){ //picking the same element is the same as unchoosing it
                     this.pickedPiece = null;
                 }
@@ -403,9 +406,6 @@ GameLoop.prototype.loop = function(obj) {
             
         }
     }
-    else if(this.WAITING) {
-
-    }
     else if(this.END_GAME){
         console.log('End game');
         //make a scene to restart or not
@@ -414,6 +414,12 @@ GameLoop.prototype.loop = function(obj) {
 }
 
 GameLoop.prototype.update = function(deltaTime) {  
+    var type;
+    if(this.PLAYER === 0)
+        type = this.player1Type;
+    else
+        type = this.player2Type;
+
     if(this.MAKING_MOVE){
         if(this.pickedPiece.animation.endAnimation){
             this.MAKING_MOVE = false;
@@ -426,14 +432,26 @@ GameLoop.prototype.update = function(deltaTime) {
             this.scene.updateCamera(this.PLAYER);
         }
     }
+    else if(this.GAME_LOOP && this.counter === null && this.scene.cameraAnimation === null && type === 0){
+        this.counter = 10;
+        this.scene.interface.addCounter(this.counter, this);
+    }
+    else if(this.counter !== null && type === 0){
+        this.counter -= deltaTime;
+        if(this.counter <= 0){
+            this.scene.interface.removeCounter();
+            this.counter = null;
+            this.PLAYER = 1 - this.PLAYER;
+            this.GAME_LOOP = true;
+            this.scene.updateCamera(this.PLAYER);
+        }
+        else {
+            this.scene.interface.updateCounter(this.counter, this);
+        }
+    }
     this.enableAndDisablePick();
     
-    var type;
-    if(this.PLAYER === 0)
-        type = this.player1Type;
-    else
-        type = this.player2Type;
-    if(this.GAME_LOOP && (this.scene.cameraAnimation === null)){
+    if(this.scene.cameraAnimation === null){
         if(type === 1){
             this.updateAIMove(deltaTime);
         }
@@ -441,21 +459,22 @@ GameLoop.prototype.update = function(deltaTime) {
 }
 
 GameLoop.prototype.updateAIMove = function(deltaTime) {
-    if(this.currentMoveAI === null){
+    if(this.GAME_LOOP){
         var requestString = "[get_ai_move," + (this.PLAYER + 1) + "," + (this.gameDifficulty+1) +"]";
         console.log("Request sent " + requestString);
         var responseString = this.getPrologRequest(requestString, this.handleReplyUpdateAIMove, this);
+        this.GAME_LOOP = false;
+        this.WAITING = true;
     }
-    if(this.waitTimeAI <= 0 && this.currentMoveAI !== null){
+    else if(this.waitTimeAI <= 0 && this.WAITING){
         this.currentMoveAI.execute();
         this.stackedMoves.push(this.currentMoveAI);
 
         this.pickedPiece.picked = false;
         this.pickedBoardCell.picked = false;    
 
-        this.GAME_LOOP = false;
+        this.WAITING = false;
         this.MAKING_MOVE = true;
-        this.scene.interface.removeCounter();
         this.waitTimeAI = 3;
     }
     else {
@@ -537,7 +556,8 @@ GameLoop.prototype.enableAndDisablePick = function() {
         type = this.player1Type;
     else
         type = this.player2Type;
-    if(this.gameType === 1 && type === 1)
+
+    if(type === 1)
         this.scene.setPickEnabled(false);
     else 
         this.scene.setPickEnabled(true);
@@ -548,13 +568,14 @@ GameLoop.prototype.resetGame = function() {
     this.replayCurrentMove = 0;
     this.startedReplay = false;
     this.waitTime = 1;
+    this.waitTimeAI = 3;
 
     this.auxRedPosition = 0;
     this.auxWhitePosition = 0;
 
-    this.BEGIN_PHASE = false;
-    this.GAME_LOOP = true;
-    this.PLAYER = 1;
+    this.BEGIN_PHASE = true;
+    this.GAME_LOOP = false;
+    this.PLAYER = 1; // 1 - White, 0 - Red
     this.MAKING_MOVE = false;
     this.WAITING = false;
     this.END_GAME = false;
@@ -572,13 +593,14 @@ GameLoop.prototype.resetGameWithOptions = function() {
     this.replayCurrentMove = 0;
     this.startedReplay = false;
     this.waitTime = 1;
+    this.waitTimeAI = 3;
 
     this.auxRedPosition = 0;
     this.auxWhitePosition = 0;
 
     this.BEGIN_PHASE = true;
     this.GAME_LOOP = false;
-    this.PLAYER = 1;
+    this.PLAYER = 1; // 1 - White, 0 - Red
     this.MAKING_MOVE = false;
     this.WAITING = false;
     this.END_GAME = false;
@@ -588,6 +610,10 @@ GameLoop.prototype.resetGameWithOptions = function() {
 
     this.pickedPiece = null;
     this.pickedBoardCell = null;
+
+    // Made to see whether it's AI (1) or human (0);
+    this.player1Type = null;
+    this.player2Type = null;
 
     this.currentMoveAI = null;
 
