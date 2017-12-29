@@ -92,6 +92,38 @@
         <amplif_factor s="2" t="2" />                           
     </TEXTURE>
 
+      <TEXTURE id="humVhum">
+            <file path="images/marble_humvshum.jpg" />               
+            <amplif_factor s="5" t="4" />                           
+        </TEXTURE>
+
+        <TEXTURE id="humVcom">
+            <file path="images/marble_humvscom.jpg" />               
+            <amplif_factor s="5" t="4" />                           
+        </TEXTURE>
+
+        <TEXTURE id="comVcom">
+            <file path="images/marble_comvscom.jpg" />               
+            <amplif_factor s="5" t="4" />                           
+        </TEXTURE>
+
+        <TEXTURE id="latrunculli">
+            <file path="images/marble_latrunculli.jpg" />               
+            <amplif_factor s="5" t="4" />                           
+        </TEXTURE>
+
+        <TEXTURE id="facil">
+            <file path="images/marble_facil.jpg" />               
+            <amplif_factor s="5" t="4" />                           
+        </TEXTURE>
+
+        <TEXTURE id="dificil">
+            <file path="images/marble_dificil.jpg" />               
+            <amplif_factor s="5" t="4" />                           
+        </TEXTURE>
+
+      
+
     <!-- Leather Couch -->
     <TEXTURE id="leather">
         <file path="images/leather.jpg" />               
@@ -457,7 +489,7 @@
 
     <NODE id="label" pickable="false">
         <MATERIAL id="null" />    
-        <TEXTURE id="null" />
+        <TEXTURE id="latrunculli" />
 
         <TRANSLATION x="0" y="2" z="-1" />
         <ROTATION axis="x" angle="-90" />
@@ -470,7 +502,7 @@
 
     <NODE id="facil" pickable="true">
         <MATERIAL id="null" />    
-        <TEXTURE id="null" />
+        <TEXTURE id="facil" />
 
         <TRANSLATION x="-3" y="-1" z="8" />
         <SCALE sx="0.25" sy="0.25" sz="0.25" />
@@ -482,7 +514,7 @@
 
     <NODE id="dificil" pickable="true">
         <MATERIAL id="null" />    
-        <TEXTURE id="null" />
+        <TEXTURE id="dificil" />
 
         <TRANSLATION x="-1" y="-1" z="8" />
         <SCALE sx="0.25" sy="0.25" sz="0.25" />
@@ -494,7 +526,7 @@
 
     <NODE id="humano_humano" pickable="true">
         <MATERIAL id="null" />    
-        <TEXTURE id="null" />
+        <TEXTURE id="humVhum" />
 
         <TRANSLATION x="1" y="-0.5" z="8" />
         <SCALE sx="0.15" sy="0.5" sz="0.15" />
@@ -506,7 +538,7 @@
 
     <NODE id="humano_maquina" pickable="true">
         <MATERIAL id="null" />    
-        <TEXTURE id="null" />
+        <TEXTURE id="humVcom" />
 
         <TRANSLATION x="2" y="-0.5" z="8" />
         <SCALE sx="0.15" sy="0.5" sz="0.15" />
@@ -518,7 +550,7 @@
 
     <NODE id="maquina_maquina" pickable="true">
         <MATERIAL id="null" />    
-        <TEXTURE id="null" />
+        <TEXTURE id="comVcom" />
 
         <TRANSLATION x="3" y="-0.5" z="8" />
         <SCALE sx="0.15" sy="0.5" sz="0.15" />
