@@ -336,7 +336,7 @@
     </NODE>
 
     <NODE id="dynamic_elements" pickable="false">
-        <MATERIAL id="null" />    
+        <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="null" />
 
         <TRANSLATION x="-38" y="3" z="-16" />
@@ -353,7 +353,7 @@
     </NODE>
 
     <NODE id="label" pickable="false">
-        <MATERIAL id="null" />    
+        <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="latrunculli" />
 
         <TRANSLATION x="0" y="2" z="-1" />
@@ -366,7 +366,7 @@
     </NODE>
 
     <NODE id="facil" pickable="true">
-        <MATERIAL id="null" />    
+        <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="facil" />
 
         <TRANSLATION x="-45" y="2" z="-16" />
@@ -380,7 +380,7 @@
     </NODE>
 
     <NODE id="dificil" pickable="true">
-        <MATERIAL id="null" />    
+        <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="dificil" />
 
         <TRANSLATION x="-45" y="2" z="-16" />
@@ -394,7 +394,7 @@
     </NODE>
 
     <NODE id="humano_humano" pickable="true">
-        <MATERIAL id="null" />    
+        <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="humVhum" />
 
         <TRANSLATION x="-45" y="2" z="-16" />
@@ -408,7 +408,7 @@
     </NODE>
 
     <NODE id="humano_maquina" pickable="true">
-        <MATERIAL id="null" />    
+        <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="humVcom" />
 
         <TRANSLATION x="-45" y="2" z="-16" />
@@ -422,7 +422,7 @@
     </NODE>
 
     <NODE id="maquina_maquina" pickable="true">
-        <MATERIAL id="null" />    
+        <MATERIAL id="defaultMaterial" />    
         <TEXTURE id="comVcom" />
 
         <TRANSLATION x="-45" y="2" z="-16" />

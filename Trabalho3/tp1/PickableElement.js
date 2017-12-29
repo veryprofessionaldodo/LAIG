@@ -5,6 +5,9 @@ function PickableElement(scene, node){
 	this.node = node;
 	this.id = this.node.nodeID;
 	this.picked = false;
+
+	this.newTexture = null;
+	this.newMaterial = null;
 }
 
 PickableElement.prototype = Object.create(PickableElement.prototype);
@@ -41,6 +44,7 @@ PickableElement.prototype.displayNode = function(deltaTime, nodeID, textureID, m
     if(this.newMaterial != null){
         if(this.newTexture != null){
             this.newMaterial.setTexture(this.newTexture[0]);
+            console.log(this.newTexture[0]);
         }
         else {
             this.newMaterial.setTexture(null);
