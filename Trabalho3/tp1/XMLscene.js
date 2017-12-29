@@ -127,7 +127,7 @@ XMLscene.prototype.initPieces = function() {
     var boardCellsInd = this.board.boardCells.length - 10;
 
     var id = 1;
-    var x = -4.5, y = 5.2, z = -3.1;
+    var x = -4.5, y = 5.3, z = -3.1;
     for(var i = 0; i < 10; i++){
         var pawn = new Pawn(this, id, this.pawnModel, this.board.boardCells[i], x, y, z, "redWood", "redWoodMaterial");
         this.board.boardCells[i].piece = pawn;
@@ -146,12 +146,12 @@ XMLscene.prototype.initPieces = function() {
     }
 
     var king = new King(this, id, this.kingModel, this.board.boardCells[boardCellsInd - 14], -0.5, 5.5, -2.25, "redWood", "redWoodMaterial");
-    this.board.boardCells[boardCellsInd - 14].piece = king;
+    this.board.boardCells[14].piece = king;
     this.board.pieces.push(king); //red
     id++;
 
     king = new King(this, id, this.kingModel, this.board.boardCells[14], 0.5, 5.5, 1.75, "banco", "steelMaterial");
-    this.board.boardCells[14].piece = king;
+    this.board.boardCells[boardCellsInd - 15].piece = king;
     this.board.pieces.push(king); //white
 }
 

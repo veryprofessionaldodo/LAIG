@@ -24,11 +24,11 @@ Pawn.prototype.constructor = Pawn;
 
 Pawn.prototype.display = function(deltaTime) {
 	if(this.animation !== null){
-		if(this.animation.endAnimation === true){
+		if(this.animation.endAnimation){
 			this.animation = null;
 		}
 		else
-			this.matrix = this.animation.update(deltaTime).slice();
+			this.matrix = this.animation.update(deltaTime);
 	}
 
 	var texture = this.scene.graph.textures[this.textureID];
@@ -59,9 +59,9 @@ Pawn.prototype.move = function(x,y,z, newBoardCell){
 
 	this.x = this.boardCell.x;
 	this.z = this.boardCell.z;
-	this.y = y;
+	//this.y = y;
 
-	this.animation = new BezierAnimation(this.scene, 5, points);
+	this.animation = new BezierAnimation(this.scene, 2, points);
 }
 
 Pawn.prototype.returnBoardCell = function() {

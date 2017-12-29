@@ -24,11 +24,11 @@ King.prototype.constructor = King;
 
 King.prototype.display = function(deltaTime) {
 	if(this.animation !== null){
-		if(this.animation.endAnimation === true){
+		if(this.animation.endAnimation){
 			this.animation = null;
 		}
 		else
-			this.matrix = this.animation.update(deltaTime).slice();
+			this.matrix = this.animation.update(deltaTime);
 	}
 
 	var texture = this.scene.graph.textures[this.textureID];
@@ -57,7 +57,7 @@ King.prototype.move = function(x,y,z, newBoardCell){
 
 	this.x = this.boardCell.x;
 	this.z = this.boardCell.z;
-	this.y = y;
+	//this.y = y;
 
 	this.animation = new BezierAnimation(this.scene, 5, points);
 }
