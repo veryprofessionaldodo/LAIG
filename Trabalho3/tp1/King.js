@@ -52,8 +52,8 @@ King.prototype.move = function(x,y,z, newBoardCell){
 	var points = new Array();
 	points.push([this.x, this.y, this.z]);
 	points.push([this.x, this.y + 4, this.z]);
-	points.push([x, y + 4, z]);
-	points.push([x, y, z]);
+	points.push([x, this.y + 4, z]);
+	points.push([x, this.y, z]);
 
 	this.x = x;
 	this.z = z;

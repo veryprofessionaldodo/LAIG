@@ -145,12 +145,12 @@ XMLscene.prototype.initPieces = function() {
         boardCellsInd++;
     }
 
-    var king = new King(this, id, this.kingModel, this.board.boardCells[boardCellsInd - 14], 0.5, 5.5, -2.25, "redWood", "redWoodMaterial");
+    var king = new King(this, id, this.kingModel, this.board.boardCells[boardCellsInd - 14], -0.5, 5.5, -2.25, "redWood", "redWoodMaterial");
     this.board.boardCells[boardCellsInd - 14].piece = king;
     this.board.pieces.push(king); //red
     id++;
 
-    king = new King(this, id, this.kingModel, this.board.boardCells[14], 1.5, 5.5, 1.75, "banco", "steelMaterial");
+    king = new King(this, id, this.kingModel, this.board.boardCells[14], 0.5, 5.5, 1.75, "banco", "steelMaterial");
     this.board.boardCells[14].piece = king;
     this.board.pieces.push(king); //white
 }

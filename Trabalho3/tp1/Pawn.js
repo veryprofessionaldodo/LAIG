@@ -53,8 +53,8 @@ Pawn.prototype.move = function(x,y,z, newBoardCell){
 	console.log('dest: ' + x + ' ' + y + ' ' + z);
 	var points = new Array();
 	points.push([this.x, this.y, this.z]);
-	points.push([this.x, this.y + 4, this.z]);
-	points.push([x, this.y + 4, z]);
+	points.push([this.x, this.y + 2, this.z]);
+	points.push([x, this.y + 2, z]);
 	points.push([x, y, z]);
 
 	this.x = x;
