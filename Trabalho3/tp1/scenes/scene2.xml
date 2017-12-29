@@ -449,7 +449,7 @@
         <TRANSLATION x="-45" y="2" z="-16" />
         <ROTATION axis="y" angle="90" />
         <TRANSLATION x="-1" y="-1" z="6.5" />
-        <SCALE sx="0.35" sy="0.1" sz="0.15" />
+        <SCALE sx="0.35" sy="0.1" sz="0.01" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
@@ -463,7 +463,7 @@
         <TRANSLATION x="-45" y="2" z="-16" />
         <ROTATION axis="y" angle="90" />
         <TRANSLATION x="1" y="-1" z="6.5" />
-        <SCALE sx="0.35" sy="0.1" sz="0.15" />
+        <SCALE sx="0.35" sy="0.1" sz="0.01" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
@@ -477,7 +477,7 @@
         <TRANSLATION x="-45" y="2" z="-16" />
         <ROTATION axis="y" angle="90" />
         <TRANSLATION x="0" y="1.3" z="6.5" />
-        <SCALE sx="0.5" sy="0.15" sz="0.15" />
+        <SCALE sx="0.5" sy="0.15" sz="0.01" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
@@ -490,8 +490,8 @@
 
         <TRANSLATION x="-45" y="2" z="-16" />
         <ROTATION axis="y" angle="90" />
-        <TRANSLATION x="0" y="-0.2" z="6.5" />
-        <SCALE sx="0.5" sy="0.15" sz="0.17" />
+        <TRANSLATION x="0" y="0.5" z="6.5" />
+        <SCALE sx="0.5" sy="0.15" sz="0.01" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
@@ -504,8 +504,8 @@
 
         <TRANSLATION x="-45" y="2" z="-16" />
         <ROTATION axis="y" angle="90" />
-        <TRANSLATION x="0" y="0.5" z="6.5" />
-        <SCALE sx="0.5" sy="0.15" sz="0.17" />
+        <TRANSLATION x="0" y="-0.3" z="6.5" />
+        <SCALE sx="0.5" sy="0.15" sz="0.01" />
 
         <DESCENDANTS>
             <NODEREF id="cubo" />
