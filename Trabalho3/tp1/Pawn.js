@@ -24,6 +24,7 @@ Pawn.prototype.constructor = Pawn;
 
 Pawn.prototype.display = function(deltaTime) {
 	if(this.animation !== null){
+		console.log(this.animation);
 		if(this.animation.endAnimation){
 			this.animation = null;
 		}
@@ -49,8 +50,8 @@ Pawn.prototype.display = function(deltaTime) {
 Pawn.prototype.move = function(x,y,z, newBoardCell){
 	this.boardCell = newBoardCell;
 
-	//console.log('a: ' + this.x + ' ' + this.y + ' ' + this.z);
-	//console.log('dest: ' + x + ' ' + y + ' ' + z);
+	console.log('a: ' + this.x + ' ' + this.y + ' ' + this.z);
+	console.log('dest: ' + x + ' ' + y + ' ' + z);
 	var points = new Array();
 	points.push([this.x, this.y, this.z]);
 	points.push([this.x, this.y + 2, this.z]);

@@ -387,7 +387,7 @@ XMLscene.prototype.display = function() {
         if(!this.replay){
             this.logPicking();
             this.clearPickRegistration();
-            this.displayPickableItems(this, this.deltaTime/1000);
+            this.displayPickableItems(this.deltaTime/1000);
             this.clearPickRegistration();
         }
         else {
