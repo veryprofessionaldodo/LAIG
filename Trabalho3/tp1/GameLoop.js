@@ -380,7 +380,7 @@ GameLoop.prototype.loop = function(obj) {
             obj.picked = false;
             this.scene.setPickEnabled(false);
         }
-        if(this.gameDifficulty !== null && this.gameType !== null){
+        if((this.gameDifficulty !== null && this.gameType !== null) || this.gameType == 0){
             this.BEGIN_PHASE = false;
             this.GAME_LOOP = true;
             this.scene.updateCamera(this.PLAYER);
