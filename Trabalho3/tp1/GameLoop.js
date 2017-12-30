@@ -281,7 +281,16 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                 this.GAME_LOOP = false;
                 this.BEGIN_PHASE = false;
 
-                this.scene.winTile.update(parseInt(this.board.pieces[i].id[5]));
+                var winner = parseInt(this.board.pieces[i].id[5]);
+
+
+                // Push king to correct position
+                if (winner == 1)
+                    pieceNumber = 0;
+                else 
+                    pieceNumber = 15;
+
+                this.scene.winTile.update(winner);
                 //this.scene.updateCamera('Beggining');
                 this.resetGame();
             }   
@@ -519,8 +528,14 @@ GameLoop.prototype.handleReplyUpdateAIMove = function(data, gameLoop){
             gameLoop.pickedPiece.picked = true;
             gameLoop.pickedBoardCell.picked = true;
     }
-    else  // GAME OVER HERE
+    else  {
         gameLoop.END_GAME = true;
+        gameLoop.GAME_LOOP = false;
+        gameLoop.BEGIN_PHASE = false;
+
+        gameLoop.scene.winTile.update(parseInt(this.board.pieces[i].id[5]));
+        gameLoop.resetGame();
+    }
     
     return responseString;
 }

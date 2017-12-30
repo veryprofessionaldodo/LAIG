@@ -10,8 +10,8 @@
 	}
 
 	this.radius = values[0];
-    this.slices = values[2];
     this.stacks = values[1];
+    this.slices = values[2];
  
     this.initBuffers();
  };
