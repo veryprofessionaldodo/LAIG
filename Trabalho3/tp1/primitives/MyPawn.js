@@ -6,7 +6,7 @@ function MyPawn(scene){
     CGFobject.call(this,scene);
     this.scene = scene;
     this.quad = new MyQuad(this.scene, "0 4 5 0");
-    this.cylinder = new MyCylinder(this.scene, 30,30);
+    this.cylinder = new MyCylinder(this.scene, [30, 1, 1, 30, 30]);
     this.sphere = new MySphere(this.scene,"2 10 10");
     this.initBuffers();
 }
