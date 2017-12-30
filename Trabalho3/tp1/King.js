@@ -67,7 +67,7 @@ King.prototype.move = function(x,y,z, newBoardCell){
 	this.x = x;
 	this.z = z;
 
-	this.animation = new BezierAnimation(this.scene, 2, points);
+	this.animation = new BezierAnimation(this.scene, 3, points);
 }
 /**
 	Returns the king's current board cell

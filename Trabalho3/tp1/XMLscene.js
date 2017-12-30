@@ -121,13 +121,17 @@ XMLscene.prototype.initCameras = function() {
 
     this.cameraPositions = [];
     // Beggining camera for the different scenes
-    if(this.currentEnvironment === 'scene1.xml')
+    if(this.currentEnvironment === 'scene1.xml'){
         this.cameraPositions[0] = new CameraPosition('Beggining', vec3.fromValues(-1, 1, 17), vec3.fromValues(-1, -2, 0));
-    else if (this.currentEnvironment === 'scene2.xml')
+        this.cameraPositions[1] = new CameraPosition('Player 2', vec3.fromValues(-1, 15, -15), vec3.fromValues(-1, 0, 0));// red
+        this.cameraPositions[2] = new CameraPosition('Player 1', vec3.fromValues(-1, 15, 15), vec3.fromValues(-1, 0, 0));// white
+    }
+    else if (this.currentEnvironment === 'scene2.xml'){
         this.cameraPositions[0] = new CameraPosition('Beggining', vec3.fromValues(-5, 3, -11), vec3.fromValues(-35, 1, -12));
+        this.cameraPositions[1] = new CameraPosition('Player 2', vec3.fromValues(-1, 17, -17), vec3.fromValues(-1, 0, 0)); // red
+        this.cameraPositions[2] = new CameraPosition('Player 1', vec3.fromValues(-1, 17, 17), vec3.fromValues(-1, 0, 0)); // white
+    }
     // Player cameras
-    this.cameraPositions[1] = new CameraPosition('Player 1', vec3.fromValues(-1, 15, -15), vec3.fromValues(-1, 0, 0));
-    this.cameraPositions[2] = new CameraPosition('Player 2', vec3.fromValues(-1, 15, 15), vec3.fromValues(-1, 0, 0));
     // End Camera
     this.cameraPositions[3] = new CameraPosition('End', vec3.fromValues(15, 10, 0), vec3.fromValues(-1, 3, 0));
 
@@ -355,6 +359,7 @@ XMLscene.prototype.changeEnvironment = function(filename) {
     if(filename !== this.currentEnvironment){
         this.currentEnvironment = filename;
         this.setPickEnabled(true);
+        this.displayWinner = false;
         this.board.resetElements();
         this.gameLoop.makeRequest("reset");
         this.gameLoop.resetGameWithOptions();
@@ -487,13 +492,16 @@ XMLscene.prototype.animateCamera = function(deltaTime){
 */
 XMLscene.prototype.resetGame = function(){
     this.setPickEnabled(true);
+    this.displayWinner = false;
     this.gameLoop.resetGame();
     this.interface.removeCounter();
     this.board.resetElements();
+    this.scoreWhite = new ScoreTile(this, 0, -5.8, 6, 2.5);
+    this.scoreRed = new ScoreTile(this, 1, -5.8, 6, -1);
     this.gameLoop.makeRequest("reset");
     this.initBoardCells();
     this.initPieces();
-    this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[1].position,this.cameraPositions[1].target);
+    this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[2].position,this.cameraPositions[2].target);
     this.currentCameraID = this.cameraPositions[1].name;
     this.cameraAnimation = null;
 }
@@ -503,7 +511,10 @@ XMLscene.prototype.resetGame = function(){
 */
 XMLscene.prototype.resetGameOptions = function(){
     this.setPickEnabled(true);
+    this.displayWinner = false;
     this.board.resetElements();
+    this.scoreWhite = new ScoreTile(this, 0, -5.8, 6, 2.5);
+    this.scoreRed = new ScoreTile(this, 1, -5.8, 6, -1);
     this.interface.removeCounter();
     this.gameLoop.makeRequest("reset");
     this.gameLoop.resetGameWithOptions();

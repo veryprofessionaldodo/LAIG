@@ -6,8 +6,9 @@ function GameLoop(scene) {
     this.stackedMoves = [];
     this.replayCurrentMove = 0;
     this.startedReplay = false;
+    this.noMoreMoves = false; // game end because a player can't make more moves
     this.waitTime = 1;
-    this.waitTimeAI = 3;
+    this.waitTimeAI = 2;
 
     this.board = scene.board;
     this.auxWhiteBoard = scene.auxWhiteBoard;
@@ -77,7 +78,7 @@ GameLoop.prototype.handleReply = function(data, gameLoop) {
     Checks if a piece had been removed from the board and revives it again, as well has updating the cameras
 */
 GameLoop.prototype.reverseMove = function() {
-    if (this.stackedMoves.length > 0) {
+    if (this.stackedMoves.length > 0 && this.GAME_LOOP) {
         var moveToBeReversed = this.stackedMoves[this.stackedMoves.length-1];
         moveToBeReversed.reverse();
 
@@ -291,8 +292,8 @@ GameLoop.prototype.removeEliminatedPieces = function(responseString, position) {
 }
 
 /**
-  If a piece needs to be removed, takes it off the board, places it in the respective auxiliary board, 
-  and generates a removal animation.
+* If a piece needs to be removed, takes it off the board, places it in the respective auxiliary board, 
+* and generates a removal animation.
 */
 GameLoop.prototype.removeByPosition = function(positionString) {
     for (var i = 0; i < this.board.pieces.length; i++) {
@@ -491,7 +492,12 @@ GameLoop.prototype.update = function(deltaTime) {
         type = this.player2Type;
 
     if(this.MAKING_MOVE && this.END_GAME){
-        if(this.pickedPiece.animation.endAnimation){
+        if(this.noMoreMoves){
+            this.MAKING_MOVE = false;
+            this.scene.updateCamera('End');
+            return;
+        }
+        else if(this.pickedPiece.animation.endAnimation){
             this.MAKING_MOVE = false;
             this.pickedPiece = null;
             this.pickedBoardCell = null;
@@ -508,6 +514,7 @@ GameLoop.prototype.update = function(deltaTime) {
             this.MAKING_MOVE = false;
             this.GAME_LOOP = true;
             this.PLAYER = 1 - this.PLAYER;
+            this.waitTimeAI = 2;
 
             this.currentMoveAI = null;
             this.pickedPiece = null;
@@ -554,7 +561,6 @@ GameLoop.prototype.updateAIMove = function(deltaTime) {
 
         this.WAITING = false;
         this.MAKING_MOVE = true;
-        this.waitTimeAI = 3;
     }
     else if(this.GAME_LOOP){
         var requestString = "[get_ai_move," + (this.PLAYER + 1) + "," + (this.gameDifficulty+1) +"]";
@@ -584,8 +590,12 @@ GameLoop.prototype.handleReplyUpdateAIMove = function(data, gameLoop){
             gameLoop.pickedPiece.picked = true;
             gameLoop.pickedBoardCell.picked = true;
     }
-    else  // GAME OVER HERE
+    else {
         gameLoop.END_GAME = true;
+        gameLoop.MAKING_MOVE = true;
+        gameLoop.noMoreMoves = true;
+        gameLoop.scene.winTile.update((1 - gameLoop.PLAYER) + 1);
+    }
     
     return responseString;
 }
@@ -659,14 +669,15 @@ GameLoop.prototype.resetGame = function() {
     this.stackedMoves = [];
     this.replayCurrentMove = 0;
     this.startedReplay = false;
+    this.noMoreMoves = false;
     this.waitTime = 1;
-    this.waitTimeAI = 3;
+    this.waitTimeAI = 2;
 
     this.auxRedPosition = 0;
     this.auxWhitePosition = 0;
 
-    this.BEGIN_PHASE = true;
-    this.GAME_LOOP = false;
+    this.BEGIN_PHASE = false;
+    this.GAME_LOOP = true;
     this.PLAYER = 1; // 1 - White, 0 - Red
     this.MAKING_MOVE = false;
     this.WAITING = false;
@@ -687,8 +698,9 @@ GameLoop.prototype.resetGameWithOptions = function() {
     this.stackedMoves = [];
     this.replayCurrentMove = 0;
     this.startedReplay = false;
+    this.noMoreMoves = false;
     this.waitTime = 1;
-    this.waitTimeAI = 3;
+    this.waitTimeAI = 2;
 
     this.auxRedPosition = 0;
     this.auxWhitePosition = 0;
@@ -742,7 +754,7 @@ GameLoop.prototype.replay = function(deltaTime) {
             if(this.stackedMoves[this.replayCurrentMove].isAnimationOver()){
                 this.MAKING_MOVE = false;
                 this.PLAYER = 1 - this.PLAYER;
-                if(this.replayCurrentMove - 1 !== this.stackedMoves.length){
+                if(this.replayCurrentMove !== (this.stackedMoves.length - 1)){
                     this.scene.updateCamera(this.PLAYER);
                     this.waitTime = 1;
                 }

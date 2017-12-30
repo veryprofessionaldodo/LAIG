@@ -265,26 +265,26 @@
 
     <NODE id="boardAuxWhite" pickable="false">
         <MATERIAL id="null"/>
-        <TEXTURE id="clear"/>
+        <TEXTURE id="marble"/>
 
         <TRANSLATION x="0.5" y="0" z="5" />
         <SCALE sx="0.1" sy="0.1" sz="0.1" />
         <SCALE sx="8" sy="0.5" sz="4" />
 
         <DESCENDANTS>
-            <NODEREF id="cubo_board" />
+            <NODEREF id="cubo" />
         </DESCENDANTS>
     </NODE>
 
     <NODE id="boardAuxRed" pickable="false">
         <MATERIAL id="null"/>
-        <TEXTURE id="clear"/>
+        <TEXTURE id="marble"/>
 
         <TRANSLATION x="0.5" y="0" z="-6" />
         <SCALE sx="0.8" sy="0.05" sz="0.4" />
 
         <DESCENDANTS>
-            <NODEREF id="cubo_board" />
+            <NODEREF id="cubo" />
         </DESCENDANTS>
     </NODE>
 
@@ -351,83 +351,6 @@
             <NODEREF id="maquina_maquina" />
         </DESCENDANTS>
     </NODE>
-
-<!-- 
-     <NODE id="label" pickable="false">
-        <MATERIAL id="null" />    
-        <TEXTURE id="latrunculli" />
-
-        <TRANSLATION x="0" y="2" z="-1" />
-        <ROTATION axis="x" angle="-90" />
-        <SCALE sx="2" sy="0.1" sz="0.5" />
-
-        <DESCENDANTS>
-            <NODEREF id="cubo" />
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="facil" pickable="true">
-        <MATERIAL id="null" />    
-        <TEXTURE id="facil" />
-
-        <TRANSLATION x="-1" y="-2" z="6.5" />
-        <SCALE sx="0.35" sy="0.1" sz="0.15" />
-
-        <DESCENDANTS>
-            <NODEREF id="cubo" />
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="dificil" pickable="true">
-        <MATERIAL id="null" />    
-        <TEXTURE id="dificil" />
-
-        <TRANSLATION x="1" y="-2" z="6.5" />
-        <SCALE sx="0.35" sy="0.1" sz="0.15" />
-
-        <DESCENDANTS>
-            <NODEREF id="cubo" />
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="humano_humano" pickable="true">
-        <MATERIAL id="null" />    
-        <TEXTURE id="humVhum" />
-
-        <TRANSLATION x="0" y="0.3" z="6.5" />
-        <SCALE sx="0.5" sy="0.15" sz="0.15" />
-
-        <DESCENDANTS>
-            <NODEREF id="cubo" />
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="humano_maquina" pickable="true">
-        <MATERIAL id="null" />    
-        <TEXTURE id="humVcom" />
-
-        <TRANSLATION x="0" y="-0.45" z="6.5" />
-        <SCALE sx="0.5" sy="0.15" sz="0.15" />
-
-        <DESCENDANTS>
-            <NODEREF id="cubo" />
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="maquina_maquina" pickable="true">
-        <MATERIAL id="null" />    
-        <TEXTURE id="comVcom" />
-
-        <TRANSLATION x="0" y="-1.2" z="6.5" />
-        <SCALE sx="0.5" sy="0.15" sz="0.17" />
-
-        <DESCENDANTS>
-            <NODEREF id="cubo" />
-        </DESCENDANTS>
-    </NODE>
-
-   
--->
 
     <NODE id="label" pickable="false">
         <MATERIAL id="defaultMaterial" />    
