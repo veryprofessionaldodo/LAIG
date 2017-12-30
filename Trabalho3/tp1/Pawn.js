@@ -1,3 +1,7 @@
+/**
+	Contains information about the pawn piece. Contains its position, current board cell, texture and material ID
+	and the its graph node. 
+*/
 function Pawn(scene, id, node, boardCell, x, y, z, texture, material){
 	Piece.call(this, scene);
 	this.scene = scene;
@@ -22,6 +26,9 @@ function Pawn(scene, id, node, boardCell, x, y, z, texture, material){
 Pawn.prototype = Object.create(Pawn.prototype);
 Pawn.prototype.constructor = Pawn;
 
+/**
+	Displays the node, updates the animation if there is one, and activates the shader if the pawn was picked
+*/
 Pawn.prototype.display = function(deltaTime) {
 	if(this.animation !== null){
 		if(this.animation.endAnimation){
@@ -38,19 +45,19 @@ Pawn.prototype.display = function(deltaTime) {
 	material.setTexture(texture[0]);
 	material.apply();
 	this.scene.multMatrix(this.matrix);
-	//this.scene.translate(this.x,this.y,this.z);
 	if(this.picked)
 		this.scene.setActiveShader(this.scene.pickedElement);
 	this.node.displayPiece();
 	this.scene.setActiveShader(this.scene.defaultShader);
 	this.scene.popMatrix();
 }
-
+/**
+	Creates a bezier animation that starts at the current position and ends on the chosen board cell position, and 
+	updates its board cell to the new one
+*/
 Pawn.prototype.move = function(x,y,z, newBoardCell){
 	this.boardCell = newBoardCell;
 
-	console.log('a: ' + this.x + ' ' + this.y + ' ' + this.z);
-	console.log('dest: ' + x + ' ' + y + ' ' + z);
 	var points = new Array();
 	points.push([this.x, this.y, this.z]);
 	points.push([this.x, this.y + 2, this.z]);
@@ -59,11 +66,12 @@ Pawn.prototype.move = function(x,y,z, newBoardCell){
 
 	this.x = x;
 	this.z = z;
-	//this.y = y;
 
 	this.animation = new BezierAnimation(this.scene, 2, points);
 }
-
+/**
+	Returns the pawn's current board cell
+*/
 Pawn.prototype.returnBoardCell = function() {
 	return this.boardCell;
 }

@@ -1,3 +1,7 @@
+/**
+	Contains information about the king piece. Contains its position, current board cell, texture and material ID
+	and the its graph node. 
+*/
 function King(scene, id, node, boardCell, x, y, z, texture, material){
 	Piece.call(this, scene);
 	this.scene = scene;
@@ -22,6 +26,9 @@ function King(scene, id, node, boardCell, x, y, z, texture, material){
 King.prototype = Object.create(King.prototype);
 King.prototype.constructor = King;
 
+/**
+	Displays the node, updates the animation if there is one, and activates the shader if the king was picked
+*/
 King.prototype.display = function(deltaTime) {
 	if(this.animation !== null){
 		if(this.animation.endAnimation){
@@ -38,14 +45,16 @@ King.prototype.display = function(deltaTime) {
 	material.setTexture(texture[0]);
 	material.apply();
 	this.scene.multMatrix(this.matrix);
-	//this.scene.translate(this.x,this.y,this.z);
 	if(this.picked)
 		this.scene.setActiveShader(this.scene.pickedElement);
 	this.node.displayPiece();
 	this.scene.setActiveShader(this.scene.defaultShader);
 	this.scene.popMatrix();
 }
-
+/**
+	Creates a bezier animation that starts at the current position and ends on the chosen board cell position, and 
+	updates its board cell to the new one
+*/
 King.prototype.move = function(x,y,z, newBoardCell){
 	this.boardCell = newBoardCell;
 
@@ -57,11 +66,12 @@ King.prototype.move = function(x,y,z, newBoardCell){
 
 	this.x = x;
 	this.z = z;
-	//this.y = y;
 
 	this.animation = new BezierAnimation(this.scene, 2, points);
 }
-
+/**
+	Returns the king's current board cell
+*/
 King.prototype.returnBoardCell = function() {
 	return this.boardCell;
 }

@@ -1,5 +1,7 @@
 var degToRad = Math.PI / 180.0;
-
+/**
+    Primitive of the pawn piece
+*/
 function MyPawn(scene){
     CGFobject.call(this,scene);
     this.scene = scene;
@@ -11,7 +13,9 @@ function MyPawn(scene){
 
 MyPawn.prototype = Object.create(CGFobject.prototype);
 MyPawn.prototype.constructor=MyPawn;
-
+/**
+    Displays the primitive
+*/
 MyPawn.prototype.display = function () {
     this.scene.pushMatrix();
         this.scene.scale(0.53,0.12,0.53);

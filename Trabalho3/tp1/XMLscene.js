@@ -523,7 +523,6 @@ XMLscene.prototype.replayGame = function(){
     this.setPickEnabled(false);
     this.board.pieces = [];
     this.initPieces();
-    //this.board.moveToInitPieces();
     this.replay = true;
     this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[2].position,this.cameraPositions[2].target);
 }

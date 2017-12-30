@@ -1209,8 +1209,10 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
             
             this.log("Processing node "+nodeID);
 
-            this.nodes[nodeID] = new MyGraphNode(this,nodeID);
             // Creates node.
+            this.nodes[nodeID] = new MyGraphNode(this,nodeID);
+
+            // Saving this nodes as piece models, used to display the pieces. Will not be display with the scene
             if(nodeID === 'pawn'){
                 this.scene.pawnModel = this.nodes[nodeID];
                 this.nodes[nodeID].pieceNode = true;
@@ -1218,7 +1220,7 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                 this.scene.kingModel = this.nodes[nodeID];
                 this.nodes[nodeID].pieceNode = true;
             } 
-
+            // Pickable elements
             var pickable = this.reader.getString(children[i], 'pickable');
             if(pickable === 'true'){
                 var element = new PickableElement(this.scene, this.nodes[nodeID]);
@@ -1384,7 +1386,7 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                             var info = {"args": args, "cpline": descendants[j].children};
                             this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,type, info));
                         } 
-                        else if((type === 'pawn_primitive') || (type === 'king_primitive')){
+                        else if((type === 'pawn_primitive') || (type === 'king_primitive')){ //piece primitives
                             this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, type, null));
                         }
                         else {
@@ -1488,7 +1490,7 @@ MySceneGraph.prototype.log = function(message) {
 MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, textureID, materialID) {
     if(nodeName != null){
         var node = this.nodes[nodeName];
-        if(node.pieceNode)
+        if(node.pieceNode) //if it is a piece node, the display isn't done here
             return;
         //updates the material
         if(node.materialID !== "null"){
@@ -1516,7 +1518,6 @@ MySceneGraph.prototype.recursiveDisplay = function(deltaTime, nodeName, matrix, 
         }
         //multiplies the matrixes
         this.scene.multMatrix(node.transformMatrix);
-        node.display();
 
         if(node.leaves.length > 0){
             for(var i = 0; i < node.leaves.length; i++){

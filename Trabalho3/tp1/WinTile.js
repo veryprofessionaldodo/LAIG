@@ -1,5 +1,7 @@
 var degToRad = Math.PI / 180.0;
-
+/**
+	Contains information about the winner of the game and displays that information
+*/
 function WinTile(scene, id, x, y, z){
 	this.scene = scene;
 	this.id = id;
@@ -14,12 +16,15 @@ function WinTile(scene, id, x, y, z){
 
 WinTile.prototype = Object.create(WinTile.prototype);
 WinTile.prototype.constructor = WinTile;
-
+/**
+	Updates the winner of the game
+*/
 WinTile.prototype.update = function(winner){
 	this.winner = winner;
-	console.log("tentei "  + this.winner);
 }
-
+/**
+	Selects the correct texture based on the winner and displays it
+*/
 WinTile.prototype.display = function(deltaTime) {
 	if (this.winner != null) {
 		this.scene.pushMatrix();

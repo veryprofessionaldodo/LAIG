@@ -1,5 +1,7 @@
 var degToRad = Math.PI / 180.0;
-
+/**
+	Contains the node and information about the pickable Element. Usually used to choose the game options
+*/
 function PickableElement(scene, node){
 	this.scene = scene;
 	this.node = node;
@@ -12,7 +14,9 @@ function PickableElement(scene, node){
 
 PickableElement.prototype = Object.create(PickableElement.prototype);
 PickableElement.prototype.constructor = PickableElement;
-
+/**
+	Displays the pickable elements, using its texture and material
+*/
 PickableElement.prototype.display = function(deltaTime) {
 	if(this.picked){
 		this.scene.setActiveShader(this.scene.pickedElement);
@@ -31,7 +35,9 @@ PickableElement.prototype.display = function(deltaTime) {
 		this.displayNode(deltaTime, this.node.nodeID);
 	}
 }
-
+/**
+	Displays the node of the pickable element, using a recursive function
+*/
 PickableElement.prototype.displayNode = function(deltaTime, nodeID) {
 	this.scene.pushMatrix();
 	var node = this.scene.graph.nodes[nodeID];

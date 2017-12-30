@@ -1,5 +1,7 @@
 var degToRad = Math.PI / 180.0;
-
+/**
+	Contains information about its position and the piece that it may contain
+*/
 function BoardCell(scene, id, x, y, z){
 	this.scene = scene;
 	this.id = id;
@@ -15,7 +17,9 @@ function BoardCell(scene, id, x, y, z){
 
 BoardCell.prototype = Object.create(BoardCell.prototype);
 BoardCell.prototype.constructor = BoardCell;
-
+/**
+	Displays the board cell and, if it was picked, uses a shader to give an extra effect
+*/
 BoardCell.prototype.display = function(deltaTime) {
 	this.scene.pushMatrix();
 	this.scene.translate(this.x,this.y,this.z);

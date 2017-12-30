@@ -50,29 +50,24 @@ MyInterface.prototype.addLightsGroup = function(lights) {
         }
     }
 }
-
- /*
-MyInterface.prototype.addSelectablesGroup = function(selectables, graph) {
-    this.gui.add(this.scene, "selectables", selectables).onChange(function(v) { 
-            for (var i = 0; i < selectables.length; i++) {
-                if (selectables[i] == v) {
-                    graph.activeSelectable = i; 
-                }
-            }
-     });
-
-}*/
-
+/**
+    Adds the game options, such as reset the game, reset the game and its options and replay the game
+*/
 MyInterface.prototype.addGameOptions = function(){
-    this.gui.add(this.scene,'resetGame').name("Reset Game");
+    this.gui.add(this.scene,'resetGame').name("Restart Game");
     this.gui.add(this.scene,'resetGameOptions').name("Reset Options");
     this.gui.add(this.scene,'replayGame').name("Replay Game");
 }
 
+/**
+    Adds a counter to the interface
+*/
 MyInterface.prototype.addCounter = function(count, gameLoop){
     this.playTimeController = this.gui.add(gameLoop, "counter", 0, count).name("Time to Play");
 }
-
+/**
+    Updates the counter with the current time left to make a move
+*/
 MyInterface.prototype.updateCounter = function(){
     var update = function(){};
     requestAnimationFrame(update);
@@ -83,18 +78,24 @@ MyInterface.prototype.updateCounter = function(){
     }
     update();
 }
-
+/**
+    Removes counter from the interface
+*/
 MyInterface.prototype.removeCounter = function() {
     if(this.playTimeController !== null){
         this.gui.remove(this.playTimeController);
         this.playTimeController = null;
     }
 }
-
+/**
+    Adds to the interface a button to undo a move
+*/
 MyInterface.prototype.addUndoButton = function(gameLoop) {
     this.gui.add(gameLoop, 'reverseMove').name("Undo");
 }
-
+/**
+    Adds the environments group to the interface
+*/
 MyInterface.prototype.addEnvironmentGroup = function(environments, scene){
     this.gui.add(scene, "environments", environments).onChange(function(v) { 
         scene.changeEnvironment(v); 

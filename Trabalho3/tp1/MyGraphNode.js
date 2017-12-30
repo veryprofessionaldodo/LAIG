@@ -20,6 +20,7 @@ function MyGraphNode(graph, nodeID) {
     // The texture ID.
     this.textureID = null ;
 
+    // if this node is a piece model or a pickable item
     this.pieceNode = false;
 
     // The Animations.
@@ -43,7 +44,9 @@ MyGraphNode.prototype.addChild = function(nodeID) {
 MyGraphNode.prototype.addLeaf = function(leaf) {
     this.leaves.push(leaf);
 }
-
+/**
+    If the node is a model of a piece, displays its leaf
+*/
 MyGraphNode.prototype.displayPiece = function() {
     this.graph.scene.multMatrix(this.transformMatrix);
     for(var i = 0; i < this.leaves.length; i++){
@@ -51,6 +54,3 @@ MyGraphNode.prototype.displayPiece = function() {
     }
 }
 
-MyGraphNode.prototype.display = function(deltaTime) {
-
-}

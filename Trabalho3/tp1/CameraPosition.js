@@ -1,3 +1,6 @@
+/**
+	Contains the name, position and target of a camera
+*/
 function CameraPosition(name, position, target){
 	this.name = name;
 	this.position = position;

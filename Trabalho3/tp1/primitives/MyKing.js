@@ -1,5 +1,8 @@
 var degToRad = Math.PI / 180.0;
 
+/**
+    Primitive of the king piece
+*/
 function MyKing(scene){
     CGFobject.call(this,scene);
     this.scene = scene;
@@ -9,7 +12,9 @@ function MyKing(scene){
 
 MyKing.prototype = Object.create(CGFobject.prototype);
 MyKing.prototype.constructor=MyKing;
-
+/**
+    Displays the primitive
+*/
 MyKing.prototype.display = function () {
     this.scene.pushMatrix();
         this.scene.translate(-0,-0.9,-0.3);

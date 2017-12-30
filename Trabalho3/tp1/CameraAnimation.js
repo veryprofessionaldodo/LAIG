@@ -1,14 +1,17 @@
+/**
+	Animates the camera from one point to another, updating its position
+*/
 function CameraAnimation(scene, type, ori, dest){
 	this.scene = scene;
 	this.type = type;
 	this.origin = ori;
 	this.dest = dest;
+	this.timeTotal = 1;
 
 	this.originPos = this.origin.position;
 	this.destPos = this.dest.position;
 
 	if(this.type === 0){
-		this.timeTotal = 1;
 		this.positionDist = vec3.create();
 		vec3.subtract(this.positionDist, this.destPos, this.originPos);
 
@@ -33,7 +36,6 @@ function CameraAnimation(scene, type, ori, dest){
 		this.travelledDisTar = vec3.create(0, 0, 0);
 	}	
 	else if(this.type === 1){
-		this.timeTotal = 1;
 		this.radius = Math.abs(this.originPos[2] - this.destPos[2])/2;
 		this.totalDistance = Math.PI * this.radius;
 		this.w = (this.totalDistance / this.timeTotal)/this.radius;
@@ -45,7 +47,9 @@ function CameraAnimation(scene, type, ori, dest){
 
 CameraAnimation.prototype = Object.create(CameraAnimation.prototype);
 CameraAnimation.prototype.constructor = CameraAnimation;
-
+/**
+	Checks if the animation is not over, comparing the starting position and target with the final one
+*/
 CameraAnimation.prototype.stillNotOver = function() {
 	return (Math.abs(this.travelledDisPos[0]) < Math.abs(this.positionDist[0]) || 
 			Math.abs(this.travelledDisPos[1]) < Math.abs(this.positionDist[1]) || 
@@ -54,7 +58,9 @@ CameraAnimation.prototype.stillNotOver = function() {
 			Math.abs(this.travelledDisTar[1]) < Math.abs(this.targetDist[1]) || 
 			Math.abs(this.travelledDisTar[2]) < Math.abs(this.targetDist[2]))
 }
-
+/**
+	Updates the camera according to the correct type of camera animation
+*/
 CameraAnimation.prototype.update = function(deltaTime){
 	if(this.type === 0){
 		this.updateFirstType(deltaTime);
@@ -64,15 +70,15 @@ CameraAnimation.prototype.update = function(deltaTime){
 	}
 	
 }
-
+/**
+	Updates the camera position and target. Used in animations from and to the beggining camera and to the end
+	camera
+*/
 CameraAnimation.prototype.updateFirstType = function(deltaTime){
 	if(this.stillNotOver()){
 		var distX = this.velPosition[0] * deltaTime;
 		var distY = this.velPosition[1] * deltaTime;
 		var distZ = this.velPosition[2] * deltaTime;
-		/*var dists = vec3.create(distX, distY, distZ);
-		this.origin.translate([distX, distY, distZ]);
-		vec3.add(this.travelledDisPos, dists, this.travelledDisPos);*/
 
 		if(Math.abs(this.travelledDisPos[0]) < Math.abs(this.positionDist[0])){
 			this.origin.position[0] += distX;
@@ -110,7 +116,9 @@ CameraAnimation.prototype.updateFirstType = function(deltaTime){
 		this.endAnimation = true;
 	}
 }
-
+/**
+	Updates the position of the camera. Used between the players cameras
+*/
 CameraAnimation.prototype.updateSecondType = function(deltaTime){
 	if(this.deltaAngle < Math.PI){
 		this.deltaAngle += this.w * deltaTime;

@@ -1,3 +1,6 @@
+/**
+	Mother class of King a Pawn classes
+*/
 function Piece(scene){
 	this.scene = scene;
 }

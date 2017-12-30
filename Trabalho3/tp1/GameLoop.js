@@ -291,7 +291,8 @@ GameLoop.prototype.removeEliminatedPieces = function(responseString, position) {
 }
 
 /**
-
+  If a piece needs to be removed, takes it off the board, places it in the respective auxiliary board, 
+  and generates a removal animation.
 */
 GameLoop.prototype.removeByPosition = function(positionString) {
     for (var i = 0; i < this.board.pieces.length; i++) {
