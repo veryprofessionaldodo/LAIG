@@ -568,7 +568,7 @@
         <MATERIAL id="trunkTreeMaterial" />     
         <TEXTURE id="trunk" />                  
 
-        <TRANSLATION x="5" y="6" z="-4" />
+        <TRANSLATION x="5" y="4" z="6" />
         <ROTATION axis="x" angle="90" />
 
         <DESCENDANTS>
