@@ -1,4 +1,7 @@
- function GameLoop(scene) {
+/**
+    Contains the state of the game and controlls all the actions taken place before, during and after the game.
+*/
+function GameLoop(scene) {
     this.scene = scene;
     this.stackedMoves = [];
     this.replayCurrentMove = 0;
@@ -15,13 +18,16 @@
 
     this.BEGIN_PHASE = true;
     this.GAME_LOOP = false;
-    this.PLAYER = 1; // 1 - White, 0 - Red
+    // 1 - White, 0 - Red
+    this.PLAYER = 1; 
     this.WAITING = false;
     this.MAKING_MOVE = false;
     this.END_GAME = false;
 
-    this.gameDifficulty = null; // 0 - facil, 1 - dificil
-    this.gameType = null; // 0 - humano/humano, 1 - humano/maquina, 2 - maquina/maquina
+    // 0 - facil, 1 - dificil
+    this.gameDifficulty = null; 
+    // 0 - humano/humano, 1 - humano/maquina, 2 - maquina/maquina
+    this.gameType = null; 
 
     this.pickedPiece = null;
     this.pickedBoardCell = null;
@@ -34,7 +40,9 @@
 
     this.counter = null;
 }
-
+/**
+    AJAX request connecting the prolog server to the javascript
+*/
 GameLoop.prototype.getPrologRequest = function(requestString, onSuccess, gameLoop) {
     var requestPort = 8081
     var request = new XMLHttpRequest();
@@ -50,19 +58,24 @@ GameLoop.prototype.getPrologRequest = function(requestString, onSuccess, gameLoo
 
     return request.response;
 }
-
+/**
+    Makes the request to the prolog server
+*/
 GameLoop.prototype.makeRequest = function(request) {
-    // Get Parameter Values
-    console.log("MADE REQUEST");
     console.log(request);
     this.getPrologRequest(request, this.handleReply, this);
 }
-
+/**
+    Handles the reply from the prolog server. Used to reset the game
+*/
 GameLoop.prototype.handleReply = function(data, gameLoop) {
     console.log("Response");
     console.log(data.target.response);
 }
-
+/**
+    Reverses the last move that was made, making a request to prolog and updating the board and the previous moves.
+    Checks if a piece had been removed from the board and revives it again, as well has updating the cameras
+*/
 GameLoop.prototype.reverseMove = function() {
     if (this.stackedMoves.length > 0) {
         var moveToBeReversed = this.stackedMoves[this.stackedMoves.length-1];
@@ -100,6 +113,9 @@ GameLoop.prototype.reverseMove = function() {
     }
 }
 
+/**
+    Makes a request to prolog to check if the game is Over
+*/
 GameLoop.prototype.checkGameOver = function() {
     var requestString = "[is_game_over," + this.PLAYER + "]";
 
@@ -107,7 +123,9 @@ GameLoop.prototype.checkGameOver = function() {
 
     return this.getPrologRequest(requestString, this.handleReplyGameOver,this);
 }
-
+/**
+    Handles the reply to the request to check if the game is over
+*/ 
 GameLoop.prototype.handleReplyGameOver = function(data,gameLoop){
     var responseString = data.target.response;
 
@@ -118,7 +136,9 @@ GameLoop.prototype.handleReplyGameOver = function(data,gameLoop){
     else
         return false;
 }
-
+/**
+    Requests prolog to undo the previous move
+*/
 GameLoop.prototype.reverseMoveOnProlog = function(gameMove) {
     var previousPositionString = gameMove.cellDest.id;
     var currentPositionString = gameMove.previousCell.id;
@@ -137,7 +157,9 @@ GameLoop.prototype.reverseMoveOnProlog = function(gameMove) {
 
     var responseString = this.getPrologRequest(requestString, this.handleReplyReverse, this);  
 }
-
+/**
+    Handles the reply from prolog to undo the previous move
+*/
 GameLoop.prototype.handleReplyReverse = function(data, gameLoop){
     var responseString = data.target.response;
 
@@ -146,7 +168,9 @@ GameLoop.prototype.handleReplyReverse = function(data, gameLoop){
 
     return responseString;
 }
-
+/**
+    Puts a piece back on the board that had already been removed from it, and makes a request to prolog
+*/
 GameLoop.prototype.revivePieceProlog = function(eliminationMove) {
     var positionString = eliminationMove.previousCell.id;
 
@@ -168,7 +192,9 @@ GameLoop.prototype.revivePieceProlog = function(eliminationMove) {
 
     var responseString = this.getPrologRequest(requestString, this.handleReplyRevive, this); 
 }
-
+/**
+    Handles the reply from the prolog about reviving a piece
+*/
 GameLoop.prototype.handleReplyRevive = function(data, gameLoop){
     var responseString = data.target.response;
 
@@ -177,7 +203,9 @@ GameLoop.prototype.handleReplyRevive = function(data, gameLoop){
 
     return responseString;
 }
-
+/**
+    Checks if a move is valid, by making prolog a request with the current player and the move desired
+*/
 GameLoop.prototype.attemptMove = function() {
     var gameMove = new GameMove(this.scene.board, this.pickedPiece.id, this.pickedPiece.boardCell.id, this.pickedBoardCell.id,
         this.pickedPiece, this.pickedPiece.boardCell, this.pickedBoardCell, 0);
@@ -189,7 +217,10 @@ GameLoop.prototype.attemptMove = function() {
 
     return this.getPrologRequest(requestString, this.handleReplyAttemptToMove, this);  
 }
-
+/**
+    Handles the reply from prolog about the requested game move. If a move is valid, the state of the game is updated
+    by executing the move. If a move is not valid, the player has to chose again
+*/
 GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
     
     var responseString = data.target.response;
@@ -199,7 +230,6 @@ GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
 
 
     if (responseString[1] == 'o' && responseString[2] == 'k') {
-        //this.PLAYER = (this.PLAYER + 1)%2 + 1;
         var eliminationString = gameLoop.removeEliminatedPieces(responseString,5);
         
         if (eliminationString!= null) 
@@ -218,8 +248,6 @@ GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
         gameLoop.WAITING = false;
         gameLoop.scene.interface.removeCounter();
         gameLoop.counter = null;
-
-        //this.END_GAME = (this.checkGameOver() || this.END_GAME);
                 
         return true;
     }
@@ -233,7 +261,9 @@ GameLoop.prototype.handleReplyAttemptToMove = function(data, gameLoop){
         return false;
     }
 }
-
+/**
+    Turns a move into a string, to passed as a prolog request
+*/
 GameLoop.prototype.moveToString = function(moveArgs) {
     var cellBefore = this.IDtoPosition(moveArgs.piece.boardCell.id);
     var cellAfter = this.IDtoPosition(moveArgs.cellDest.id);
@@ -242,7 +272,9 @@ GameLoop.prototype.moveToString = function(moveArgs) {
 
     return moveString;
 }
-
+/**
+    Parses a response string and returns the pieces to be taken from the board
+*/
 GameLoop.prototype.removeEliminatedPieces = function(responseString, position) {
     var eliminatedString = [];
 
@@ -257,7 +289,9 @@ GameLoop.prototype.removeEliminatedPieces = function(responseString, position) {
     }
     return null;
 }
-
+/**
+    
+*/
 GameLoop.prototype.removeByPosition = function(positionString) {
     for (var i = 0; i < this.board.pieces.length; i++) {
         var boardId = this.board.pieces[i].boardCell.id;
@@ -275,15 +309,8 @@ GameLoop.prototype.removeByPosition = function(positionString) {
             var pieceNumber = parseInt(pieceNumberString.join(""));
             
             if (this.board.pieces[i].id[0] == 'k') { // Is King
-                console.log("END GAME, King is ");
-                console.log(this.board.pieces[i].id);
                 this.END_GAME = true;
-                this.GAME_LOOP = false;
-                this.BEGIN_PHASE = false;
-
                 this.scene.winTile.update(parseInt(this.board.pieces[i].id[5]));
-                //this.scene.updateCamera('Beggining');
-                this.resetGame();
             }   
             
             if (pieceNumber > 10) { // Aux White
@@ -354,7 +381,7 @@ GameLoop.prototype.removeByPosition = function(positionString) {
     }
 }
 
-GameLoop.prototype.loop = function(obj) {
+GameLoop.prototype.updatePicking = function(obj) {
     if(this.BEGIN_PHASE){ //choose difficulty
         if(obj.id === 'facil'){
             this.gameDifficulty = 0;
@@ -442,8 +469,20 @@ GameLoop.prototype.update = function(deltaTime) {
         type = this.player1Type;
     else
         type = this.player2Type;
-
-    if(this.MAKING_MOVE){
+    if(this.MAKING_MOVE && this.END_GAME){
+        if(this.pickedPiece.animation.endAnimation){
+            this.MAKING_MOVE = false;
+            this.pickedPiece = null;
+            this.pickedBoardCell = null;
+            this.scene.updateCamera('End');
+            return;
+        }
+    }
+    else if(this.END_GAME){
+        if(this.scene.cameraAnimation === null)
+            this.scene.displayWinner = true;
+    }
+    else if(this.MAKING_MOVE){
         if(this.pickedPiece.animation.endAnimation){
             this.MAKING_MOVE = false;
             this.GAME_LOOP = true;
@@ -643,7 +682,7 @@ GameLoop.prototype.resetGameWithOptions = function() {
 
 GameLoop.prototype.replay = function(deltaTime) {
     if(!this.startedReplay){
-        this.PLAYER = 0;
+        this.PLAYER = 1;
         this.startedReplay = true;
         this.stackedMoves[this.replayCurrentMove].executeReplay();
         this.MAKING_MOVE = true;
@@ -654,22 +693,33 @@ GameLoop.prototype.replay = function(deltaTime) {
             this.startedReplay = false;
             this.scene.replay = false;
             this.scene.setPickEnabled(true);
-            //this.END_GAME = true;
+            if(this.END_GAME){
+                this.scene.updateCamera('End');
+            }
             return;
         }
         if(this.MAKING_MOVE){
             if(this.stackedMoves[this.replayCurrentMove].isAnimationOver()){
                 this.MAKING_MOVE = false;
                 this.PLAYER = 1 - this.PLAYER;
-                this.scene.updateCamera(this.PLAYER);
-                this.waitTime = 1;
+                if(this.replayCurrentMove - 1 !== this.stackedMoves.length){
+                    this.scene.updateCamera(this.PLAYER);
+                    this.waitTime = 1;
+                }
             }
         }
         if(this.scene.cameraAnimation === null && !this.MAKING_MOVE){
             if(this.waitTime <= 0){
                 this.replayCurrentMove += 1;
                 if(this.replayCurrentMove < this.stackedMoves.length){
-                    this.stackedMoves[this.replayCurrentMove].executeReplay();
+                    if(this.stackedMoves[this.replayCurrentMove].outofBoard === 1){
+                        this.stackedMoves[this.replayCurrentMove].executeReplay();
+                        this.stackedMoves[this.replayCurrentMove+1].executeReplay();
+                        this.replayCurrentMove += 1;
+                    }
+                    else {
+                        this.stackedMoves[this.replayCurrentMove].executeReplay();
+                    }
                     this.MAKING_MOVE = true;
                 }
             }

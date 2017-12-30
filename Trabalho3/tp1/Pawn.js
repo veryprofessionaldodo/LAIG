@@ -24,7 +24,6 @@ Pawn.prototype.constructor = Pawn;
 
 Pawn.prototype.display = function(deltaTime) {
 	if(this.animation !== null){
-		console.log(this.animation);
 		if(this.animation.endAnimation){
 			this.animation = null;
 		}

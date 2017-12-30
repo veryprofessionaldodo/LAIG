@@ -26,12 +26,10 @@ WinTile.prototype.display = function(deltaTime) {
 
 		switch(this.winner){
 			case 1:
-				console.log("winplayer2");
-				this.scene.winPlayer2.apply();
+				this.scene.winPlayer1.apply();
 				break;
 			case 2:
-				console.log("winplayer1");
-				this.scene.winPlayer1.apply();
+				this.scene.winPlayer2.apply();
 				break;
 		}
 		this.scene.translate(this.x,this.y,this.z);

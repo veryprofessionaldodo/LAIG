@@ -17,9 +17,8 @@ GameMove.prototype.execute = function(){
 }
 
 GameMove.prototype.executeReplay = function() {
-	var cellDest = this.board.findCell(this.cellDestID);
 	var piece = this.board.findPiece(this.pieceID);
-	piece.move(cellDest.x+0.5, cellDest.y, cellDest.z-0.35, cellDest);
+	piece.move(this.cellDest.x+0.5, this.cellDest.y, this.cellDest.z-0.35, this.cellDest);
 }
 
 GameMove.prototype.reverse = function() {

@@ -11,10 +11,11 @@ function XMLscene(interface) {
 
     this.lightValues = {};
     this.selectables = {};
+    // Game environments filenames
     this.environments = ['scene1.xml', 'scene2.xml'];
     this.currentEnvironment = 'scene1.xml';
     this.playAnimations = false;
-
+    //  camera positions of the gam
     this.cameraPositions = new Array();
 }
 
@@ -22,7 +23,7 @@ XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
 /**
- * Initializes the scene, setting some WebGL defaults, initializing the camera and the axis.
+ * Initializes the scene, setting some WebGL defaults, initializing the camera, the axis and the game elements.
  */
 XMLscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
@@ -41,21 +42,26 @@ XMLscene.prototype.init = function(application) {
     
     this.axis = new CGFaxis(this);
     this.lastTime = 0;
+
+    //auxiliar flags
     this.replay = false;
     this.loadedInterface = false;
+    this.displayWinner = false;
 
+    // Game Entities
     this.board = new GameBoard(this);
     this.auxRedBoard = new AuxBoard(this, -6);
     this.auxWhiteBoard = new AuxBoard(this, 5);
-    this.environment = new Environment(this);
-    this.pawnModel = null;
-    this.kingModel = null;
-    this.pickableElements = new Array();
     this.gameLoop = new GameLoop(this);
-
     this.scoreWhite = new ScoreTile(this, 0, -5.8, 6, 2.5);
     this.scoreRed = new ScoreTile(this, 1, -5.8, 6, -1);
-    this.winTile = new WinTile(this, 0, -5.5, 5.7, 2.8);
+    this.winTile = new WinTile(this, 0, -5.5, 5.7, 3.25);
+
+    // piece models
+    this.pawnModel = null;
+    this.kingModel = null;
+
+    this.pickableElements = new Array();
 
     this.gameLoop.makeRequest("reset");
 
@@ -65,7 +71,10 @@ XMLscene.prototype.init = function(application) {
         loop.makeRequest(requestString);
     }, false);
 
+    // shaders and auxiliar variables
+    // shader for the boardCells, allows them to be invisible
     this.boardCellsShader = new CGFshader(this.gl, "shaders/notDisplay.vert", "shaders/notDisplay.frag");
+    // shader to display a element that has been picked
     this.pickedElement = new CGFshader(this.gl, "shaders/picked.vert", "shaders/picked.frag");
     this.totalTime = 0;
     this.scaleFactor = 0;
@@ -106,24 +115,30 @@ XMLscene.prototype.initLights = function() {
 }
 
 /**
- * Initializes the scene cameras.
+ * Initializes the scene cameras, with the ones for the beggining, the end, ant the 2 players
  */
 XMLscene.prototype.initCameras = function() {
 
     this.cameraPositions = [];
+    // Beggining camera for the different scenes
     if(this.currentEnvironment === 'scene1.xml')
         this.cameraPositions[0] = new CameraPosition('Beggining', vec3.fromValues(-1, 1, 17), vec3.fromValues(-1, -2, 0));
     else if (this.currentEnvironment === 'scene2.xml')
         this.cameraPositions[0] = new CameraPosition('Beggining', vec3.fromValues(-5, 3, -11), vec3.fromValues(-35, 1, -12));
+    // Player cameras
     this.cameraPositions[1] = new CameraPosition('Player 1', vec3.fromValues(-1, 15, -15), vec3.fromValues(-1, 0, 0));
     this.cameraPositions[2] = new CameraPosition('Player 2', vec3.fromValues(-1, 15, 15), vec3.fromValues(-1, 0, 0));
+    // End Camera
+    this.cameraPositions[3] = new CameraPosition('End', vec3.fromValues(15, 10, 0), vec3.fromValues(-1, 3, 0));
 
-    //this.camera = new CGFcamera(0.4,0.1,500,vec3.fromValues(15, 15, 15),vec3.fromValues(0, 0, 0));
     this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[0].position,this.cameraPositions[0].target);
     this.currentCameraID = this.cameraPositions[0].name;
     this.cameraAnimation = null;
 }
 
+/**
+    Initializes the pieces in their initial position
+*/                                                                                  
 XMLscene.prototype.initPieces = function() {
     var boardCellsInd = this.board.boardCells.length - 10;
 
@@ -156,6 +171,9 @@ XMLscene.prototype.initPieces = function() {
     this.board.pieces.push(king); //white
 }
 
+/**
+    Initializes the Board Cells in their correct position
+*/
 XMLscene.prototype.initBoardCells = function() {
     var x = -5, y = 5.15, z = -2.7;
     for(var i = 0; i < 8; i++){
@@ -166,7 +184,9 @@ XMLscene.prototype.initBoardCells = function() {
         x = -5, z += 0.8;
     }
 }
-
+/**
+    Intitializes the textures for the score board
+*/
 XMLscene.prototype.initScoreTextures = function() {
     this.materialDefault = new CGFappearance(this);
     this.number0 = new CGFappearance(this);
@@ -194,14 +214,18 @@ XMLscene.prototype.initScoreTextures = function() {
     this.number11 = new CGFappearance(this);
     this.number11.loadTexture("scenes/images/11.png");
 }
-
+/**
+    Initializes the textures for the winner tile
+*/
 XMLscene.prototype.initWinTextures = function() {
     this.winPlayer1 = new CGFappearance(this);
     this.winPlayer1.loadTexture("scenes/images/win_player1.jpg");
     this.winPlayer2 = new CGFappearance(this);
     this.winPlayer2.loadTexture("scenes/images/win_player2.jpg");
 }
-
+/**
+    Chooses the correct camera animation for the current camera and the desired next camera position
+*/
 XMLscene.prototype.updateCamera = function(cameraID){
     if(this.currentCameraID === 'Beggining'){
         this.cameraAnimation = new CameraAnimation(this, 0, this.camera, this.cameraPositions[cameraID+1]);
@@ -211,14 +235,20 @@ XMLscene.prototype.updateCamera = function(cameraID){
         this.cameraAnimation = new CameraAnimation(this, 0, this.camera, this.cameraPositions[0]);
         this.currentCameraID = 'Beggining';
     }
+    else if(cameraID === 'End'){
+        this.cameraAnimation = new CameraAnimation(this, 0, this.camera, this.cameraPositions[3]);
+        this.currentCameraID = 'End';
+    }
     else{
         this.cameraAnimation = new CameraAnimation(this, 1, this.camera, this.cameraPositions[cameraID+1]);
         this.currentCameraID = cameraID + 1;
     }
 }
 
-/* Handler called when the graph is finally loaded. 
- * As loading is asynchronous, this may be called already after the application has started the run loop
+/**
+    Handler called when the graph is finally loaded. 
+    As loading is asynchronous, this may be called already after the application has started the run loop
+    It loads the interface for the first time and calls the function to initialize the pieces and the board cells
  */
 XMLscene.prototype.onGraphLoaded = function() 
 {
@@ -247,7 +277,9 @@ XMLscene.prototype.onGraphLoaded = function()
     this.setUpdatePeriod(1/60);
 }
 
-
+/**
+    Checks which object was picked and calls the function to update the state of the game
+*/
 XMLscene.prototype.logPicking = function ()
 {
     if (this.pickMode == false) {
@@ -260,7 +292,7 @@ XMLscene.prototype.logPicking = function ()
                     console.log("Picked object: " + obj.id + ", with pick id " + customId + " pickResults ");
                     obj.picked = ~obj.picked;
                     
-                    this.gameLoop.loop(obj);
+                    this.gameLoop.updatePicking(obj);
                 }
             }
             this.pickResults.splice(0,this.pickResults.length);
@@ -268,6 +300,9 @@ XMLscene.prototype.logPicking = function ()
     }
 }
 
+/**
+    Checks if the id is one from a piece (king or pawn)
+*/
 function idIsPawnOrKing(id) {
     if (id[0] == 'p' && id[1] == 'a' && id[2] == 'w' && id[3] == 'n')
         return true;
@@ -277,14 +312,18 @@ function idIsPawnOrKing(id) {
 
     return false;
 }
-
+/**
+    Checks if the id is one from a board cell
+*/
 function idIsBoard(id) {
     if (id[0] == 'b' && id[1] == 'o' && id[2] == 'a' && id[3] == 'r' && id[4] == 'd')
         return true;
 
     return false;
 }
-
+/**
+    Displays the pickable items, registers them to be pickable and sets the shaders depending on their status
+*/
 XMLscene.prototype.displayPickableItems = function(deltaTime) {
     var n = 1;
     for(var i = 0; i < this.board.pieces.length; i++){
@@ -300,15 +339,18 @@ XMLscene.prototype.displayPickableItems = function(deltaTime) {
         this.board.boardCells[i].display(deltaTime);
         this.setActiveShader(this.defaultShader);
     } 
-    // insert here some flag if the beggining or not of the game
-    // reduces the number of pickable elements
-    for(var i = 0; i < this.pickableElements.length; i++){
-        this.registerForPick(n, this.pickableElements[i]);
-        this.pickableElements[i].display(deltaTime);
-        n++;
+    //only displays when the game is in the beggining, to be able to choose options
+    if(this.gameLoop.BEGIN_PHASE){
+        for(var i = 0; i < this.pickableElements.length; i++){
+            this.registerForPick(n, this.pickableElements[i]);
+            this.pickableElements[i].display(deltaTime);
+            n++;
+        }
     }
 }
-
+/**
+    Changes the environment surrounding the game. The game has to start over
+*/
 XMLscene.prototype.changeEnvironment = function(filename) {
     if(filename !== this.currentEnvironment){
         this.currentEnvironment = filename;
@@ -320,13 +362,15 @@ XMLscene.prototype.changeEnvironment = function(filename) {
         this.initCameras();
     }
 }
-
+/**
+    Updates the scale factor used in the picked elements shader
+*/
 XMLscene.prototype.updateScaleFactor=function(v) {
     this.pickedElement.setUniformsValues({normScale: this.scaleFactor});
 }
 
 /**
- * Displays the scene.
+ * Displays the scene and updates the state of the game
  */
 XMLscene.prototype.display = function() {
     // ---- BEGIN Background, camera and axis setup
@@ -346,8 +390,9 @@ XMLscene.prototype.display = function() {
     this.scaleFactor = (1+Math.sin(5*this.totalTime)) * 0.5;
     this.updateScaleFactor();
 
-    if(!this.replay)
-        this.gameLoop.update(this.deltaTime/1000);
+    // Updates the state of the game
+    if(!this.replay) 
+        this.gameLoop.update(this.deltaTime/1000); 
     else
         this.gameLoop.replay(this.deltaTime/1000);
 
@@ -378,19 +423,23 @@ XMLscene.prototype.display = function() {
 
         // Displays the scene.
         this.graph.displayScene(this.deltaTime);
+        // Displays the score
         this.scoreWhite.display();
         this.scoreRed.display();
-        this.winTile.display();
-        //this.auxWhiteBoard.display(this.deltaTime/1000);
-        //this.auxRedBoard.display(this.deltaTime/1000);
+        // Displays the win tile when the game is over
+        if(this.displayWinner){
+            this.winTile.display();
+        }
 
-        if(!this.replay){
+        if(!this.replay){ 
+            //enables picking for normal game
             this.logPicking();
             this.clearPickRegistration();
             this.displayPickableItems(this.deltaTime/1000);
             this.clearPickRegistration();
         }
         else {
+            //replay so there is no picking
             this.displayPickableItems(this.deltaTime/1000);
         }
     }
@@ -407,7 +456,8 @@ XMLscene.prototype.display = function() {
 }
 
 /**
-    Updates de deltaTime, which is the time difference between the last interruption and the current one
+    Updates de deltaTime, which is the time difference between the last interruption and the current one,
+    and updates the camera animation, if there is one
 */
 XMLscene.prototype.update = function(currTime) {
 
@@ -416,12 +466,15 @@ XMLscene.prototype.update = function(currTime) {
     }
     this.deltaTime = (currTime - this.lastTime);
     this.lastTime = currTime;
-
+    // animates camera
     if(this.cameraAnimation !== null){
         this.animateCamera(this.deltaTime/1000);
     }
 }
 
+/**
+    Checks if the camera animation is over and updates it if it is not
+*/
 XMLscene.prototype.animateCamera = function(deltaTime){
     if(this.cameraAnimation.endAnimation)
         this.cameraAnimation = null;
@@ -429,9 +482,13 @@ XMLscene.prototype.animateCamera = function(deltaTime){
         this.cameraAnimation.update(deltaTime);
 }
 
+/**
+    Resets the game, including it's pickable elements and camera, and mantaining the options chosen before
+*/
 XMLscene.prototype.resetGame = function(){
     this.setPickEnabled(true);
     this.gameLoop.resetGame();
+    this.interface.removeCounter();
     this.board.resetElements();
     this.gameLoop.makeRequest("reset");
     this.initBoardCells();
@@ -440,10 +497,14 @@ XMLscene.prototype.resetGame = function(){
     this.currentCameraID = this.cameraPositions[1].name;
     this.cameraAnimation = null;
 }
-
+/**
+    Resets the game, similar to the previous one, but instead puts the camera in the beggining position,
+    so the user can choose the game options
+*/
 XMLscene.prototype.resetGameOptions = function(){
     this.setPickEnabled(true);
     this.board.resetElements();
+    this.interface.removeCounter();
     this.gameLoop.makeRequest("reset");
     this.gameLoop.resetGameWithOptions();
     this.initBoardCells();
@@ -453,12 +514,16 @@ XMLscene.prototype.resetGameOptions = function(){
     this.cameraAnimation = null;
 }
 
+/**
+    Prepares the board and camera for the replay of the game
+*/
 XMLscene.prototype.replayGame = function(){
     console.log('Replay');
+    this.interface.removeCounter();
     this.setPickEnabled(false);
     this.board.pieces = [];
     this.initPieces();
     //this.board.moveToInitPieces();
     this.replay = true;
-    this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[1].position,this.cameraPositions[1].target);
+    this.camera = new CGFcamera(0.4,0.1,500,this.cameraPositions[2].position,this.cameraPositions[2].target);
 }

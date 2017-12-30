@@ -87,6 +87,7 @@ MyInterface.prototype.updateCounter = function(){
 MyInterface.prototype.removeCounter = function() {
     if(this.playTimeController !== null){
         this.gui.remove(this.playTimeController);
+        this.playTimeController = null;
     }
 }
 
