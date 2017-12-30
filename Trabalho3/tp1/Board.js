@@ -1,6 +1,8 @@
 var NUM_PAWNS_PLAYER = 10;
 var NUM_KINGS_PLAYER = 1; 
-
+/**
+	Board Class
+*/
 function Board(scene){
 	this.scene = scene;
 }

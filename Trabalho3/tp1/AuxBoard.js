@@ -1,3 +1,6 @@
+/**
+	Keeps the pieces that have been taken from the game board. 
+*/
 function AuxBoard(scene, z){
 	Board.call(this, scene);
 	this.scene = scene;
@@ -10,7 +13,9 @@ function AuxBoard(scene, z){
 
 AuxBoard.prototype = Object.create(Board.prototype);
 AuxBoard.prototype.constructor = AuxBoard;
-
+/**
+	Init the auxiliar board cells that will keep the pieces
+*/
 AuxBoard.prototype.initBoard = function() {
 	var x = -1.5, y = 5.15, z = this.z;
 	for(var i = 0; i < 2; i++){

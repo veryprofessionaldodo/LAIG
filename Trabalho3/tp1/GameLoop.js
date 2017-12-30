@@ -289,8 +289,9 @@ GameLoop.prototype.removeEliminatedPieces = function(responseString, position) {
     }
     return null;
 }
+
 /**
-    
+
 */
 GameLoop.prototype.removeByPosition = function(positionString) {
     for (var i = 0; i < this.board.pieces.length; i++) {
@@ -310,6 +311,12 @@ GameLoop.prototype.removeByPosition = function(positionString) {
             
             if (this.board.pieces[i].id[0] == 'k') { // Is King
                 this.END_GAME = true;
+                var winner = parseInt(this.board.pieces[i].id[5]);
+                // Push king to correct position
+                if (winner == 1)
+                    pieceNumber = 0;
+                else 
+                    pieceNumber = 15;
                 this.scene.winTile.update(parseInt(this.board.pieces[i].id[5]));
             }   
             
@@ -319,7 +326,6 @@ GameLoop.prototype.removeByPosition = function(positionString) {
                 for (var k = 0; k < this.auxWhiteBoard.boardCells.length; k++) {
                     var tmpAuxCell = this.auxWhiteBoard.boardCells[k];
 
-                    
                     // Has not reached 10th capture
                     if (tmpAuxCell.id[8] == '0' && parseInt(tmpAuxCell.id[9]) == (parseInt(numberString[0]))) {
                         destinationCell = this.auxWhiteBoard.boardCells[k];
@@ -380,9 +386,16 @@ GameLoop.prototype.removeByPosition = function(positionString) {
         }
     }
 }
-
+/**
+    When a piece is picked, the status of the game has to be updated. If the game is in the begginig, the picked
+    piece can choose the difficulty and type fof the game. During the game, a picked object can be a piece or
+    a board cell. If the same piece is picked 2 times, the piece becomes unselected. If there is a piece or a board
+    cell selected, and another is chosen, the previous becomes unselected and the new one becomes selected.
+    If a piece and a board cell are selected, it is made and attempt to move the piece to the selected board cell.
+    All this changes the state of the game.
+*/
 GameLoop.prototype.updatePicking = function(obj) {
-    if(this.BEGIN_PHASE){ //choose difficulty
+    if(this.BEGIN_PHASE){ //choose difficulty and type of game
         if(obj.id === 'facil'){
             this.gameDifficulty = 0;
             obj.picked = false;
@@ -432,7 +445,8 @@ GameLoop.prototype.updatePicking = function(obj) {
         //check if obj corresponds to the correct player
             if(this.pickedPiece !== null){
                 this.pickedPiece.picked = false;
-                if(this.pickedPiece.id === obj.id){ //picking the same element is the same as unchoosing it
+                //picking the same element is the same as unchoosing it
+                if(this.pickedPiece.id === obj.id){ 
                     this.pickedPiece = null;
                 }
                 else
@@ -444,7 +458,8 @@ GameLoop.prototype.updatePicking = function(obj) {
         else if(idIsBoard(obj.id)){
             if(this.pickedBoardCell !== null){
                 this.pickedBoardCell.picked = false;
-                if(this.pickedBoardCell === obj){//picking the same element is the same as unchoosing it
+                //picking the same element is the same as unchoosing it
+                if(this.pickedBoardCell === obj){
                     this.pickedBoardCell = null;
                 }
                 else
@@ -462,13 +477,18 @@ GameLoop.prototype.updatePicking = function(obj) {
         }
     }
 }
-
+/**
+    Updates the state of the game according to the end of piece and camera animations. It also updates the 
+    counter that maintains the time to make a move. Furthermore, it enables and disables the picking according to 
+    the type of player (human or machine), and updates the logic of AI.
+*/
 GameLoop.prototype.update = function(deltaTime) {  
     var type;
     if(this.PLAYER === 0)
         type = this.player1Type;
     else
         type = this.player2Type;
+
     if(this.MAKING_MOVE && this.END_GAME){
         if(this.pickedPiece.animation.endAnimation){
             this.MAKING_MOVE = false;
@@ -519,7 +539,10 @@ GameLoop.prototype.update = function(deltaTime) {
         }
     }
 }
-
+/**
+    Checks if it is possible to make a move and, if it is, makes a prolog request to male a AI move. 
+    If a move is already in place and the waiting time is over, the move is executed.
+*/
 GameLoop.prototype.updateAIMove = function(deltaTime) {    
     if(this.waitTimeAI <= 0 && this.WAITING && this.currentMoveAI != null){
         this.currentMoveAI.execute();
@@ -543,7 +566,9 @@ GameLoop.prototype.updateAIMove = function(deltaTime) {
         this.waitTimeAI -= deltaTime;
     }
 }
-
+/**
+    Handles the reply from prolog with the information about a AI move
+*/
 GameLoop.prototype.handleReplyUpdateAIMove = function(data, gameLoop){
     var responseString = data.target.response;
 
@@ -564,7 +589,9 @@ GameLoop.prototype.handleReplyUpdateAIMove = function(data, gameLoop){
     return responseString;
 }
 
-
+/**
+    Parses the string with the information about the AI move. Returns the information needed to make a game move
+*/
 GameLoop.prototype.AIStringToMove = function(responseString) {
 
     if (responseString[1] == 'o' && responseString[2] == 'k') {
@@ -607,7 +634,9 @@ GameLoop.prototype.AIStringToMove = function(responseString) {
         return null;
 }
 
-
+/**
+    Enables and disables picking according to the type of the current player
+*/
 GameLoop.prototype.enableAndDisablePick = function() {
     var type;
     if(this.PLAYER === 0)
@@ -622,7 +651,9 @@ GameLoop.prototype.enableAndDisablePick = function() {
     else 
         this.scene.setPickEnabled(true);
 }
-
+/**
+    Resets all data to be possible to restart the game with the previous difficulty and type of game
+*/
 GameLoop.prototype.resetGame = function() {
     this.stackedMoves = [];
     this.replayCurrentMove = 0;
@@ -647,7 +678,10 @@ GameLoop.prototype.resetGame = function() {
 
     this.counter = null;
 }
-
+/**
+    Resets all data to be possible to restart the game at the beggining, without previous choosen difficulty
+    type of game
+*/
 GameLoop.prototype.resetGameWithOptions = function() {
     this.stackedMoves = [];
     this.replayCurrentMove = 0;
@@ -680,6 +714,11 @@ GameLoop.prototype.resetGameWithOptions = function() {
     this.counter = null;
 }
 
+/**
+    Goes through the moves made from the beggining of the game and replays them, making animations for the pieces
+    and switching the camera between the players. If a game is over, the game returns to the state of END_GAME but,
+    if a game is still not over, it is still possible to continue to play
+*/
 GameLoop.prototype.replay = function(deltaTime) {
     if(!this.startedReplay){
         this.PLAYER = 1;
@@ -729,7 +768,9 @@ GameLoop.prototype.replay = function(deltaTime) {
         }
     }
 }
-
+/**
+    Translates the letter of a column to it's number. Used between prolog and javascript
+*/
 GameLoop.prototype.positionToCell = function(ColumnLetter, LineNumber) {
     var column;
     var line = 8-parseInt(LineNumber);
@@ -757,7 +798,9 @@ GameLoop.prototype.positionToCell = function(ColumnLetter, LineNumber) {
 
     return [column,line];
 }
-
+/**
+    Translates the number of a column to it's letter. Used between prolog and javascript
+*/  
 GameLoop.prototype.IDtoPosition = function(cellId) {
     var column = cellId[6];
     var columnLetter;

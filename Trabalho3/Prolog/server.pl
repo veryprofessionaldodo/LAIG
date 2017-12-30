@@ -148,6 +148,8 @@ parse_input([get_ai_move, AIPlayer, AILevel], [ok, Move, RemovedPieces]) :-
 	get_game_state(AfterCaptures), !,
 	once(analyse_changes(BeforeCaptures, AfterCaptures, RemovedPieces)).
 
+parse_input([get_ai_move, _,_], [error]).
+
 % Check if game is over
 parse_input([is_game_over,Player], [yes]) :-
 	is_game_over(Player).	

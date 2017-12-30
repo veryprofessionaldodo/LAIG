@@ -1,5 +1,7 @@
 var degToRad = Math.PI / 180.0;
-
+/**
+	Displays the current score of a player
+*/
 function ScoreTile(scene, id, x, y, z){
 	this.scene = scene;
 	this.id = id;
@@ -14,15 +16,21 @@ function ScoreTile(scene, id, x, y, z){
 
 ScoreTile.prototype = Object.create(ScoreTile.prototype);
 ScoreTile.prototype.constructor = ScoreTile;
-
+/**
+	Decreases the current score
+*/
 ScoreTile.prototype.update = function(){
 	this.currentScore -= 1;
 }
-
+/**
+	Increases the current score
+*/
 ScoreTile.prototype.revive = function(){
 	this.currentScore += 1;
 }
-
+/**
+	Selects the correct texture according to the score and displays it
+*/
 ScoreTile.prototype.display = function(deltaTime) {
 	this.scene.pushMatrix();
 
