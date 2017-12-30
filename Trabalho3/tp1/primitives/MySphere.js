@@ -2,7 +2,7 @@
  * MySphere
  * @constructor
  */
- function MySphere(scene, args/*slices, stacks*/) {
+ function MySphere(scene, args) {
     CGFobject.call(this,scene);
    	var values = args.split(" ");
 	for(var i = 0; i < values.length; i++){
