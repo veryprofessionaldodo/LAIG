@@ -81,6 +81,11 @@ line_to_position(6,3).
 line_to_position(7,2).
 line_to_position(8,1).
 
+piece_type(1,'w').
+piece_type(2,'W').
+piece_type(3,'b').
+piece_type(4,'B').
+
 /** 
 *Checks the direction of a moving piece 
 *1 is up, 2 is left, 3 is right , 4 is down

@@ -129,14 +129,14 @@ parse_input(reset, [ok]) :-
 
 % Handle undo
 parse_input([undo,Player,ColumnNumberBefore,LineNumberBefore-ColumnNumberAfter,LineNumberAfter], [ok]) :-
-    player_piece(Player, Piece),
+    piece_type(Player, Piece),
 	column_to_number(ColumnLetterBefore, ColumnNumberBefore),
 	set_piece(ColumnLetterBefore,LineNumberBefore,' '),
 	column_to_number(ColumnLetterAfter, ColumnNumberAfter),
 	set_piece(ColumnLetterAfter,LineNumberAfter,Piece).
 
 parse_input([revive,Player,ColumnNumber,LineNumber], [ok]) :-
-	player_piece(Player, Piece),
+	piece_type(Player, Piece),
 	column_to_number(ColumnLetter, ColumnNumber),
 	set_piece(ColumnLetter,LineNumber,Piece).
 

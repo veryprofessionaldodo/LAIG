@@ -22,8 +22,7 @@ MyInterface.prototype.init = function(application) {
     //  http://workshop.chromeexperiments.com/examples/gui
     
     this.message = 'dat.gui';
-    console.log('HEre');
-
+  
     this.gui = new dat.GUI();
     this.playTimeController = null;
 
