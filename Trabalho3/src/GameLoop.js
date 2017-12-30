@@ -690,29 +690,31 @@ GameLoop.prototype.enableAndDisablePick = function() {
     Resets all data to be possible to restart the game with the previous difficulty and type of game
 */
 GameLoop.prototype.resetGame = function() {
-    this.stackedMoves = [];
-    this.replayCurrentMove = 0;
-    this.startedReplay = false;
-    this.noMoreMoves = false;
-    this.waitTime = 1;
-    this.waitTimeAI = 2;
+    if(!this.BEGIN_PHASE){
+        this.stackedMoves = [];
+        this.replayCurrentMove = 0;
+        this.startedReplay = false;
+        this.noMoreMoves = false;
+        this.waitTime = 1;
+        this.waitTimeAI = 2;
 
-    this.auxRedPosition = 0;
-    this.auxWhitePosition = 0;
+        this.auxRedPosition = 0;
+        this.auxWhitePosition = 0;
 
-    this.BEGIN_PHASE = false;
-    this.GAME_LOOP = true;
-    this.PLAYER = 1; // 1 - White, 0 - Red
-    this.MAKING_MOVE = false;
-    this.WAITING = false;
-    this.END_GAME = false;
+        this.BEGIN_PHASE = false;
+        this.GAME_LOOP = true;
+        this.PLAYER = 1; // 1 - White, 0 - Red
+        this.MAKING_MOVE = false;
+        this.WAITING = false;
+        this.END_GAME = false;
 
-    this.pickedPiece = null;
-    this.pickedBoardCell = null;
+        this.pickedPiece = null;
+        this.pickedBoardCell = null;
 
-    this.currentMoveAI = null;
+        this.currentMoveAI = null;
 
-    this.counter = null;
+        this.counter = null;
+    }   
 }
 /**
     Resets all data to be possible to restart the game at the beggining, without previous choosen difficulty

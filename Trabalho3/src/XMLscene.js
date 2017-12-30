@@ -530,6 +530,7 @@ XMLscene.prototype.resetGameOptions = function(){
 */
 XMLscene.prototype.replayGame = function(){
     console.log('Replay');
+    this.displayWinner = false;
     this.interface.removeCounter();
     this.setPickEnabled(false);
     this.board.pieces = [];
